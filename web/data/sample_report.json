@@ -1,0 +1,1908 @@
+{
+ "methodology_version": "0.5",
+ "firm": {
+  "name": "Example Wealth Partners Ltd",
+  "centre": "DFSA-authorised firm, DIFC",
+  "headcount": 80,
+  "invited": 80,
+  "received": 62,
+  "excluded": 3,
+  "valid_responses": 59,
+  "response_rate": 0.775,
+  "date": "October 2026",
+  "reporting_level": "B",
+  "fictional": true
+ },
+ "indices": {
+  "loss": 48.8,
+  "perf": 47.9,
+  "band_loss": "Established",
+  "band_perf": "Established",
+  "archetype": "Steady",
+  "loss_tilt": 0.9,
+  "peer_loss": 56.4,
+  "peer_perf": 55.5,
+  "robust": true,
+  "robustness": "Robust",
+  "equal_weight_index": 48.7,
+  "equal_weight_archetype": "Steady",
+  "top3_overlap": 2,
+  "low_evidence_areas": 0
+ },
+ "mgmt": {
+  "loss": 60.2,
+  "perf": 59.9,
+  "archetype": "Guarded",
+  "loss_tilt": 0.3,
+  "capability": 46.2,
+  "alignment": 53.7,
+  "mc1_overlap_mean": 1.8,
+  "avg_perception_gap": 11.7,
+  "blind_spots": 1,
+  "hidden_strengths": 0,
+  "managers": [
+   {
+    "role": "CEO",
+    "mc1": 1,
+    "mc2": 67.0,
+    "mc3": 100.0,
+    "mc4": 60.0,
+    "mc5": 0.0,
+    "mc6": 50.0,
+    "mc7": 33.0,
+    "mc8": 0.0,
+    "capability": 44.3
+   },
+   {
+    "role": "COO",
+    "mc1": 3,
+    "mc2": 33.0,
+    "mc3": 33.0,
+    "mc4": 100.0,
+    "mc5": 0.0,
+    "mc6": 0.0,
+    "mc7": 100.0,
+    "mc8": 100.0,
+    "capability": 52.3
+   },
+   {
+    "role": "Head of Compliance & Risk",
+    "mc1": 2,
+    "mc2": 33.0,
+    "mc3": 67.0,
+    "mc4": 40.0,
+    "mc5": 50.0,
+    "mc6": 100.0,
+    "mc7": 67.0,
+    "mc8": 0.0,
+    "capability": 51.0
+   },
+   {
+    "role": "Head of Technology",
+    "mc1": 1,
+    "mc2": 0.0,
+    "mc3": 67.0,
+    "mc4": 60.0,
+    "mc5": 0.0,
+    "mc6": 0.0,
+    "mc7": 33.0,
+    "mc8": 100.0,
+    "capability": 37.1
+   }
+  ]
+ },
+ "hidden_capacity": {
+  "rework_share": 0.16,
+  "fte": 12.8,
+  "usd": 1922034,
+  "recoverable_fte": 3.8
+ },
+ "l1": {
+  "Employees": {
+   "score": 55.8,
+   "mgmt": 64.2,
+   "peer": 59.6
+  },
+  "Process failure": {
+   "score": 40.8,
+   "mgmt": 54.8,
+   "peer": 53.0
+  },
+  "Systems": {
+   "score": 44.5,
+   "mgmt": 57.0,
+   "peer": 53.7
+  },
+  "External": {
+   "score": 50.8,
+   "mgmt": 60.7,
+   "peer": 57.0
+  }
+ },
+ "areas": [
+  {
+   "code": "E-AC",
+   "name": "Accidental errors (people)",
+   "group": "Employees",
+   "score": 68.1,
+   "ci": 3.4,
+   "band": "Strong",
+   "data_points": 3,
+   "survey": 68.1,
+   "check_weight": 0.0,
+   "preparedness": 68.1,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 75.0,
+   "mgmt_survey": 75.0,
+   "gap": 6.9,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 64.0,
+   "loss_wt": 0.047,
+   "perf_wt": 0.024,
+   "priority": 2.25,
+   "low_evidence": false
+  },
+  {
+   "code": "E-TC",
+   "name": "Training & competency",
+   "group": "Employees",
+   "score": 71.0,
+   "ci": 4.2,
+   "band": "Strong",
+   "data_points": 3,
+   "survey": 71.0,
+   "check_weight": 0.0,
+   "preparedness": 71.0,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 81.2,
+   "mgmt_survey": 81.2,
+   "gap": 10.2,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 62.0,
+   "loss_wt": 0.057,
+   "perf_wt": 0.071,
+   "priority": 3.72,
+   "low_evidence": false
+  },
+  {
+   "code": "E-RL",
+   "name": "Resourcing & key people",
+   "group": "Employees",
+   "score": 25.4,
+   "ci": 4.1,
+   "band": "Developing",
+   "data_points": 4,
+   "survey": 31.7,
+   "check_weight": 0.2,
+   "preparedness": 25.4,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 36.7,
+   "mgmt_survey": 45.8,
+   "gap": 14.1,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 50.0,
+   "loss_wt": 0.047,
+   "perf_wt": 0.071,
+   "priority": 8.81,
+   "low_evidence": false
+  },
+  {
+   "code": "E-RR",
+   "name": "Roles & responsibilities",
+   "group": "Employees",
+   "score": 48.4,
+   "ci": 3.8,
+   "band": "Established",
+   "data_points": 4,
+   "survey": 54.2,
+   "check_weight": 0.2,
+   "preparedness": 48.4,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 56.7,
+   "mgmt_survey": 64.6,
+   "gap": 10.3,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 58.0,
+   "loss_wt": 0.047,
+   "perf_wt": 0.048,
+   "priority": 4.86,
+   "low_evidence": false
+  },
+  {
+   "code": "E-MC",
+   "name": "Communication",
+   "group": "Employees",
+   "score": 50.2,
+   "ci": 3.9,
+   "band": "Established",
+   "data_points": 3,
+   "survey": 50.2,
+   "check_weight": 0.0,
+   "preparedness": 50.2,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 62.5,
+   "mgmt_survey": 62.5,
+   "gap": 12.3,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 55.0,
+   "loss_wt": 0.023,
+   "perf_wt": 0.048,
+   "priority": 3.53,
+   "low_evidence": false
+  },
+  {
+   "code": "E-CU",
+   "name": "Culture & speak-up",
+   "group": "Employees",
+   "score": 69.8,
+   "ci": 5.2,
+   "band": "Strong",
+   "data_points": 3,
+   "survey": 69.8,
+   "check_weight": 0.0,
+   "preparedness": 69.8,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 77.1,
+   "mgmt_survey": 77.1,
+   "gap": 7.2,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 62.0,
+   "loss_wt": 0.07,
+   "perf_wt": 0.071,
+   "priority": 4.26,
+   "low_evidence": false
+  },
+  {
+   "code": "E-MA",
+   "name": "Internal misconduct",
+   "group": "Employees",
+   "score": 57.6,
+   "ci": 4.7,
+   "band": "Established",
+   "data_points": 3,
+   "survey": 57.6,
+   "check_weight": 0.0,
+   "preparedness": 57.6,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 60.4,
+   "mgmt_survey": 60.4,
+   "gap": 2.9,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 66.0,
+   "loss_wt": 0.047,
+   "perf_wt": 0.024,
+   "priority": 2.99,
+   "low_evidence": false
+  },
+  {
+   "code": "P-DE",
+   "name": "Process & product design",
+   "group": "Process failure",
+   "score": 44.6,
+   "ci": 4.4,
+   "band": "Established",
+   "data_points": 4,
+   "survey": 44.6,
+   "check_weight": 0.0,
+   "preparedness": 44.6,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 60.9,
+   "mgmt_survey": 60.9,
+   "gap": 16.3,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 54.0,
+   "loss_wt": 0.07,
+   "perf_wt": 0.071,
+   "priority": 7.83,
+   "low_evidence": false
+  },
+  {
+   "code": "P-IM",
+   "name": "Process execution",
+   "group": "Process failure",
+   "score": 37.8,
+   "ci": 3.7,
+   "band": "Developing",
+   "data_points": 4,
+   "survey": 37.8,
+   "check_weight": 0.0,
+   "preparedness": 37.8,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 50.0,
+   "mgmt_survey": 50.0,
+   "gap": 12.2,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 52.0,
+   "loss_wt": 0.07,
+   "perf_wt": 0.071,
+   "priority": 8.79,
+   "low_evidence": false
+  },
+  {
+   "code": "P-CH",
+   "name": "Change & projects",
+   "group": "Process failure",
+   "score": 34.4,
+   "ci": 5.3,
+   "band": "Developing",
+   "data_points": 4,
+   "survey": 34.4,
+   "check_weight": 0.0,
+   "preparedness": 34.4,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 46.9,
+   "mgmt_survey": 46.9,
+   "gap": 12.4,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 48.0,
+   "loss_wt": 0.047,
+   "perf_wt": 0.071,
+   "priority": 7.74,
+   "low_evidence": false
+  },
+  {
+   "code": "P-GO",
+   "name": "Governance & oversight",
+   "group": "Process failure",
+   "score": 46.2,
+   "ci": 3.6,
+   "band": "Established",
+   "data_points": 4,
+   "survey": 48.7,
+   "check_weight": 0.05,
+   "preparedness": 46.2,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 61.4,
+   "mgmt_survey": 64.6,
+   "gap": 15.9,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 58.0,
+   "loss_wt": 0.07,
+   "perf_wt": 0.071,
+   "priority": 7.6,
+   "low_evidence": false
+  },
+  {
+   "code": "SY1",
+   "name": "Systems functionality & capacity",
+   "group": "Systems",
+   "score": 46.0,
+   "ci": 3.5,
+   "band": "Established",
+   "data_points": 5,
+   "survey": 45.6,
+   "check_weight": 0.1,
+   "preparedness": 46.0,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 58.4,
+   "mgmt_survey": 59.4,
+   "gap": 13.8,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 54.0,
+   "loss_wt": 0.047,
+   "perf_wt": 0.071,
+   "priority": 6.37,
+   "low_evidence": false
+  },
+  {
+   "code": "SY2",
+   "name": "Availability & maintenance",
+   "group": "Systems",
+   "score": 46.8,
+   "ci": 4.8,
+   "band": "Established",
+   "data_points": 3,
+   "survey": 45.8,
+   "check_weight": 0.25,
+   "preparedness": 46.8,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 59.4,
+   "mgmt_survey": 62.5,
+   "gap": 16.7,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 58.0,
+   "loss_wt": 0.047,
+   "perf_wt": 0.048,
+   "priority": 5.01,
+   "low_evidence": false
+  },
+  {
+   "code": "SY3",
+   "name": "Systems change delivery",
+   "group": "Systems",
+   "score": 39.9,
+   "ci": 3.3,
+   "band": "Developing",
+   "data_points": 4,
+   "survey": 39.9,
+   "check_weight": 0.0,
+   "preparedness": 39.9,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 51.6,
+   "mgmt_survey": 51.6,
+   "gap": 11.7,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 48.0,
+   "loss_wt": 0.047,
+   "perf_wt": 0.024,
+   "priority": 4.24,
+   "low_evidence": false
+  },
+  {
+   "code": "SY4",
+   "name": "Cyber security & access",
+   "group": "Systems",
+   "score": 39.2,
+   "ci": 5.7,
+   "band": "Developing",
+   "data_points": 7,
+   "survey": 44.8,
+   "check_weight": 0.6,
+   "preparedness": 39.2,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 41.2,
+   "mgmt_survey": 50.0,
+   "gap": 5.2,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 56.0,
+   "loss_wt": 0.07,
+   "perf_wt": 0.024,
+   "priority": 5.7,
+   "low_evidence": false
+  },
+  {
+   "code": "SY5",
+   "name": "Data & records",
+   "group": "Systems",
+   "score": 47.7,
+   "ci": 3.6,
+   "band": "Established",
+   "data_points": 3,
+   "survey": 47.7,
+   "check_weight": 0.0,
+   "preparedness": 47.7,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 64.6,
+   "mgmt_survey": 64.6,
+   "gap": 16.9,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 54.0,
+   "loss_wt": 0.023,
+   "perf_wt": 0.048,
+   "priority": 3.71,
+   "low_evidence": false
+  },
+  {
+   "code": "SY6",
+   "name": "Technology planning",
+   "group": "Systems",
+   "score": 47.7,
+   "ci": 4.1,
+   "band": "Established",
+   "data_points": 3,
+   "survey": 47.7,
+   "check_weight": 0.0,
+   "preparedness": 47.7,
+   "exposure": null,
+   "penalty": 0.0,
+   "mgmt": 66.7,
+   "mgmt_survey": 66.7,
+   "gap": 18.9,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 52.0,
+   "loss_wt": 0.023,
+   "perf_wt": 0.071,
+   "priority": 4.95,
+   "low_evidence": false
+  },
+  {
+   "code": "EX1",
+   "name": "External fraud",
+   "group": "External",
+   "score": 46.3,
+   "ci": 8.0,
+   "band": "Established",
+   "data_points": 3,
+   "survey": 56.5,
+   "check_weight": 0.15,
+   "preparedness": 55.5,
+   "exposure": 48.3,
+   "penalty": 9.2,
+   "mgmt": 72.7,
+   "mgmt_survey": 87.5,
+   "gap": 31.0,
+   "blind_spot": true,
+   "gap_flag": "Blind spot",
+   "peer": 60.0,
+   "loss_wt": 0.07,
+   "perf_wt": 0.024,
+   "priority": 5.03,
+   "low_evidence": false
+  },
+  {
+   "code": "EX2",
+   "name": "Physical & environmental events",
+   "group": "External",
+   "score": 48.7,
+   "ci": 7.5,
+   "band": "Established",
+   "data_points": 5,
+   "survey": 48.7,
+   "check_weight": 0.0,
+   "preparedness": 48.7,
+   "exposure": 16.6,
+   "penalty": 0.0,
+   "mgmt": 40.6,
+   "mgmt_survey": 40.6,
+   "gap": -8.1,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 57.0,
+   "loss_wt": 0.023,
+   "perf_wt": 0.024,
+   "priority": 2.42,
+   "low_evidence": false
+  },
+  {
+   "code": "EX3",
+   "name": "Geopolitical & regulatory change",
+   "group": "External",
+   "score": 57.2,
+   "ci": 4.2,
+   "band": "Established",
+   "data_points": 4,
+   "survey": 57.2,
+   "check_weight": 0.0,
+   "preparedness": 57.2,
+   "exposure": 26.0,
+   "penalty": 0.0,
+   "mgmt": 68.8,
+   "mgmt_survey": 68.8,
+   "gap": 11.5,
+   "blind_spot": false,
+   "gap_flag": "",
+   "peer": 54.0,
+   "loss_wt": 0.057,
+   "perf_wt": 0.024,
+   "priority": 3.46,
+   "low_evidence": false
+  }
+ ],
+ "groups": [
+  {
+   "entity": "Firm (staff)",
+   "kind": "firm",
+   "n": 59,
+   "loss": 48.8,
+   "perf": 47.9,
+   "archetype": "Steady",
+   "flags": "-"
+  },
+  {
+   "entity": "Management view",
+   "kind": "mgmt",
+   "n": 4,
+   "loss": 60.2,
+   "perf": 59.9,
+   "archetype": "Guarded",
+   "flags": "-"
+  },
+  {
+   "entity": "Front office",
+   "kind": "dept",
+   "n": 21,
+   "loss": 54.5,
+   "perf": 53.6,
+   "archetype": "Steady",
+   "flags": 7
+  },
+  {
+   "entity": "Operations",
+   "kind": "dept",
+   "n": 15,
+   "loss": 40.1,
+   "perf": 38.6,
+   "archetype": "Stalled",
+   "flags": 12
+  },
+  {
+   "entity": "Control functions",
+   "kind": "dept",
+   "n": 6,
+   "loss": 47.7,
+   "perf": 46.9,
+   "archetype": "Steady",
+   "flags": 1
+  },
+  {
+   "entity": "Support functions",
+   "kind": "dept",
+   "n": 16,
+   "loss": 50.5,
+   "perf": 50.2,
+   "archetype": "Steady",
+   "flags": 0
+  },
+  {
+   "entity": "BL09 Private Banking & Wealth",
+   "kind": "bl",
+   "n": 11,
+   "loss": 53.4,
+   "perf": 52.6,
+   "archetype": "Steady",
+   "flags": 1
+  },
+  {
+   "entity": "BL07 Asset Management",
+   "kind": "bl",
+   "n": 10,
+   "loss": 53.7,
+   "perf": 52.8,
+   "archetype": "Steady",
+   "flags": 0
+  },
+  {
+   "entity": "Firm-wide / shared",
+   "kind": "bl",
+   "n": 37,
+   "loss": 45.4,
+   "perf": 44.4,
+   "archetype": "Steady",
+   "flags": 1
+  },
+  {
+   "entity": "Peer median (illustrative)",
+   "kind": "peer",
+   "n": "-",
+   "loss": 56.4,
+   "perf": 55.5,
+   "archetype": "Steady",
+   "flags": "-"
+  }
+ ],
+ "departments": {
+  "B": {
+   "names": [
+    "Front office",
+    "Operations",
+    "Control functions",
+    "Support functions"
+   ],
+   "rows": [
+    {
+     "code": "E-AC",
+     "name": "Accidental errors (people)",
+     "firm": 68.1,
+     "values": [
+      {
+       "score": 73.5,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 61.2,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 65.0,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 69.4,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-TC",
+     "name": "Training & competency",
+     "firm": 71.0,
+     "values": [
+      {
+       "score": 74.4,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 60.7,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 74.0,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 75.0,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-RL",
+     "name": "Resourcing & key people",
+     "firm": 31.7,
+     "values": [
+      {
+       "score": 38.8,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 20.8,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 32.6,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 32.8,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-RR",
+     "name": "Roles & responsibilities",
+     "firm": 54.2,
+     "values": [
+      {
+       "score": 58.8,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 48.8,
+       "n": 15,
+       "flag": ""
+      },
+      {
+       "score": 45.9,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 58.0,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-MC",
+     "name": "Communication",
+     "firm": 50.2,
+     "values": [
+      {
+       "score": 57.3,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 40.9,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 47.8,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 51.6,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-CU",
+     "name": "Culture & speak-up",
+     "firm": 69.8,
+     "values": [
+      {
+       "score": 78.7,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 59.8,
+       "n": 15,
+       "flag": ""
+      },
+      {
+       "score": 71.1,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 68.0,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-MA",
+     "name": "Internal misconduct",
+     "firm": 57.6,
+     "values": [
+      {
+       "score": 66.5,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 51.3,
+       "n": 15,
+       "flag": ""
+      },
+      {
+       "score": 41.7,
+       "n": 6,
+       "flag": "Lower"
+      },
+      {
+       "score": 60.6,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "P-DE",
+     "name": "Process & product design",
+     "firm": 44.6,
+     "values": [
+      {
+       "score": 52.5,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 29.8,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 45.7,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 48.3,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "P-IM",
+     "name": "Process execution",
+     "firm": 37.8,
+     "values": [
+      {
+       "score": 45.5,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 26.5,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 36.5,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 39.7,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "P-CH",
+     "name": "Change & projects",
+     "firm": 34.4,
+     "values": [
+      {
+       "score": 41.6,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 19.5,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 33.6,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 39.9,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "P-GO",
+     "name": "Governance & oversight",
+     "firm": 48.7,
+     "values": [
+      {
+       "score": 54.9,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 40.5,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 45.2,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 50.5,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY1",
+     "name": "Systems functionality & capacity",
+     "firm": 45.6,
+     "values": [
+      {
+       "score": 50.8,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 35.6,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 43.4,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 49.6,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY2",
+     "name": "Availability & maintenance",
+     "firm": 45.8,
+     "values": [
+      {
+       "score": 50.1,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 38.3,
+       "n": 15,
+       "flag": ""
+      },
+      {
+       "score": 45.8,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 47.3,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY3",
+     "name": "Systems change delivery",
+     "firm": 39.9,
+     "values": [
+      {
+       "score": 42.8,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 32.2,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 38.6,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 44.0,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY4",
+     "name": "Cyber security & access",
+     "firm": 44.8,
+     "values": [
+      {
+       "score": 48.0,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 38.9,
+       "n": 15,
+       "flag": ""
+      },
+      {
+       "score": 51.4,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 42.9,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY5",
+     "name": "Data & records",
+     "firm": 47.7,
+     "values": [
+      {
+       "score": 52.6,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 41.5,
+       "n": 15,
+       "flag": ""
+      },
+      {
+       "score": 45.9,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 48.3,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY6",
+     "name": "Technology planning",
+     "firm": 47.7,
+     "values": [
+      {
+       "score": 52.6,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 35.7,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 47.5,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 53.1,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "EX1",
+     "name": "External fraud",
+     "firm": 56.5,
+     "values": [
+      {
+       "score": 67.6,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 45.4,
+       "n": 15,
+       "flag": ""
+      },
+      {
+       "score": 55.2,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 53.9,
+       "n": 16,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "EX2",
+     "name": "Physical & environmental events",
+     "firm": 48.7,
+     "values": [
+      {
+       "score": 51.7,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 45.3,
+       "n": 15,
+       "flag": ""
+      },
+      {
+       "score": 46.0,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 49.7,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "EX3",
+     "name": "Geopolitical & regulatory change",
+     "firm": 57.2,
+     "values": [
+      {
+       "score": 61.0,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 48.1,
+       "n": 15,
+       "flag": "Lower"
+      },
+      {
+       "score": 62.4,
+       "n": 6,
+       "flag": ""
+      },
+      {
+       "score": 58.5,
+       "n": 17,
+       "flag": ""
+      }
+     ]
+    }
+   ]
+  },
+  "A": {
+   "names": [
+    "Revenue-generating",
+    "Support & control"
+   ],
+   "rows": [
+    {
+     "code": "E-AC",
+     "name": "Accidental errors (people)",
+     "firm": 68.1,
+     "values": [
+      {
+       "score": 73.5,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 64.8,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-TC",
+     "name": "Training & competency",
+     "firm": 71.0,
+     "values": [
+      {
+       "score": 74.4,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 69.0,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-RL",
+     "name": "Resourcing & key people",
+     "firm": 31.7,
+     "values": [
+      {
+       "score": 38.8,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 27.4,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-RR",
+     "name": "Roles & responsibilities",
+     "firm": 54.2,
+     "values": [
+      {
+       "score": 58.8,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 51.5,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-MC",
+     "name": "Communication",
+     "firm": 50.2,
+     "values": [
+      {
+       "score": 57.3,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 46.0,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-CU",
+     "name": "Culture & speak-up",
+     "firm": 69.8,
+     "values": [
+      {
+       "score": 78.7,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 64.5,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "E-MA",
+     "name": "Internal misconduct",
+     "firm": 57.6,
+     "values": [
+      {
+       "score": 66.5,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 52.1,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "P-DE",
+     "name": "Process & product design",
+     "firm": 44.6,
+     "values": [
+      {
+       "score": 52.5,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 39.9,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "P-IM",
+     "name": "Process execution",
+     "firm": 37.8,
+     "values": [
+      {
+       "score": 45.5,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 33.2,
+       "n": 38,
+       "flag": "Lower"
+      }
+     ]
+    },
+    {
+     "code": "P-CH",
+     "name": "Change & projects",
+     "firm": 34.4,
+     "values": [
+      {
+       "score": 41.6,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 30.1,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "P-GO",
+     "name": "Governance & oversight",
+     "firm": 48.7,
+     "values": [
+      {
+       "score": 54.9,
+       "n": 21,
+       "flag": "Higher"
+      },
+      {
+       "score": 44.9,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY1",
+     "name": "Systems functionality & capacity",
+     "firm": 45.6,
+     "values": [
+      {
+       "score": 50.8,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 42.4,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY2",
+     "name": "Availability & maintenance",
+     "firm": 45.8,
+     "values": [
+      {
+       "score": 50.1,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 43.1,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY3",
+     "name": "Systems change delivery",
+     "firm": 39.9,
+     "values": [
+      {
+       "score": 42.8,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 38.1,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY4",
+     "name": "Cyber security & access",
+     "firm": 44.8,
+     "values": [
+      {
+       "score": 48.0,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 42.8,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY5",
+     "name": "Data & records",
+     "firm": 47.7,
+     "values": [
+      {
+       "score": 52.6,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 44.7,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "SY6",
+     "name": "Technology planning",
+     "firm": 47.7,
+     "values": [
+      {
+       "score": 52.6,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 44.8,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "EX1",
+     "name": "External fraud",
+     "firm": 56.5,
+     "values": [
+      {
+       "score": 67.6,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 49.6,
+       "n": 37,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "EX2",
+     "name": "Physical & environmental events",
+     "firm": 48.7,
+     "values": [
+      {
+       "score": 51.7,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 46.9,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    },
+    {
+     "code": "EX3",
+     "name": "Geopolitical & regulatory change",
+     "firm": 57.2,
+     "values": [
+      {
+       "score": 61.0,
+       "n": 21,
+       "flag": ""
+      },
+      {
+       "score": 54.9,
+       "n": 38,
+       "flag": ""
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "priorities": {
+  "top": [
+   {
+    "code": "E-RL",
+    "name": "Resourcing & key people",
+    "priority": 8.81
+   },
+   {
+    "code": "P-IM",
+    "name": "Process execution",
+    "priority": 8.79
+   },
+   {
+    "code": "P-DE",
+    "name": "Process & product design",
+    "priority": 7.83
+   },
+   {
+    "code": "P-CH",
+    "name": "Change & projects",
+    "priority": 7.74
+   },
+   {
+    "code": "P-GO",
+    "name": "Governance & oversight",
+    "priority": 7.6
+   }
+  ],
+  "lowest": [
+   {
+    "code": "E-RL",
+    "name": "Resourcing & key people",
+    "score": 25.4
+   },
+   {
+    "code": "P-CH",
+    "name": "Change & projects",
+    "score": 34.4
+   },
+   {
+    "code": "P-IM",
+    "name": "Process execution",
+    "score": 37.8
+   },
+   {
+    "code": "SY4",
+    "name": "Cyber security & access",
+    "score": 39.2
+   },
+   {
+    "code": "SY3",
+    "name": "Systems change delivery",
+    "score": 39.9
+   }
+  ],
+  "blind_spots": [
+   {
+    "code": "EX1",
+    "name": "External fraud",
+    "gap": 31.0,
+    "passes": true
+   },
+   {
+    "code": "SY6",
+    "name": "Technology planning",
+    "gap": 18.9,
+    "passes": false
+   },
+   {
+    "code": "SY5",
+    "name": "Data & records",
+    "gap": 16.9,
+    "passes": false
+   },
+   {
+    "code": "SY2",
+    "name": "Availability & maintenance",
+    "gap": 16.7,
+    "passes": false
+   },
+   {
+    "code": "P-DE",
+    "name": "Process & product design",
+    "gap": 16.3,
+    "passes": false
+   }
+  ],
+  "below_peer": [
+   {
+    "name": "Resourcing & key people",
+    "vs_peer": -24.6
+   },
+   {
+    "name": "Cyber security & access",
+    "vs_peer": -16.8
+   },
+   {
+    "name": "Process execution",
+    "vs_peer": -14.2
+   },
+   {
+    "name": "External fraud",
+    "vs_peer": -13.7
+   },
+   {
+    "name": "Change & projects",
+    "vs_peer": -13.6
+   }
+  ]
+ },
+ "exposures": [
+  {
+   "id": "X01",
+   "name": "Natural-hazard exposure",
+   "area": "EX2",
+   "value": 22.1,
+   "penalty_applies": false
+  },
+  {
+   "id": "X02",
+   "name": "Security / terrorism exposure",
+   "area": "EX2",
+   "value": 18.8,
+   "penalty_applies": false
+  },
+  {
+   "id": "X03",
+   "name": "Utility-reliability exposure",
+   "area": "EX2",
+   "value": 8.9,
+   "penalty_applies": false
+  },
+  {
+   "id": "X04",
+   "name": "Financial-crime (AML) exposure",
+   "area": "EX1",
+   "value": 48.3,
+   "penalty_applies": true
+  },
+  {
+   "id": "X05",
+   "name": "Geopolitical / governance exposure",
+   "area": "EX3",
+   "value": 26.9,
+   "penalty_applies": false
+  },
+  {
+   "id": "X06",
+   "name": "Regulatory / rule-of-law exposure",
+   "area": "EX3",
+   "value": 25.1,
+   "penalty_applies": false
+  }
+ ],
+ "checks": [
+  {
+   "id": "C01",
+   "name": "Legal Entity Identifier (LEI) status",
+   "area": "P-GO",
+   "run": true,
+   "result": 0.0,
+   "score": 0.0,
+   "weight": 0.05
+  },
+  {
+   "id": "C02",
+   "name": "Client-facing website / portal performance",
+   "area": "SY1",
+   "run": true,
+   "result": 62.0,
+   "score": 50.0,
+   "weight": 0.1
+  },
+  {
+   "id": "C03",
+   "name": "Device & browser hygiene (in survey)",
+   "area": "SY2",
+   "run": true,
+   "result": 0.93,
+   "score": 50.0,
+   "weight": 0.25
+  },
+  {
+   "id": "C04",
+   "name": "Email-domain and web configuration",
+   "area": "SY4",
+   "run": true,
+   "result": 50.0,
+   "score": 50.0,
+   "weight": 0.1
+  },
+  {
+   "id": "C05",
+   "name": "External attack-surface scan",
+   "area": "SY4",
+   "run": true,
+   "result": 50.0,
+   "score": 50.0,
+   "weight": 0.15
+  },
+  {
+   "id": "C06",
+   "name": "Breached-credential exposure",
+   "area": "SY4",
+   "run": true,
+   "result": 0.18,
+   "score": 25.0,
+   "weight": 0.1
+  },
+  {
+   "id": "C07",
+   "name": "Phishing simulation (partner-run)",
+   "area": "SY4",
+   "run": true,
+   "result": 0.14,
+   "score": 25.0,
+   "weight": 0.25
+  },
+  {
+   "id": "C08",
+   "name": "Look-alike domain monitoring",
+   "area": "EX1",
+   "run": true,
+   "result": 2.0,
+   "score": 50.0,
+   "weight": 0.15
+  },
+  {
+   "id": "C09",
+   "name": "Payment-fraud call-back simulation (optional, partner)",
+   "area": "EX1",
+   "run": false,
+   "result": null,
+   "score": null,
+   "weight": 0.25
+  },
+  {
+   "id": "A01",
+   "name": "Activity survey: key-person indicator",
+   "area": "E-RL",
+   "run": true,
+   "result": 0.508,
+   "score": 0.0,
+   "weight": 0.2
+  },
+  {
+   "id": "A02",
+   "name": "Activity survey: unclear-responsibility indicator",
+   "area": "E-RR",
+   "run": true,
+   "result": 0.441,
+   "score": 25.0,
+   "weight": 0.2
+  }
+ ],
+ "engine_tests": [
+  {
+   "name": "Null firm (seed 1)",
+   "loss": 50.8,
+   "perf": 51.2,
+   "loss_tilt": -0.3,
+   "archetype": "Steady",
+   "dept_flags": 0,
+   "mgmt_flags": 3,
+   "robustness": "Sensitive",
+   "verdict": "PASS: no structure invented"
+  },
+  {
+   "name": "Null firm (seed 2)",
+   "loss": 49.0,
+   "perf": 49.6,
+   "loss_tilt": -0.6,
+   "archetype": "Steady",
+   "dept_flags": 0,
+   "mgmt_flags": 1,
+   "robustness": "Sensitive",
+   "verdict": "PASS: no structure invented"
+  },
+  {
+   "name": "Null firm (seed 3)",
+   "loss": 49.5,
+   "perf": 50.0,
+   "loss_tilt": -0.6,
+   "archetype": "Steady",
+   "dept_flags": 0,
+   "mgmt_flags": 1,
+   "robustness": "Sensitive",
+   "verdict": "PASS: no structure invented"
+  },
+  {
+   "name": "High-wire firm",
+   "loss": 49.0,
+   "perf": 62.4,
+   "loss_tilt": -13.4,
+   "archetype": "Accelerating",
+   "dept_flags": 0,
+   "mgmt_flags": 2,
+   "robustness": "Sensitive",
+   "verdict": "PARTIAL: performance axis separates; loss axis stays Mid"
+  },
+  {
+   "name": "Fortress firm",
+   "loss": 53.7,
+   "perf": 41.1,
+   "loss_tilt": 12.5,
+   "archetype": "Steady",
+   "dept_flags": 0,
+   "mgmt_flags": 3,
+   "robustness": "Robust",
+   "verdict": "PARTIAL: performance axis separates; loss axis stays Mid"
+  }
+ ]
+}

@@ -1,0 +1,97 @@
+{
+  "fictional": true,
+  "name": "Example Wealth Partners Ltd",
+  "centre": "DFSA-authorised firm, DIFC",
+  "headcount": 80,
+  "loaded_cost_usd": 150000,
+  "date": "October 2026",
+  "first_contact": "IT provider incident line",
+  "domains": "examplewealth.example",
+  "lei": "Lapsed - renewal overdue",
+  "business_line_mix": {
+    "BL01": 0,
+    "BL02": 0,
+    "BL03": 0,
+    "BL04": 0,
+    "BL05": 0,
+    "BL06": 0,
+    "BL07": 0.55,
+    "BL08": 0,
+    "BL09": 0.45,
+    "INS-L": 0,
+    "INS-N": 0
+  },
+  "footprint": {
+    "OFF": {
+      "United Arab Emirates": 1
+    },
+    "AFF": {
+      "United Kingdom": 1
+    },
+    "CLI": {
+      "United Arab Emirates": 0.35,
+      "Saudi Arabia": 0.15,
+      "United Kingdom": 0.08,
+      "Switzerland": 0.03,
+      "India": 0.12,
+      "Pakistan": 0.05,
+      "Egypt": 0.07,
+      "Lebanon": 0.08,
+      "Nigeria": 0.07
+    },
+    "PRV": {
+      "United Arab Emirates": 0.2,
+      "United Kingdom": 0.15,
+      "Switzerland": 0.15,
+      "Luxembourg": 0.3,
+      "Ireland": 0.2
+    },
+    "CPT": {
+      "United Kingdom": 0.4,
+      "Switzerland": 0.3,
+      "United States": 0.3
+    }
+  },
+  "providers": [
+    {
+      "name": "Fund administrator",
+      "service": "Fund administration & NAV",
+      "provider_country": "Luxembourg",
+      "data_country": "Luxembourg",
+      "criticality": "Critical",
+      "owner": "COO"
+    },
+    {
+      "name": "Custodian A",
+      "service": "Custody & settlement",
+      "provider_country": "Switzerland",
+      "data_country": "Switzerland",
+      "criticality": "Critical",
+      "owner": "Head of Operations"
+    },
+    {
+      "name": "Custodian B",
+      "service": "Custody & settlement",
+      "provider_country": "United Kingdom",
+      "data_country": "United Kingdom",
+      "criticality": "Critical",
+      "owner": "Head of Operations"
+    },
+    {
+      "name": "IT managed service provider",
+      "service": "IT support, endpoint and network",
+      "provider_country": "United Arab Emirates",
+      "data_country": "United Arab Emirates",
+      "criticality": "Critical",
+      "owner": "Head of Technology"
+    },
+    {
+      "name": "Portfolio management system (cloud)",
+      "service": "PMS / order management",
+      "provider_country": "United Kingdom",
+      "data_country": "Ireland",
+      "criticality": "Critical",
+      "owner": "COO"
+    }
+  ]
+}

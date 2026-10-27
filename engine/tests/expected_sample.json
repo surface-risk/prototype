@@ -1,0 +1,1743 @@
+{
+ "areas": {
+  "E-AC": {
+   "items": 3,
+   "data_points": 3,
+   "survey": 68.0790960451977,
+   "sd": 13.3254774246203,
+   "n": 59,
+   "ci": 3.4002656126533,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 68.0790960451977,
+   "exposure": null,
+   "penalty": 0,
+   "score": 68.0790960451977,
+   "band": "Strong",
+   "mgmt_survey": 75,
+   "mgmt": 75,
+   "gap": 6.92090395480226,
+   "flag": null,
+   "peer": 64,
+   "loss_wt": 0.0466200466200466,
+   "perf_wt": 0.0238095238095238,
+   "priority": 2.2481755532603,
+   "groups": {
+    "Front office": {
+     "raw": 74.8015873015873,
+     "n": 21,
+     "shrunk": 73.5088005215124,
+     "score": 73.5088005215124,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 58.8888888888889,
+     "n": 15,
+     "shrunk": 61.1864406779661,
+     "score": 61.1864406779661,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 62.5,
+     "n": 6,
+     "shrunk": 65.0359527478172,
+     "score": 65.0359527478172,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 69.8529411764706,
+     "n": 17,
+     "shrunk": 69.4497945557268,
+     "score": 69.4497945557268,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 78.7878787878788,
+     "n": 11,
+     "shrunk": 75.441384180791,
+     "score": 75.441384180791,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 70.4166666666667,
+     "n": 10,
+     "shrunk": 69.6374764595103,
+     "score": 69.6374764595103,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 64.3640350877193,
+     "n": 38,
+     "shrunk": 64.7960189199842,
+     "score": 64.7960189199842,
+     "flag": null
+    }
+   }
+  },
+  "E-TC": {
+   "items": 3,
+   "data_points": 3,
+   "survey": 71.045197740113,
+   "sd": 16.6023134180714,
+   "n": 59,
+   "ci": 4.23641672317562,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 71.045197740113,
+   "exposure": null,
+   "penalty": 0,
+   "score": 71.045197740113,
+   "band": "Strong",
+   "mgmt_survey": 81.25,
+   "mgmt": 81.25,
+   "gap": 10.204802259887,
+   "flag": null,
+   "peer": 62,
+   "loss_wt": 0.0571095571095571,
+   "perf_wt": 0.0714285714285714,
+   "priority": 3.72179609467745,
+   "groups": {
+    "Front office": {
+     "raw": 75.1984126984127,
+     "n": 21,
+     "shrunk": 74.3997175141243,
+     "score": 74.3997175141243,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 57.2222222222222,
+     "n": 15,
+     "shrunk": 60.6779661016949,
+     "score": 60.6779661016949,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 76.3888888888889,
+     "n": 6,
+     "shrunk": 73.959938366718,
+     "score": 73.959938366718,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 76.2254901960784,
+     "n": 17,
+     "shrunk": 75.0481510015408,
+     "score": 75.0481510015408,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 75.3787878787879,
+     "n": 11,
+     "shrunk": 74.024540960452,
+     "score": 74.024540960452,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 75,
+     "n": 10,
+     "shrunk": 73.6817325800377,
+     "score": 73.6817325800377,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 68.75,
+     "n": 38,
+     "shrunk": 69.0168834581527,
+     "score": 69.0168834581527,
+     "flag": null
+    }
+   }
+  },
+  "E-RL": {
+   "items": 3,
+   "data_points": 4,
+   "survey": 31.7090395480226,
+   "sd": 15.9324061079078,
+   "n": 59,
+   "ci": 4.06547629696578,
+   "check_w": 0.2,
+   "check_pts": 0,
+   "prep": 25.3672316384181,
+   "exposure": null,
+   "penalty": 0,
+   "score": 25.3672316384181,
+   "band": "Developing",
+   "mgmt_survey": 45.8333333333333,
+   "mgmt": 36.6666666666667,
+   "gap": 14.1242937853107,
+   "flag": null,
+   "peer": 50,
+   "loss_wt": 0.0466200466200466,
+   "perf_wt": 0.0714285714285714,
+   "priority": 8.81029516622737,
+   "groups": {
+    "Front office": {
+     "raw": 40.4761904761905,
+     "n": 21,
+     "shrunk": 38.7901999130813,
+     "score": 31.032159930465,
+     "flag": "Higher"
+    },
+    "Operations": {
+     "raw": 17.2222222222222,
+     "n": 15,
+     "shrunk": 20.8439265536723,
+     "score": 16.6751412429379,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 33.3333333333333,
+     "n": 6,
+     "shrunk": 32.5950179763739,
+     "score": 26.0760143810991,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 33.0882352941176,
+     "n": 17,
+     "shrunk": 32.7747817154597,
+     "score": 26.2198253723677,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 45.4545454545455,
+     "n": 11,
+     "shrunk": 41.1590748587571,
+     "score": 32.9272598870057,
+     "flag": "Higher"
+    },
+    "BL07 Asset Management": {
+     "raw": 35,
+     "n": 10,
+     "shrunk": 33.9030131826742,
+     "score": 27.1224105461394,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 26.8640350877193,
+     "n": 38,
+     "shrunk": 27.4274076993825,
+     "score": 21.941926159506,
+     "flag": null
+    }
+   }
+  },
+  "E-RR": {
+   "items": 3,
+   "data_points": 4,
+   "survey": 54.2372881355932,
+   "sd": 15.0329205600566,
+   "n": 59,
+   "ci": 3.83595433088701,
+   "check_w": 0.2,
+   "check_pts": 5,
+   "prep": 48.3898305084746,
+   "exposure": null,
+   "penalty": 0,
+   "score": 48.3898305084746,
+   "band": "Established",
+   "mgmt_survey": 64.5833333333333,
+   "mgmt": 56.6666666666667,
+   "gap": 10.3460451977401,
+   "flag": null,
+   "peer": 58,
+   "loss_wt": 0.0466200466200466,
+   "perf_wt": 0.0476190476190476,
+   "priority": 4.86369562640749,
+   "groups": {
+    "Front office": {
+     "raw": 59.9206349206349,
+     "n": 21,
+     "shrunk": 58.8276836158192,
+     "score": 52.0621468926554,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 46.9444444444444,
+     "n": 15,
+     "shrunk": 48.7676553672316,
+     "score": 44.0141242937853,
+     "flag": null
+    },
+    "Control functions": {
+     "raw": 38.8888888888889,
+     "n": 6,
+     "shrunk": 45.8654340010272,
+     "score": 41.6923472008218,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 59.0686274509804,
+     "n": 17,
+     "shrunk": 57.9705957883924,
+     "score": 51.3764766307139,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 59.8484848484849,
+     "n": 11,
+     "shrunk": 58.0949858757062,
+     "score": 51.475988700565,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 60,
+     "n": 10,
+     "shrunk": 58.0790960451977,
+     "score": 51.4632768361582,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 51.0964912280702,
+     "n": 38,
+     "shrunk": 51.4617001708054,
+     "score": 46.1693601366443,
+     "flag": null
+    }
+   }
+  },
+  "E-MC": {
+   "items": 3,
+   "data_points": 3,
+   "survey": 50.2118644067797,
+   "sd": 15.4440911870632,
+   "n": 59,
+   "ci": 3.94087284895531,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 50.2118644067797,
+   "exposure": null,
+   "penalty": 0,
+   "score": 50.2118644067797,
+   "band": "Established",
+   "mgmt_survey": 62.5,
+   "mgmt": 62.5,
+   "gap": 12.2881355932203,
+   "flag": null,
+   "peer": 55,
+   "loss_wt": 0.0233100233100233,
+   "perf_wt": 0.0476190476190476,
+   "priority": 3.53142620091773,
+   "groups": {
+    "Front office": {
+     "raw": 58.9285714285714,
+     "n": 21,
+     "shrunk": 57.2522816166884,
+     "score": 57.2522816166884,
+     "flag": "Higher"
+    },
+    "Operations": {
+     "raw": 37.7777777777778,
+     "n": 15,
+     "shrunk": 40.8862994350283,
+     "score": 40.8862994350283,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 45.8333333333333,
+     "n": 6,
+     "shrunk": 47.8235747303544,
+     "score": 47.8235747303544,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 51.9607843137255,
+     "n": 17,
+     "shrunk": 51.5633025166924,
+     "score": 51.5633025166924,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 58.7121212121212,
+     "n": 11,
+     "shrunk": 56.055790960452,
+     "score": 56.055790960452,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 59.1666666666667,
+     "n": 10,
+     "shrunk": 56.1817325800377,
+     "score": 56.1817325800377,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 45.3947368421053,
+     "n": 38,
+     "shrunk": 45.9548679542767,
+     "score": 45.9548679542767,
+     "flag": null
+    }
+   }
+  },
+  "E-CU": {
+   "items": 3,
+   "data_points": 3,
+   "survey": 69.8446327683616,
+   "sd": 20.3439501302733,
+   "n": 59,
+   "ci": 5.19117115651659,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 69.8446327683616,
+   "exposure": null,
+   "penalty": 0,
+   "score": 69.8446327683616,
+   "band": "Strong",
+   "mgmt_survey": 77.0833333333333,
+   "mgmt": 77.0833333333333,
+   "gap": 7.23870056497175,
+   "flag": null,
+   "peer": 62,
+   "loss_wt": 0.0699300699300699,
+   "perf_wt": 0.0714285714285714,
+   "priority": 4.2627217415353,
+   "groups": {
+    "Front office": {
+     "raw": 80.7539682539683,
+     "n": 21,
+     "shrunk": 78.6560191221208,
+     "score": 78.6560191221208,
+     "flag": "Higher"
+    },
+    "Operations": {
+     "raw": 56.3888888888889,
+     "n": 15,
+     "shrunk": 59.7528248587571,
+     "score": 59.7528248587571,
+     "flag": null
+    },
+    "Control functions": {
+     "raw": 72.2222222222222,
+     "n": 6,
+     "shrunk": 71.1414997431947,
+     "score": 71.1414997431947,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 67.4019607843137,
+     "n": 17,
+     "shrunk": 67.957113507961,
+     "score": 67.957113507961,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 79.5454545454546,
+     "n": 11,
+     "shrunk": 76.513947740113,
+     "score": 76.513947740113,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 82.0833333333333,
+     "n": 10,
+     "shrunk": 78.0037664783428,
+     "score": 78.0037664783428,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 63.8157894736842,
+     "n": 38,
+     "shrunk": 64.516817763763,
+     "score": 64.516817763763,
+     "flag": null
+    }
+   }
+  },
+  "E-MA": {
+   "items": 3,
+   "data_points": 3,
+   "survey": 57.5564971751412,
+   "sd": 18.4315969066754,
+   "n": 59,
+   "ci": 4.70319547667847,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 57.5564971751412,
+   "exposure": null,
+   "penalty": 0,
+   "score": 57.5564971751412,
+   "band": "Established",
+   "mgmt_survey": 60.4166666666667,
+   "mgmt": 60.4166666666667,
+   "gap": 2.86016949152543,
+   "flag": null,
+   "peer": 66,
+   "loss_wt": 0.0466200466200466,
+   "perf_wt": 0.0238095238095238,
+   "priority": 2.98927767148106,
+   "groups": {
+    "Front office": {
+     "raw": 68.6507936507937,
+     "n": 21,
+     "shrunk": 66.5172750977836,
+     "score": 66.5172750977836,
+     "flag": "Higher"
+    },
+    "Operations": {
+     "raw": 49.1666666666667,
+     "n": 15,
+     "shrunk": 51.2641242937853,
+     "score": 51.2641242937853,
+     "flag": null
+    },
+    "Control functions": {
+     "raw": 28.4722222222222,
+     "n": 6,
+     "shrunk": 41.6923472008218,
+     "score": 41.6923472008218,
+     "flag": "Lower"
+    },
+    "Support functions": {
+     "raw": 61.5196078431373,
+     "n": 17,
+     "shrunk": 60.6189008731382,
+     "score": 60.6189008731382,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 68.5606060606061,
+     "n": 11,
+     "shrunk": 65.1218220338983,
+     "score": 65.1218220338983,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 68.75,
+     "n": 10,
+     "shrunk": 65.0188323917137,
+     "score": 65.0188323917137,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 51.4254385964912,
+     "n": 38,
+     "shrunk": 52.1383523847064,
+     "score": 52.1383523847064,
+     "flag": null
+    }
+   }
+  },
+  "P-DE": {
+   "items": 4,
+   "data_points": 4,
+   "survey": 44.6327683615819,
+   "sd": 17.1150330970422,
+   "n": 59,
+   "ci": 4.36724753979719,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 44.6327683615819,
+   "exposure": null,
+   "penalty": 0,
+   "score": 44.6327683615819,
+   "band": "Established",
+   "mgmt_survey": 60.9375,
+   "mgmt": 60.9375,
+   "gap": 16.3047316384181,
+   "flag": null,
+   "peer": 54,
+   "loss_wt": 0.0699300699300699,
+   "perf_wt": 0.0714285714285714,
+   "priority": 7.82663664019596,
+   "groups": {
+    "Front office": {
+     "raw": 54.3650793650794,
+     "n": 21,
+     "shrunk": 52.493481095176,
+     "score": 52.493481095176,
+     "flag": "Higher"
+    },
+    "Operations": {
+     "raw": 24.8611111111111,
+     "n": 15,
+     "shrunk": 29.8040254237288,
+     "score": 29.8040254237288,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 46.5277777777778,
+     "n": 6,
+     "shrunk": 45.6664098613251,
+     "score": 45.6664098613251,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 49.3872549019608,
+     "n": 17,
+     "shrunk": 48.3066897791474,
+     "score": 48.3066897791474,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 54.5454545454546,
+     "n": 11,
+     "shrunk": 51.4477401129944,
+     "score": 51.4477401129944,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 54.1666666666667,
+     "n": 10,
+     "shrunk": 50.9887005649718,
+     "score": 50.9887005649718,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 39.2543859649123,
+     "n": 38,
+     "shrunk": 39.8797792668506,
+     "score": 39.8797792668506,
+     "flag": null
+    }
+   }
+  },
+  "P-IM": {
+   "items": 4,
+   "data_points": 4,
+   "survey": 37.8177966101695,
+   "sd": 14.412035620684,
+   "n": 59,
+   "ci": 3.67752295604845,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 37.8177966101695,
+   "exposure": null,
+   "penalty": 0,
+   "score": 37.8177966101695,
+   "band": "Developing",
+   "mgmt_survey": 50,
+   "mgmt": 50,
+   "gap": 12.1822033898305,
+   "flag": null,
+   "peer": 52,
+   "loss_wt": 0.0699300699300699,
+   "perf_wt": 0.0714285714285714,
+   "priority": 8.78999178787314,
+   "groups": {
+    "Front office": {
+     "raw": 47.3214285714286,
+     "n": 21,
+     "shrunk": 45.4938070404172,
+     "score": 45.4938070404172,
+     "flag": "Higher"
+    },
+    "Operations": {
+     "raw": 22.7777777777778,
+     "n": 15,
+     "shrunk": 26.5377824858757,
+     "score": 26.5377824858757,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 35.4166666666667,
+     "n": 6,
+     "shrunk": 36.5080893682589,
+     "score": 36.5080893682589,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 40.1960784313726,
+     "n": 17,
+     "shrunk": 39.6555598356446,
+     "score": 39.6555598356446,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 44.3181818181818,
+     "n": 11,
+     "shrunk": 42.286811440678,
+     "score": 42.286811440678,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 50.625,
+     "n": 10,
+     "shrunk": 46.3559322033898,
+     "score": 46.3559322033898,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 32.5657894736842,
+     "n": 38,
+     "shrunk": 33.1764879779267,
+     "score": 33.1764879779267,
+     "flag": "Lower"
+    }
+   }
+  },
+  "P-CH": {
+   "items": 4,
+   "data_points": 4,
+   "survey": 34.4279661016949,
+   "sd": 20.7590483527603,
+   "n": 59,
+   "ci": 5.2970918801665,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 34.4279661016949,
+   "exposure": null,
+   "penalty": 0,
+   "score": 34.4279661016949,
+   "band": "Developing",
+   "mgmt_survey": 46.875,
+   "mgmt": 46.875,
+   "gap": 12.4470338983051,
+   "flag": null,
+   "peer": 48,
+   "loss_wt": 0.0466200466200466,
+   "perf_wt": 0.0714285714285714,
+   "priority": 7.74068798433205,
+   "groups": {
+    "Front office": {
+     "raw": 43.2539682539683,
+     "n": 21,
+     "shrunk": 41.5566601477618,
+     "score": 41.5566601477618,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 14.5833333333333,
+     "n": 15,
+     "shrunk": 19.5444915254237,
+     "score": 19.5444915254237,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 32.9861111111111,
+     "n": 6,
+     "shrunk": 33.6414997431947,
+     "score": 33.6414997431947,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 41.5441176470588,
+     "n": 17,
+     "shrunk": 39.9268104776579,
+     "score": 39.9268104776579,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 45.6439393939394,
+     "n": 11,
+     "shrunk": 42.138947740113,
+     "score": 42.138947740113,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 40.625,
+     "n": 10,
+     "shrunk": 38.5593220338983,
+     "score": 38.5593220338983,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 29.5504385964912,
+     "n": 38,
+     "shrunk": 30.1175929575614,
+     "score": 30.1175929575614,
+     "flag": null
+    }
+   }
+  },
+  "P-GO": {
+   "items": 3,
+   "data_points": 4,
+   "survey": 48.6581920903955,
+   "sd": 14.1073954046885,
+   "n": 59,
+   "ci": 3.59978783124407,
+   "check_w": 0.05,
+   "check_pts": 0,
+   "prep": 46.2252824858757,
+   "exposure": null,
+   "penalty": 0,
+   "score": 46.2252824858757,
+   "band": "Established",
+   "mgmt_survey": 64.5833333333333,
+   "mgmt": 61.3541666666667,
+   "gap": 15.9251412429379,
+   "flag": null,
+   "peer": 58,
+   "loss_wt": 0.0699300699300699,
+   "perf_wt": 0.0714285714285714,
+   "priority": 7.60152100724135,
+   "groups": {
+    "Front office": {
+     "raw": 56.3492063492064,
+     "n": 21,
+     "shrunk": 54.8701651455889,
+     "score": 52.1266568883094,
+     "flag": "Higher"
+    },
+    "Operations": {
+     "raw": 37.7777777777778,
+     "n": 15,
+     "shrunk": 40.4978813559322,
+     "score": 38.4729872881356,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 42.3611111111111,
+     "n": 6,
+     "shrunk": 45.2234206471495,
+     "score": 42.962249614792,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 50.9803921568628,
+     "n": 17,
+     "shrunk": 50.4526194144838,
+     "score": 47.9299884437596,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 56.0606060606061,
+     "n": 11,
+     "shrunk": 53.7473516949153,
+     "score": 51.0599841101695,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 56.6666666666667,
+     "n": 10,
+     "shrunk": 53.9971751412429,
+     "score": 51.2973163841808,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 44.4078947368421,
+     "n": 38,
+     "shrunk": 44.9021153593483,
+     "score": 42.6570095913809,
+     "flag": null
+    }
+   }
+  },
+  "SY1": {
+   "items": 4,
+   "data_points": 5,
+   "survey": 45.5861581920904,
+   "sd": 13.6782170676879,
+   "n": 59,
+   "ci": 3.49027428103515,
+   "check_w": 0.1,
+   "check_pts": 5,
+   "prep": 46.0275423728814,
+   "exposure": null,
+   "penalty": 0,
+   "score": 46.0275423728814,
+   "band": "Established",
+   "mgmt_survey": 59.375,
+   "mgmt": 58.4375,
+   "gap": 13.7888418079096,
+   "flag": null,
+   "peer": 54,
+   "loss_wt": 0.0466200466200466,
+   "perf_wt": 0.0714285714285714,
+   "priority": 6.37137403556895,
+   "groups": {
+    "Front office": {
+     "raw": 52.0833333333333,
+     "n": 21,
+     "shrunk": 50.833876575402,
+     "score": 50.7504889178618,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 32.2222222222222,
+     "n": 15,
+     "shrunk": 35.5632062146893,
+     "score": 37.0068855932203,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 41.6666666666667,
+     "n": 6,
+     "shrunk": 43.4482537236775,
+     "score": 44.1034283513097,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 50.7352941176471,
+     "n": 17,
+     "shrunk": 49.5650359527478,
+     "score": 49.608532357473,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 52.2727272727273,
+     "n": 11,
+     "shrunk": 50.1831744350283,
+     "score": 50.1648569915254,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 51.875,
+     "n": 10,
+     "shrunk": 49.7787193973635,
+     "score": 49.8008474576271,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 41.9956140350877,
+     "n": 38,
+     "shrunk": 42.4131191696229,
+     "score": 43.1718072526606,
+     "flag": null
+    }
+   }
+  },
+  "SY2": {
+   "items": 2,
+   "data_points": 3,
+   "survey": 45.7627118644068,
+   "sd": 18.9444186877177,
+   "n": 59,
+   "ci": 4.83405234671271,
+   "check_w": 0.25,
+   "check_pts": 12.5,
+   "prep": 46.8220338983051,
+   "exposure": null,
+   "penalty": 0,
+   "score": 46.8220338983051,
+   "band": "Established",
+   "mgmt_survey": 62.5,
+   "mgmt": 59.375,
+   "gap": 16.7372881355932,
+   "flag": null,
+   "peer": 58,
+   "loss_wt": 0.0466200466200466,
+   "perf_wt": 0.0476190476190476,
+   "priority": 5.01144335890099,
+   "groups": {
+    "Front office": {
+     "raw": 51.1904761904762,
+     "n": 21,
+     "shrunk": 50.1466753585398,
+     "score": 50.1100065189048,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 35.8333333333333,
+     "n": 15,
+     "shrunk": 38.3156779661017,
+     "score": 41.2367584745763,
+     "flag": null
+    },
+    "Control functions": {
+     "raw": 45.8333333333333,
+     "n": 6,
+     "shrunk": 45.8012326656394,
+     "score": 46.8509244992296,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 47.7941176470588,
+     "n": 17,
+     "shrunk": 47.3324345146379,
+     "score": 47.9993258859784,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 46.5909090909091,
+     "n": 11,
+     "shrunk": 46.3320974576271,
+     "score": 47.2490730932203,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 56.25,
+     "n": 10,
+     "shrunk": 52.7542372881356,
+     "score": 52.0656779661017,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 42.7631578947368,
+     "n": 38,
+     "shrunk": 43.1119432400473,
+     "score": 44.8339574300355,
+     "flag": null
+    }
+   }
+  },
+  "SY3": {
+   "items": 4,
+   "data_points": 4,
+   "survey": 39.8658192090396,
+   "sd": 12.8043505476691,
+   "n": 59,
+   "ci": 3.2672895290908,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 39.8658192090396,
+   "exposure": null,
+   "penalty": 0,
+   "score": 39.8658192090396,
+   "band": "Developing",
+   "mgmt_survey": 51.5625,
+   "mgmt": 51.5625,
+   "gap": 11.6966807909605,
+   "flag": null,
+   "peer": 48,
+   "loss_wt": 0.0466200466200466,
+   "perf_wt": 0.0238095238095238,
+   "priority": 4.23522452124147,
+   "groups": {
+    "Front office": {
+     "raw": 43.5515873015873,
+     "n": 21,
+     "shrunk": 42.8427857453281,
+     "score": 42.8427857453281,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 29.5833333333333,
+     "n": 15,
+     "shrunk": 32.1539548022599,
+     "score": 32.1539548022599,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 37.5,
+     "n": 6,
+     "shrunk": 38.5753723677452,
+     "score": 38.5753723677452,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 45.2205882352941,
+     "n": 17,
+     "shrunk": 44.0035952747817,
+     "score": 44.0035952747817,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 42.2348484848485,
+     "n": 11,
+     "shrunk": 41.4945268361582,
+     "score": 41.4945268361582,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 45,
+     "n": 10,
+     "shrunk": 43.2886064030132,
+     "score": 43.2886064030132,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 37.8289473684211,
+     "n": 38,
+     "shrunk": 38.0657929312837,
+     "score": 38.0657929312837,
+     "flag": null
+    }
+   }
+  },
+  "SY4": {
+   "items": 3,
+   "data_points": 7,
+   "survey": 44.774011299435,
+   "sd": 22.1507756260389,
+   "n": 59,
+   "ci": 5.65221929802378,
+   "check_w": 0.6,
+   "check_pts": 21.25,
+   "prep": 39.159604519774,
+   "exposure": null,
+   "penalty": 0,
+   "score": 39.159604519774,
+   "band": "Developing",
+   "mgmt_survey": 50,
+   "mgmt": 41.25,
+   "gap": 5.22598870056498,
+   "flag": null,
+   "peer": 56,
+   "loss_wt": 0.0699300699300699,
+   "perf_wt": 0.0238095238095238,
+   "priority": 5.7031539552726,
+   "groups": {
+    "Front office": {
+     "raw": 48.8095238095238,
+     "n": 21,
+     "shrunk": 48.0334637114298,
+     "score": 40.4633854845719,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 36.9444444444444,
+     "n": 15,
+     "shrunk": 38.9018361581921,
+     "score": 36.8107344632768,
+     "flag": null
+    },
+    "Control functions": {
+     "raw": 56.9444444444445,
+     "n": 6,
+     "shrunk": 51.4124293785311,
+     "score": 41.8149717514124,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 42.4019607843137,
+     "n": 17,
+     "shrunk": 42.941063174114,
+     "score": 38.4264252696456,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 40.530303030303,
+     "n": 11,
+     "shrunk": 41.8564618644068,
+     "score": 37.9925847457627,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 57.9166666666667,
+     "n": 10,
+     "shrunk": 53.5357815442561,
+     "score": 42.6643126177025,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 42.5438596491228,
+     "n": 38,
+     "shrunk": 42.8031796084614,
+     "score": 38.3712718433846,
+     "flag": null
+    }
+   }
+  },
+  "SY5": {
+   "items": 3,
+   "data_points": 3,
+   "survey": 47.6694915254237,
+   "sd": 14.0612879733258,
+   "n": 59,
+   "ci": 3.58802258574068,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 47.6694915254237,
+   "exposure": null,
+   "penalty": 0,
+   "score": 47.6694915254237,
+   "band": "Established",
+   "mgmt_survey": 64.5833333333333,
+   "mgmt": 64.5833333333333,
+   "gap": 16.9138418079096,
+   "flag": null,
+   "peer": 54,
+   "loss_wt": 0.0233100233100233,
+   "perf_wt": 0.0476190476190476,
+   "priority": 3.71175434734757,
+   "groups": {
+    "Front office": {
+     "raw": 53.7698412698413,
+     "n": 21,
+     "shrunk": 52.5966970882225,
+     "score": 52.5966970882225,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 39.4444444444444,
+     "n": 15,
+     "shrunk": 41.5007062146893,
+     "score": 41.5007062146893,
+     "flag": null
+    },
+    "Control functions": {
+     "raw": 44.4444444444445,
+     "n": 6,
+     "shrunk": 45.9103749357987,
+     "score": 45.9103749357987,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 48.5294117647059,
+     "n": 17,
+     "shrunk": 48.3339753466872,
+     "score": 48.3339753466872,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 52.6515151515152,
+     "n": 11,
+     "shrunk": 51.0946327683616,
+     "score": 51.0946327683616,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 55,
+     "n": 10,
+     "shrunk": 52.5564971751412,
+     "score": 52.5564971751412,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 44.2982456140351,
+     "n": 38,
+     "shrunk": 44.6902509525687,
+     "score": 44.6902509525687,
+     "flag": null
+    }
+   }
+  },
+  "SY6": {
+   "items": 3,
+   "data_points": 3,
+   "survey": 47.7401129943503,
+   "sd": 16.2174008760575,
+   "n": 59,
+   "ci": 4.13819848762704,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 47.7401129943503,
+   "exposure": null,
+   "penalty": 0,
+   "score": 47.7401129943503,
+   "band": "Established",
+   "mgmt_survey": 66.6666666666667,
+   "mgmt": 66.6666666666667,
+   "gap": 18.9265536723164,
+   "flag": null,
+   "peer": 52,
+   "loss_wt": 0.0233100233100233,
+   "perf_wt": 0.0714285714285714,
+   "priority": 4.951028256113,
+   "groups": {
+    "Front office": {
+     "raw": 53.7698412698413,
+     "n": 21,
+     "shrunk": 52.6102781399392,
+     "score": 52.6102781399392,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 31.6666666666667,
+     "n": 15,
+     "shrunk": 35.6850282485876,
+     "score": 35.6850282485876,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 47.2222222222222,
+     "n": 6,
+     "shrunk": 47.4576271186441,
+     "score": 47.4576271186441,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 54.656862745098,
+     "n": 17,
+     "shrunk": 53.0848741653826,
+     "score": 53.0848741653826,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 52.6515151515152,
+     "n": 11,
+     "shrunk": 51.1167019774011,
+     "score": 51.1167019774011,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 55,
+     "n": 10,
+     "shrunk": 52.5800376647834,
+     "score": 52.5800376647834,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 44.4078947368421,
+     "n": 38,
+     "shrunk": 44.7953619760872,
+     "score": 44.7953619760872,
+     "flag": null
+    }
+   }
+  },
+  "EX1": {
+   "items": 1,
+   "data_points": 3,
+   "survey": 56.4655172413793,
+   "sd": 31.2602070444936,
+   "n": 58,
+   "ci": 8.04514590383891,
+   "check_w": 0.15,
+   "check_pts": 7.5,
+   "prep": 55.4956896551724,
+   "exposure": 48.31,
+   "penalty": 9.155,
+   "score": 46.3406896551724,
+   "band": "Established",
+   "mgmt_survey": 87.5,
+   "mgmt": 72.72,
+   "gap": 31.0344827586207,
+   "flag": "Blind spot",
+   "peer": 60,
+   "loss_wt": 0.0699300699300699,
+   "perf_wt": 0.0238095238095238,
+   "priority": 5.03000195207092,
+   "groups": {
+    "Front office": {
+     "raw": 70.2380952380952,
+     "n": 21,
+     "shrunk": 67.5895225464191,
+     "score": 55.7960941644562,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 41.6666666666667,
+     "n": 15,
+     "shrunk": 45.3663793103448,
+     "score": 36.9064224137931,
+     "flag": null
+    },
+    "Control functions": {
+     "raw": 54.1666666666667,
+     "n": 6,
+     "shrunk": 55.2115987460815,
+     "score": 45.2748589341693,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 53.125,
+     "n": 16,
+     "shrunk": 53.9203612479475,
+     "score": 44.1773070607553,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 70.4545454545455,
+     "n": 11,
+     "shrunk": 66.082974137931,
+     "score": 54.5155280172414,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 70,
+     "n": 10,
+     "shrunk": 65.4885057471264,
+     "score": 54.0102298850575,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 48.6486486486486,
+     "n": 37,
+     "shrunk": 49.5792282430214,
+     "score": 40.4873440065681,
+     "flag": null
+    }
+   }
+  },
+  "EX2": {
+   "items": 2,
+   "data_points": 5,
+   "survey": 48.728813559322,
+   "sd": 29.3330051298431,
+   "n": 59,
+   "ci": 7.48491070755241,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 48.728813559322,
+   "exposure": 16.5916666666667,
+   "penalty": 0,
+   "score": 48.728813559322,
+   "band": "Established",
+   "mgmt_survey": 40.625,
+   "mgmt": 40.625,
+   "gap": -8.10381355932204,
+   "flag": null,
+   "peer": 57,
+   "loss_wt": 0.0233100233100233,
+   "perf_wt": 0.0238095238095238,
+   "priority": 2.41587508536661,
+   "groups": {
+    "Front office": {
+     "raw": 52.3809523809524,
+     "n": 21,
+     "shrunk": 51.6786179921773,
+     "score": 51.6786179921773,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 44.1666666666667,
+     "n": 15,
+     "shrunk": 45.3072033898305,
+     "score": 45.3072033898305,
+     "flag": null
+    },
+    "Control functions": {
+     "raw": 43.75,
+     "n": 6,
+     "shrunk": 46.0130970724191,
+     "score": 46.0130970724191,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 50,
+     "n": 17,
+     "shrunk": 49.711093990755,
+     "score": 49.711093990755,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 46.5909090909091,
+     "n": 11,
+     "shrunk": 47.2590042372881,
+     "score": 47.2590042372881,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 58.75,
+     "n": 10,
+     "shrunk": 55.409604519774,
+     "score": 55.409604519774,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 46.7105263157895,
+     "n": 38,
+     "shrunk": 46.9452108789909,
+     "score": 46.9452108789909,
+     "flag": null
+    }
+   }
+  },
+  "EX3": {
+   "items": 2,
+   "data_points": 4,
+   "survey": 57.2033898305085,
+   "sd": 16.6096457860641,
+   "n": 59,
+   "ci": 4.23828772546322,
+   "check_w": 0,
+   "check_pts": 0,
+   "prep": 57.2033898305085,
+   "exposure": 26.00125,
+   "penalty": 0,
+   "score": 57.2033898305085,
+   "band": "Established",
+   "mgmt_survey": 68.75,
+   "mgmt": 68.75,
+   "gap": 11.5466101694915,
+   "flag": null,
+   "peer": 54,
+   "loss_wt": 0.0571095571095571,
+   "perf_wt": 0.0238095238095238,
+   "priority": 3.46306236136745,
+   "groups": {
+    "Front office": {
+     "raw": 61.9047619047619,
+     "n": 21,
+     "shrunk": 61.0006518904824,
+     "score": 61.0006518904824,
+     "flag": null
+    },
+    "Operations": {
+     "raw": 45,
+     "n": 15,
+     "shrunk": 48.0508474576271,
+     "score": 48.0508474576271,
+     "flag": "Lower"
+    },
+    "Control functions": {
+     "raw": 66.6666666666667,
+     "n": 6,
+     "shrunk": 62.3651771956857,
+     "score": 62.3651771956857,
+     "flag": null
+    },
+    "Support functions": {
+     "raw": 58.8235294117647,
+     "n": 17,
+     "shrunk": 58.4553158705701,
+     "score": 58.4553158705701,
+     "flag": null
+    },
+    "BL09 Private Banking & Wealth": {
+     "raw": 63.6363636363636,
+     "n": 11,
+     "shrunk": 61.6260593220339,
+     "score": 61.6260593220339,
+     "flag": null
+    },
+    "BL07 Asset Management": {
+     "raw": 60,
+     "n": 10,
+     "shrunk": 59.0677966101695,
+     "score": 59.0677966101695,
+     "flag": null
+    },
+    "Firm-wide / shared": {
+     "raw": 54.6052631578947,
+     "n": 38,
+     "shrunk": 54.9073709105242,
+     "score": 54.9073709105242,
+     "flag": null
+    }
+   }
+  }
+ },
+ "groups": {
+  "Firm (staff)": {
+   "n": 59,
+   "loss": 48.8040484646855,
+   "perf": 47.9168081879157,
+   "archetype": "Steady",
+   "flags": "-"
+  },
+  "Management view": {
+   "n": 4,
+   "loss": 60.1843822843823,
+   "perf": 59.8663492063492,
+   "archetype": "Guarded",
+   "flags": "-"
+  },
+  "Front office": {
+   "n": 21,
+   "loss": 54.4922554500703,
+   "perf": 53.6478019408995,
+   "archetype": "Steady",
+   "flags": 7
+  },
+  "Operations": {
+   "n": 15,
+   "loss": 40.1114919141512,
+   "perf": 38.5577833961853,
+   "archetype": "Stalled",
+   "flags": 12
+  },
+  "Control functions": {
+   "n": 6,
+   "loss": 47.7072544939077,
+   "perf": 46.9018211820973,
+   "archetype": "Steady",
+   "flags": 1
+  },
+  "Support functions": {
+   "n": 16,
+   "loss": 50.5254665361913,
+   "perf": 50.1571721066267,
+   "archetype": "Steady",
+   "flags": 0
+  },
+  "BL09 Private Banking & Wealth": {
+   "n": 11,
+   "loss": 53.4113661553152,
+   "perf": 52.624863173803,
+   "archetype": "Steady",
+   "flags": 1
+  },
+  "BL07 Asset Management": {
+   "n": 10,
+   "loss": 53.7491350360141,
+   "perf": 52.8286053748079,
+   "archetype": "Steady",
+   "flags": 0
+  },
+  "Firm-wide / shared": {
+   "n": 37,
+   "loss": 45.3551483137428,
+   "perf": 44.4483150960514,
+   "archetype": "Steady",
+   "flags": 1
+  },
+  "Peer median (illustrative)": {
+   "n": "-",
+   "loss": 56.4149184149184,
+   "perf": 55.5,
+   "archetype": "Steady",
+   "flags": "-"
+  }
+ },
+ "headline": {
+  "Loss Index": 48.8040484646855,
+  "Performance Index": 47.9168081879157,
+  "Archetype": "Steady",
+  "Loss band": "Established",
+  "Performance band": "Established",
+  "Mgmt Loss Index": 60.1843822843823,
+  "Mgmt Performance Index": 59.8663492063492,
+  "Mgmt archetype": "Guarded",
+  "Equal-weight index": 48.6577830703292,
+  "Robustness": "Robust",
+  "Top-3 overlap": 2,
+  "Average perception gap (points)": 11.6659634981343,
+  "Blind spots": 1,
+  "Low-evidence areas": 0,
+  "Notable department flags": 20,
+  "Leadership capability": 46.1785714285714,
+  "MC1 overlap (avg of 5)": 1.75,
+  "Leadership alignment": 53.7361796677144,
+  "Invited (headcount)": 80,
+  "Responses received": 62,
+  "Excluded by quality filter": 3,
+  "Included responses": 59,
+  "Avg % time on rework": 0.160169491525424,
+  "Peer Loss Index": 56.4149184149184,
+  "Peer Performance Index": 55.5,
+  "Response rate": 0.775,
+  "Hidden capacity (FTE)": 12.8135593220339,
+  "Hidden capacity cost (USD)": 1922033.89830508
+ },
+ "managers": {
+  "CEO": [
+   1,
+   67,
+   100,
+   60,
+   0,
+   50,
+   33,
+   0,
+   44.2857142857143
+  ],
+  "COO": [
+   3,
+   33,
+   33,
+   100,
+   0,
+   0,
+   100,
+   100,
+   52.2857142857143
+  ],
+  "Head of Compliance & Risk": [
+   2,
+   33,
+   67,
+   40,
+   50,
+   100,
+   67,
+   0,
+   51
+  ],
+  "Head of Technology": [
+   1,
+   0,
+   67,
+   60,
+   0,
+   0,
+   33,
+   100,
+   37.1428571428571
+  ],
+  "Mean": [
+   1.75,
+   33.25,
+   66.75,
+   65,
+   12.5,
+   37.5,
+   58.25,
+   50,
+   46.1785714285714
+  ]
+ },
+ "priorities": [
+  [
+   "E-RL",
+   "Resourcing & key people",
+   8.81029516622737,
+   "E-RL",
+   "Resourcing & key people",
+   25.3672316384181,
+   "External fraud",
+   31.0344827586207,
+   "Resourcing & key people",
+   -24.6327683615819
+  ],
+  [
+   "P-IM",
+   "Process execution",
+   8.78999178787314,
+   "P-CH",
+   "Change & projects",
+   34.4279661016949,
+   "Technology planning",
+   18.9265536723164,
+   "Cyber security & access",
+   -16.840395480226
+  ],
+  [
+   "P-DE",
+   "Process & product design",
+   7.82663664019596,
+   "P-IM",
+   "Process execution",
+   37.8177966101695,
+   "Data & records",
+   16.9138418079096,
+   "Process execution",
+   -14.1822033898305
+  ],
+  [
+   "P-CH",
+   "Change & projects",
+   7.74068798433205,
+   "SY4",
+   "Cyber security & access",
+   39.159604519774,
+   "Availability & maintenance",
+   16.7372881355932,
+   "External fraud",
+   -13.6593103448276
+  ],
+  [
+   "P-GO",
+   "Governance & oversight",
+   7.60152100724135,
+   "SY3",
+   "Systems change delivery",
+   39.8658192090396,
+   "Process & product design",
+   16.3047316384181,
+   "Change & projects",
+   -13.5720338983051
+  ]
+ ],
+ "exposures": {
+  "X01": 22.125,
+  "X02": 18.775,
+  "X03": 8.875,
+  "X04": 48.31,
+  "X05": 26.9125,
+  "X06": 25.09
+ },
+ "check_scores": {
+  "C01": 0.0,
+  "C02": 50.0,
+  "C03": 50.0,
+  "C04": 50.0,
+  "C05": 50.0,
+  "C06": 25.0,
+  "C07": 25.0,
+  "C08": 50.0,
+  "C09": null,
+  "A01": 0.0,
+  "A02": 25.0
+ },
+ "check_results": {
+  "C01": 0.0,
+  "C02": 62.0,
+  "C03": 0.93,
+  "C04": 50.0,
+  "C05": 50.0,
+  "C06": 0.18,
+  "C07": 0.14,
+  "C08": 2.0,
+  "C09": null,
+  "A01": 0.508474576271186,
+  "A02": 0.440677966101695
+ },
+ "equal_weight_index": 48.6577830703292,
+ "equal_weight_archetype": "Steady",
+ "top3_overlap": 2,
+ "robustness": "Robust"
+}

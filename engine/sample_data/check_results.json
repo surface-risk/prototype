@@ -1,0 +1,38 @@
+{
+ "C01": {
+  "run": true,
+  "result": 0.0
+ },
+ "C02": {
+  "run": true,
+  "result": 62.0
+ },
+ "C03": {
+  "run": true,
+  "result": 0.93
+ },
+ "C04": {
+  "run": true,
+  "result": 50.0
+ },
+ "C05": {
+  "run": true,
+  "result": 50.0
+ },
+ "C06": {
+  "run": true,
+  "result": 0.18
+ },
+ "C07": {
+  "run": true,
+  "result": 0.14
+ },
+ "C08": {
+  "run": true,
+  "result": 2.0
+ },
+ "C09": {
+  "run": false,
+  "result": null
+ }
+}

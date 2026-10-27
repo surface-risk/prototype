@@ -1,0 +1,60 @@
+{
+ "methodology_version": "0.5",
+ "tests": [
+  {
+   "name": "Null firm (seed 1)",
+   "loss": 50.8,
+   "perf": 51.2,
+   "loss_tilt": -0.3,
+   "archetype": "Steady",
+   "dept_flags": 0,
+   "mgmt_flags": 3,
+   "robustness": "Sensitive",
+   "verdict": "PASS: no structure invented"
+  },
+  {
+   "name": "Null firm (seed 2)",
+   "loss": 49.0,
+   "perf": 49.6,
+   "loss_tilt": -0.6,
+   "archetype": "Steady",
+   "dept_flags": 0,
+   "mgmt_flags": 1,
+   "robustness": "Sensitive",
+   "verdict": "PASS: no structure invented"
+  },
+  {
+   "name": "Null firm (seed 3)",
+   "loss": 49.5,
+   "perf": 50.0,
+   "loss_tilt": -0.6,
+   "archetype": "Steady",
+   "dept_flags": 0,
+   "mgmt_flags": 1,
+   "robustness": "Sensitive",
+   "verdict": "PASS: no structure invented"
+  },
+  {
+   "name": "High-wire firm",
+   "loss": 49.0,
+   "perf": 62.4,
+   "loss_tilt": -13.4,
+   "archetype": "Accelerating",
+   "dept_flags": 0,
+   "mgmt_flags": 2,
+   "robustness": "Sensitive",
+   "verdict": "PARTIAL: performance axis separates; loss axis stays Mid"
+  },
+  {
+   "name": "Fortress firm",
+   "loss": 53.7,
+   "perf": 41.1,
+   "loss_tilt": 12.5,
+   "archetype": "Steady",
+   "dept_flags": 0,
+   "mgmt_flags": 3,
+   "robustness": "Robust",
+   "verdict": "PARTIAL: performance axis separates; loss axis stays Mid"
+  }
+ ]
+}

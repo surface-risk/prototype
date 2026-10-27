@@ -1,0 +1,1795 @@
+{
+  "methodology_version": "0.5",
+  "source": "Surface-Risk_Prototype_Framework_v0.5.xlsx",
+  "notes": "Importance tiers are expert first-pass estimates pending practitioner panel review. Country risk values are ILLUSTRATIVE only.",
+  "parameters": {
+    "min_reporting_group": 5,
+    "blind_spot_threshold": 20,
+    "speeder_threshold_x_median": 0.33,
+    "archetype_low": 40,
+    "archetype_high": 60,
+    "max_non_survey_weight": 0.8,
+    "tier_points": {
+      "H": 3,
+      "M": 2,
+      "L": 1
+    },
+    "shrinkage_k": 5,
+    "z95": 1.96,
+    "min_data_points": 3,
+    "exposure_baseline": 30,
+    "penalty_per_point": 0.5,
+    "recoverable_share": 0.3
+  },
+  "answer_anchors": {
+    "how_true": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ],
+    "how_often": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ],
+    "yes_no": {
+      "Yes": 100,
+      "No": 0
+    },
+    "reverse_rule": "warning-sign items are scored 100 - answer; Don't know = excluded"
+  },
+  "bands": [
+    {
+      "label": "Weak",
+      "from": 0,
+      "meaning": "Good practice is largely absent; losses and under-performance likely."
+    },
+    {
+      "label": "Developing",
+      "from": 20,
+      "meaning": "Good practice is patchy or informal."
+    },
+    {
+      "label": "Established",
+      "from": 40,
+      "meaning": "Good practice is in place most of the time - the baseline for a well-run small firm."
+    },
+    {
+      "label": "Strong",
+      "from": 60,
+      "meaning": "Good practice is consistent and embedded."
+    },
+    {
+      "label": "Leading",
+      "from": 80,
+      "meaning": "Good practice is how the firm works; a source of advantage."
+    }
+  ],
+  "archetypes": [
+    {
+      "key": "Low|Low",
+      "name": "Fragile",
+      "description": "Exposed to loss and under-performing. Fix the basics first."
+    },
+    {
+      "key": "Low|Mid",
+      "name": "Exposed",
+      "description": "Getting by, but controls are thin. A single event could hurt."
+    },
+    {
+      "key": "Low|High",
+      "name": "High-wire",
+      "description": "Performing well while taking unmanaged risk; growth may be outrunning control."
+    },
+    {
+      "key": "Mid|Low",
+      "name": "Stalled",
+      "description": "Adequately controlled, but processes and capacity hold performance back."
+    },
+    {
+      "key": "Mid|Mid",
+      "name": "Steady",
+      "description": "Middle of the pack. Targeted fixes will move both dials."
+    },
+    {
+      "key": "Mid|High",
+      "name": "Accelerating",
+      "description": "Strong performer; strengthen controls to protect the gains."
+    },
+    {
+      "key": "High|Low",
+      "name": "Fortress",
+      "description": "Well controlled but inefficient; control may be stifling performance."
+    },
+    {
+      "key": "High|Mid",
+      "name": "Guarded",
+      "description": "Well protected, with performance still to unlock."
+    },
+    {
+      "key": "High|High",
+      "name": "Resilient performer",
+      "description": "Strong on both. Sustain, and use as a benchmark."
+    }
+  ],
+  "areas": [
+    {
+      "code": "E-AC",
+      "name": "Accidental errors (people)",
+      "orx_l1": "Employees",
+      "orx_l2": "Accidental causes (people)",
+      "loss_tier": "M",
+      "perf_tier": "L",
+      "rationale": "Frequent slips, mostly small; occasional very large (fat-finger).",
+      "loss_overrides": {
+        "BL02": "H",
+        "BL05": "H"
+      },
+      "perf_overrides": {}
+    },
+    {
+      "code": "E-TC",
+      "name": "Training & competency",
+      "orx_l1": "Employees",
+      "orx_l2": "Lack of adequate training/competency",
+      "loss_tier": "M",
+      "perf_tier": "H",
+      "rationale": "Errors and unsuitable advice; strong driver of quality and productivity.",
+      "loss_overrides": {
+        "BL08": "H",
+        "BL09": "H",
+        "INS-L": "H"
+      },
+      "perf_overrides": {}
+    },
+    {
+      "code": "E-RL",
+      "name": "Resourcing & key people",
+      "orx_l1": "Employees",
+      "orx_l2": "Insufficient resourcing level",
+      "loss_tier": "M",
+      "perf_tier": "H",
+      "rationale": "Skipped controls and key-person risk; burnout and attrition.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "E-RR",
+      "name": "Roles & responsibilities",
+      "orx_l1": "Employees",
+      "orx_l2": "Ineffective roles and responsibilities",
+      "loss_tier": "M",
+      "perf_tier": "M",
+      "rationale": "Gaps between teams; duplicated effort.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "E-MC",
+      "name": "Communication",
+      "orx_l1": "Employees",
+      "orx_l2": "Miscommunication",
+      "loss_tier": "L",
+      "perf_tier": "M",
+      "rationale": "Hand-off errors, usually moderate; efficiency drag.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "E-CU",
+      "name": "Culture & speak-up",
+      "orx_l1": "Employees",
+      "orx_l2": "Ineffective culture",
+      "loss_tier": "H",
+      "perf_tier": "H",
+      "rationale": "Behind the largest conduct failures; drives engagement and retention.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "E-MA",
+      "name": "Internal misconduct",
+      "orx_l1": "Employees",
+      "orx_l2": "Malice",
+      "loss_tier": "M",
+      "perf_tier": "L",
+      "rationale": "Rare but potentially severe (fraud, rogue trading).",
+      "loss_overrides": {
+        "BL01": "H",
+        "BL02": "H"
+      },
+      "perf_overrides": {}
+    },
+    {
+      "code": "P-DE",
+      "name": "Process & product design",
+      "orx_l1": "Process failure",
+      "orx_l2": "Procedure/process design failure",
+      "loss_tier": "H",
+      "perf_tier": "H",
+      "rationale": "Repeated errors and mass client harm; cost-to-serve.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "P-IM",
+      "name": "Process execution",
+      "orx_l1": "Process failure",
+      "orx_l2": "Procedure/process implementation failure",
+      "loss_tier": "H",
+      "perf_tier": "H",
+      "rationale": "Most frequent processing losses; workarounds and rework.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "P-CH",
+      "name": "Change & projects",
+      "orx_l1": "Process failure",
+      "orx_l2": "Change/projects mismanagement",
+      "loss_tier": "M",
+      "perf_tier": "H",
+      "rationale": "Outages and errors from change; delivery capacity limits growth.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "P-GO",
+      "name": "Governance & oversight",
+      "orx_l1": "Process failure",
+      "orx_l2": "Governance failure",
+      "loss_tier": "H",
+      "perf_tier": "H",
+      "rationale": "Root cause in most major failures; decision quality.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "SY1",
+      "name": "Systems functionality & capacity",
+      "orx_l1": "Systems",
+      "orx_l2": "Functionality issues; Performance/capacity issues",
+      "loss_tier": "M",
+      "perf_tier": "H",
+      "rationale": "Workarounds and confusing systems cause errors; major productivity driver.",
+      "loss_overrides": {
+        "BL01": "L",
+        "BL02": "H"
+      },
+      "perf_overrides": {
+        "BL01": "M"
+      }
+    },
+    {
+      "code": "SY2",
+      "name": "Availability & maintenance",
+      "orx_l1": "Systems",
+      "orx_l2": "Unavailability; Lack of maintenance/unsupported legacy",
+      "loss_tier": "M",
+      "perf_tier": "M",
+      "rationale": "Outages and unsupported software / key-person spreadsheets.",
+      "loss_overrides": {
+        "BL05": "H",
+        "BL06": "H"
+      },
+      "perf_overrides": {
+        "BL05": "H"
+      }
+    },
+    {
+      "code": "SY3",
+      "name": "Systems change delivery",
+      "orx_l1": "Systems",
+      "orx_l2": "Inadequate testing/development; Release/deployment issues",
+      "loss_tier": "M",
+      "perf_tier": "L",
+      "rationale": "Escaped defects and faulty releases; occasionally severe.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "SY4",
+      "name": "Cyber security & access",
+      "orx_l1": "Systems",
+      "orx_l2": "Exploitation of IT security vulnerability; Misconfiguration",
+      "loss_tier": "H",
+      "perf_tier": "L",
+      "rationale": "Cyber and email-enabled fraud are among the most frequent losses for small firms.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "SY5",
+      "name": "Data & records",
+      "orx_l1": "Systems",
+      "orx_l2": "Inadequate data storage/retention and destruction management (cause)",
+      "loss_tier": "L",
+      "perf_tier": "M",
+      "rationale": "Record-keeping failures; time lost finding information.",
+      "loss_overrides": {
+        "INS-L": "M"
+      },
+      "perf_overrides": {}
+    },
+    {
+      "code": "SY6",
+      "name": "Technology planning",
+      "orx_l1": "Systems",
+      "orx_l2": "Technology-related planning issues",
+      "loss_tier": "L",
+      "perf_tier": "H",
+      "rationale": "Slow-burn cause of legacy and change problems; limits growth.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "EX1",
+      "name": "External fraud",
+      "orx_l1": "External",
+      "orx_l2": "Malice (e.g. by vendors, suppliers, service providers, customers, counterparties etc.)",
+      "loss_tier": "H",
+      "perf_tier": "L",
+      "rationale": "Impersonation, payment and counterparty fraud are frequent and costly.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "EX2",
+      "name": "Physical & environmental events",
+      "orx_l1": "External",
+      "orx_l2": "Natural disaster (e.g. pandemic, earthquakes, floods etc.); Terrorism/external attacks (excl. cyber-attacks); Environment (excl. natural disaster)",
+      "loss_tier": "L",
+      "perf_tier": "L",
+      "rationale": "Rare for most office-based firms; exposure depends on locations.",
+      "loss_overrides": {},
+      "perf_overrides": {}
+    },
+    {
+      "code": "EX3",
+      "name": "Geopolitical & regulatory change",
+      "orx_l1": "External",
+      "orx_l2": "Geopolitical/economic/social instability; Regulatory and legislative environment",
+      "loss_tier": "M",
+      "perf_tier": "L",
+      "rationale": "Sanctions and regulatory change bring fines, remediation and exits.",
+      "loss_overrides": {
+        "BL04": "H",
+        "BL09": "H"
+      },
+      "perf_overrides": {}
+    }
+  ],
+  "business_lines": [
+    {
+      "code": "BL01",
+      "label": "Corporate Finance",
+      "orx_l2": "BL0101 Corporate Finance; BL0102 Municipal/Government; BL0103 Advisory Services",
+      "basel": "Investment Banking - Corporate Finance",
+      "guidance": "Corporate finance advisers; arrangers"
+    },
+    {
+      "code": "BL02",
+      "label": "Trading & Sales",
+      "orx_l2": "BL0201 Equities; BL0202 Global Markets; BL0203 Corporate Investment; BL0204 Treasury",
+      "basel": "Investment Banking - Trading & Sales",
+      "guidance": "Dealing as principal/agent; brokers (institutional)"
+    },
+    {
+      "code": "BL03",
+      "label": "Retail Banking",
+      "orx_l2": "BL0301 Retail Banking; BL0302 Card Services",
+      "basel": "Banking - Retail Banking",
+      "guidance": "Retail lenders; payment/card providers"
+    },
+    {
+      "code": "BL04",
+      "label": "Commercial Banking",
+      "orx_l2": "BL0401 Commercial Banking",
+      "basel": "Banking - Commercial Banking",
+      "guidance": "Providing credit to businesses"
+    },
+    {
+      "code": "BL05",
+      "label": "Clearing",
+      "orx_l2": "BL0501 Cash Clearing; BL0502 Securities Clearing",
+      "basel": "Payments & Settlements",
+      "guidance": "Clearing, money services"
+    },
+    {
+      "code": "BL06",
+      "label": "Agency Services",
+      "orx_l2": "BL0601 Custody Services; BL0602 Corporate Trust & Agency",
+      "basel": "Agency Services",
+      "guidance": "Custody; fund administration; trust services"
+    },
+    {
+      "code": "BL07",
+      "label": "Asset Management",
+      "orx_l2": "BL0703 Fund Management",
+      "basel": "Asset Management",
+      "guidance": "Discretionary management of funds and segregated portfolios, incl. for HNW clients."
+    },
+    {
+      "code": "BL08",
+      "label": "Retail Brokerage",
+      "orx_l2": "BL0801 Retail Brokerage",
+      "basel": "Retail Brokerage",
+      "guidance": "Retail brokers; execution-only platforms"
+    },
+    {
+      "code": "BL09",
+      "label": "Private Banking & Wealth (HNW advisory and services)",
+      "orx_l2": "BL0901 Private Banking",
+      "basel": "(within Retail Banking in Basel)",
+      "guidance": "Banking, lending, deposits and investment ADVICE to HNW clients and families. Discretionary portfolio management for HNW clients maps to BL07 (ORX: segregated portfolios are Asset Management)."
+    },
+    {
+      "code": "BL10",
+      "label": "Corporate Items",
+      "orx_l2": "BL1001 Corporate Items",
+      "basel": "-",
+      "guidance": "Firm-wide items; used here for shared services"
+    },
+    {
+      "code": "INS-L",
+      "label": "Insurance - Life (ORX Insurance)",
+      "orx_l2": "Pensions; Traditional Life; Protection",
+      "basel": "n/a (insurance)",
+      "guidance": "Life insurers; pension providers"
+    },
+    {
+      "code": "INS-N",
+      "label": "Insurance - Non-life (ORX Insurance)",
+      "orx_l2": "Property Casualty; Liability; Motor",
+      "basel": "n/a (insurance)",
+      "guidance": "General insurers; MGAs; brokers"
+    }
+  ],
+  "statements": [
+    {
+      "id": "Q01",
+      "cause_code": "E-AC",
+      "area": "E-AC",
+      "text": "My workplace is physically safe, and accidents or near misses are reported and learned from.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q02",
+      "cause_code": "E-AC",
+      "area": "E-AC",
+      "text": "Simple slips (e.g., wrong figure, wrong recipient) are rare because checks are built into how we work.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q49",
+      "cause_code": "E-AC",
+      "area": "E-AC",
+      "text": "In the last 3 months, how often did a mistake by you or your team reach a client, counterparty or other external party?",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q03",
+      "cause_code": "E-TC",
+      "area": "E-TC",
+      "text": "I have the knowledge and skills I need to do my job well, including the rules that apply to it.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q04",
+      "cause_code": "E-TC",
+      "area": "E-TC",
+      "text": "In the last 12 months I received training or development that genuinely improved how I do my job.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q50",
+      "cause_code": "E-TC",
+      "area": "E-TC",
+      "text": "How often are you asked to do tasks you do not feel competent to do, without support?",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q05",
+      "cause_code": "E-RL",
+      "area": "E-RL",
+      "text": "I can complete my work to the required standard within my normal working hours.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q06",
+      "cause_code": "E-RL",
+      "area": "E-RL",
+      "text": "If I were unexpectedly absent for two weeks, someone else could do my critical tasks without serious problems.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q51",
+      "cause_code": "E-RL",
+      "area": "E-RL",
+      "text": "In the last month, how often were checks or controls skipped or shortened because there was not enough time?",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q07",
+      "cause_code": "E-RR",
+      "area": "E-RR",
+      "text": "I am clear what I am personally responsible for, including any checks or controls I own.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q08",
+      "cause_code": "E-RR",
+      "area": "E-RR",
+      "text": "It is clear which team is responsible for each activity, so work does not fall between teams or get duplicated.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q52",
+      "cause_code": "E-RR",
+      "area": "E-RR",
+      "text": "How often does work stall or get missed because nobody is sure who should do it?",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q09",
+      "cause_code": "E-MC",
+      "area": "E-MC",
+      "text": "Information I need from other teams reaches me on time, complete and accurate.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q10",
+      "cause_code": "E-MC",
+      "area": "E-MC",
+      "text": "Senior management have an accurate picture of what really happens day to day in my area.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q53",
+      "cause_code": "E-MC",
+      "area": "E-MC",
+      "text": "In the last 3 months, how often did you act on information that later turned out to be out of date or wrong?",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q11",
+      "cause_code": "E-CU",
+      "area": "E-CU",
+      "text": "I could raise a concern about a mistake or wrongdoing without fear of negative consequences.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q12",
+      "cause_code": "E-CU",
+      "area": "E-CU",
+      "text": "People here are motivated, feel valued and would recommend the firm as a place to work.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q54",
+      "cause_code": "E-CU",
+      "area": "E-CU",
+      "text": "In the last 6 months, I stayed silent about a problem because raising it seemed pointless or risky.",
+      "format": "Yes / No",
+      "reverse": true
+    },
+    {
+      "id": "Q13",
+      "cause_code": "E-MA",
+      "area": "E-MA",
+      "text": "In the last 6 months I have felt pressure to bend rules or procedures to get things done.",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q14",
+      "cause_code": "E-MA",
+      "area": "E-MA",
+      "text": "Unethical behaviour has real consequences here, regardless of seniority or performance.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q55",
+      "cause_code": "E-MA",
+      "area": "E-MA",
+      "text": "If I reported misconduct by a senior or high-performing colleague, I am confident it would be investigated fairly.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q15",
+      "cause_code": "P-DE",
+      "area": "P-DE",
+      "text": "The processes I follow are documented, up to date and easy to find.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q16",
+      "cause_code": "P-DE",
+      "area": "P-DE",
+      "text": "Our processes are efficient, without unnecessary steps, approvals or duplication.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q17",
+      "cause_code": "P-DE",
+      "area": "P-DE",
+      "text": "Key processes have controls built in that prevent errors, rather than relying on catching them afterwards.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q56",
+      "cause_code": "P-DE",
+      "area": "P-DE",
+      "text": "When a process involves several teams, the hand-off points (who passes what, when, and how it is checked) are clearly defined.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q18",
+      "cause_code": "P-IM",
+      "area": "P-IM",
+      "text": "I often have to use manual workarounds (spreadsheets, emails, re-keying) because the standard process or system does not work.",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q19",
+      "cause_code": "P-IM",
+      "area": "P-IM",
+      "text": "Processes are followed consistently, whoever is doing the work.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q20",
+      "cause_code": "P-IM",
+      "area": "P-IM",
+      "text": "Errors in my area are caught before they reach clients, counterparties or regulators.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q57",
+      "cause_code": "P-IM",
+      "area": "P-IM",
+      "text": "In the last 3 months, how often did you see a required check signed off without being properly done?",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q21",
+      "cause_code": "P-CH",
+      "area": "P-CH",
+      "text": "Changes to processes or systems that affect me are planned, tested and explained before they go live.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q22",
+      "cause_code": "P-CH",
+      "area": "P-CH",
+      "text": "Recent changes in my area have delivered the benefits that were promised.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q23",
+      "cause_code": "P-CH",
+      "area": "P-CH",
+      "text": "The firm has the capacity and skills to deliver change alongside day-to-day work.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q58",
+      "cause_code": "P-CH",
+      "area": "P-CH",
+      "text": "In the last 12 months, a change in my area caused errors, outages or client issues after it went live.",
+      "format": "Yes / No",
+      "reverse": true
+    },
+    {
+      "id": "Q24",
+      "cause_code": "P-GO",
+      "area": "P-GO",
+      "text": "When something goes wrong, it is clear who is accountable for fixing it, and it gets fixed.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q25",
+      "cause_code": "P-GO",
+      "area": "P-GO",
+      "text": "Decisions that affect my work are made in good time, based on facts, and explained clearly.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q26",
+      "cause_code": "P-GO",
+      "area": "P-GO",
+      "text": "Our key outsourced providers (e.g., fund administrator, IT provider) are actively overseen, with clear owners and escalation when service falls short.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q27",
+      "cause_code": "S-FU",
+      "area": "SY1",
+      "text": "The systems I use support my work well, without needing workarounds.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q28",
+      "cause_code": "S-FU",
+      "area": "SY1",
+      "text": "I trust the data and reports our systems produce.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q29",
+      "cause_code": "S-PC",
+      "area": "SY1",
+      "text": "Our systems stay fast and responsive at busy times (e.g., month-end, market events).",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q59",
+      "cause_code": "S-FU",
+      "area": "SY1",
+      "text": "How often do you find that two systems or reports show different figures for the same thing?",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q31",
+      "cause_code": "S-LM",
+      "area": "SY2",
+      "text": "I rely on spreadsheets or self-built tools that only a few people understand for important calculations or reports.",
+      "format": "How true (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q32",
+      "cause_code": "S-UN",
+      "area": "SY2",
+      "text": "The systems I need are available whenever I need them.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q33",
+      "cause_code": "S-TD",
+      "area": "SY3",
+      "text": "Users are involved in specifying and testing new or changed systems before they go live.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q34",
+      "cause_code": "S-TD",
+      "area": "SY3",
+      "text": "New systems or system changes work as expected when they go live.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q35",
+      "cause_code": "S-RD",
+      "area": "SY3",
+      "text": "I am told in advance about system changes and know how to get help if something goes wrong afterwards.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q60",
+      "cause_code": "S-TD",
+      "area": "SY3",
+      "text": "Spreadsheets and models used for important outputs are checked by someone other than their author before first use.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q36",
+      "cause_code": "S-MC",
+      "area": "SY4",
+      "text": "I have access to systems or data that I do not need for my current role.",
+      "format": "How true (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q40",
+      "cause_code": "S-SV",
+      "area": "SY4",
+      "text": "In my team, clients or colleagues use personal messaging apps or personal email (e.g., WhatsApp, Gmail) to discuss work matters.",
+      "format": "How often (5 anchors)",
+      "reverse": true
+    },
+    {
+      "id": "Q61",
+      "cause_code": "S-MC",
+      "area": "SY4",
+      "text": "Shared logins or passwords are used for some systems I work with.",
+      "format": "Yes / No",
+      "reverse": true
+    },
+    {
+      "id": "Q37",
+      "cause_code": "S-DS",
+      "area": "SY5",
+      "text": "I know where information must be stored, how long it must be kept and how it must be disposed of.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q38",
+      "cause_code": "S-DS",
+      "area": "SY5",
+      "text": "I can quickly find the information and records I need.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q62",
+      "cause_code": "S-DS",
+      "area": "SY5",
+      "text": "Client and business records are kept in approved, backed-up locations rather than personal drives, email folders or desktops.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q41",
+      "cause_code": "S-TP",
+      "area": "SY6",
+      "text": "The tools and systems I use have kept pace with how the business has grown.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q42",
+      "cause_code": "S-TP",
+      "area": "SY6",
+      "text": "When I need help to use a system properly, I can quickly get it from someone who knows it well.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q63",
+      "cause_code": "S-TP",
+      "area": "SY6",
+      "text": "Technology decisions involve the people who will use the systems.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q44",
+      "cause_code": "X-MA",
+      "area": "EX1",
+      "text": "Scenario: an email that appears to come from a long-standing client asks you to send funds urgently to a new bank account. What do you do?",
+      "format": "Scenario (pick one)",
+      "reverse": false
+    },
+    {
+      "id": "Q43",
+      "cause_code": "X-ND",
+      "area": "EX2",
+      "text": "I know what to do, and could keep doing my critical work, if our office or key systems became unavailable.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q64",
+      "cause_code": "X-ND",
+      "area": "EX2",
+      "text": "I have taken part in a business continuity test or exercise in the last 12 months.",
+      "format": "Yes / No",
+      "reverse": false
+    },
+    {
+      "id": "Q48",
+      "cause_code": "X-RE",
+      "area": "EX3",
+      "text": "We hear about regulatory changes early and implement them on time without disrupting the business.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    },
+    {
+      "id": "Q65",
+      "cause_code": "X-RE",
+      "area": "EX3",
+      "text": "I am told about regulatory changes that affect my work before they take effect, with practical guidance on what to do differently.",
+      "format": "How true (5 anchors)",
+      "reverse": false
+    }
+  ],
+  "other_questions": {
+    "C. Open questions (staff)": [
+      {
+        "id": "O1",
+        "label": null,
+        "text": "What is the one thing that most often stops you doing your job well?",
+        "options": null,
+        "scoring": "AI tags each comment to an ORX cause; themes counted. Surfaces performance blockers."
+      },
+      {
+        "id": "O2",
+        "label": null,
+        "text": "If you could fix one risk or weakness in the firm, what would it be?",
+        "options": null,
+        "scoring": "AI-tagged; compared with management's top risks (MO1)."
+      }
+    ],
+    "D. Respondent profile": [
+      {
+        "id": "Z1",
+        "label": "Department (Level C)",
+        "text": "Front office - client-facing; Front office - investment & trading; Operations; Compliance & legal; Risk & internal audit; Finance; Technology; HR, admin & facilities",
+        "options": null,
+        "scoring": null
+      },
+      {
+        "id": "Z2",
+        "label": "Business line you mainly work in",
+        "text": "Firm's ORX business lines + 'Firm-wide / shared'",
+        "options": null,
+        "scoring": null
+      },
+      {
+        "id": "Z3",
+        "label": "Seniority",
+        "text": "Director / C-suite / Line manager / Individual contributor",
+        "options": null,
+        "scoring": null
+      },
+      {
+        "id": "Z4",
+        "label": "Length of service",
+        "text": "< 1 year / 1-3 years / > 3 years",
+        "options": null,
+        "scoring": null
+      }
+    ],
+    "E. Activity (staff) - simplified": [
+      {
+        "id": "A1",
+        "label": null,
+        "text": "Which activity takes most of your time, and roughly what share of your time goes on your top 3 activities?",
+        "options": "Pick from process list + bands",
+        "scoring": "Where time goes vs peers."
+      },
+      {
+        "id": "A2",
+        "label": null,
+        "text": "Roughly what % of your time goes on rework, chasing, manual workarounds or fixing errors?",
+        "options": "Banded %",
+        "scoring": "Hidden capacity."
+      },
+      {
+        "id": "A3",
+        "label": null,
+        "text": "For which activities are you the ONLY person who knows how to do the work?",
+        "options": "Multi-select",
+        "scoring": "Key-person indicator (A01)."
+      },
+      {
+        "id": "A4",
+        "label": null,
+        "text": "For which activities is it UNCLEAR who is responsible or who should decide?",
+        "options": "Multi-select",
+        "scoring": "Unclear-responsibility indicator (A02)."
+      }
+    ],
+    "F. Management capability (actual, structured answers)": [
+      {
+        "id": "MC1",
+        "label": null,
+        "text": "Select the five areas (from the list of 20) that you believe pose the greatest risk to the firm today.",
+        "options": "Pick 5",
+        "scoring": "Not scored. Compared with the five highest-priority areas from the assessment (overlap 0-5) and with other managers."
+      },
+      {
+        "id": "MC2",
+        "label": null,
+        "text": "Which statement best describes the firm's risk appetite?",
+        "options": "No documented appetite / Documented but rarely used / Used for some decisions / Used routinely, limits monitored",
+        "scoring": "0 / 33 / 67 / 100"
+      },
+      {
+        "id": "MC3",
+        "label": null,
+        "text": "How many roles in your area could NOT be covered for two weeks without serious disruption?",
+        "options": "0 / 1 / 2-3 / 4 or more / Don't know",
+        "scoring": "100 / 67 / 33 / 0 / 0"
+      },
+      {
+        "id": "MC4",
+        "label": null,
+        "text": "For each material provider listed at set-up, select the internal owner accountable for it.",
+        "options": "Pick from staff list per provider / Don't know",
+        "scoring": "% matching the owner recorded at set-up"
+      },
+      {
+        "id": "MC5",
+        "label": null,
+        "text": "When did you last take part in a test or exercise of the business continuity plan?",
+        "options": "Within 12 months / 12-24 months / Over 24 months / Never / Don't know",
+        "scoring": "100 / 50 / 0 / 0 / 0"
+      },
+      {
+        "id": "MC6",
+        "label": null,
+        "text": "When did you last review upcoming regulatory changes affecting your area with compliance?",
+        "options": "Within 3 months / 3-12 months / Over 12 months / Never / Don't know",
+        "scoring": "100 / 50 / 0 / 0 / 0"
+      },
+      {
+        "id": "MC7",
+        "label": null,
+        "text": "How often do you receive a report of errors, incidents and near misses in your area?",
+        "options": "Monthly or more / Quarterly / Ad hoc / Never",
+        "scoring": "100 / 67 / 33 / 0 (the error count itself moves to outcome data)"
+      },
+      {
+        "id": "MC8",
+        "label": null,
+        "text": "In the first hour of a suspected cyber incident, who would you contact first? Is that contact stored somewhere you can reach without your work devices?",
+        "options": "Contact pick list + Yes / No",
+        "scoring": "50 if contact matches the first responder recorded at set-up + 50 if stored offline"
+      }
+    ],
+    "G. Leadership alignment (management)": [
+      {
+        "id": "MA1",
+        "label": null,
+        "text": "Growth is a higher priority than strengthening controls over the next 12 months.",
+        "options": "Agreement 0-100",
+        "scoring": "100 - 2 x SD"
+      },
+      {
+        "id": "MA2",
+        "label": null,
+        "text": "We would decline profitable business that sits outside our risk appetite.",
+        "options": "Agreement 0-100",
+        "scoring": "100 - 2 x SD"
+      },
+      {
+        "id": "MA3",
+        "label": null,
+        "text": "Our biggest constraint on performance is people capacity, rather than systems or processes.",
+        "options": "Agreement 0-100",
+        "scoring": "100 - 2 x SD"
+      },
+      {
+        "id": "MA4",
+        "label": null,
+        "text": "Technology should be our top investment priority next year.",
+        "options": "Agreement 0-100",
+        "scoring": "100 - 2 x SD"
+      },
+      {
+        "id": "MA5",
+        "label": null,
+        "text": "Mistakes are best discussed openly across the firm rather than handled privately within teams.",
+        "options": "Agreement 0-100",
+        "scoring": "100 - 2 x SD"
+      },
+      {
+        "id": "MA6",
+        "label": null,
+        "text": "Compliance should be involved before any new client type, product or market is agreed.",
+        "options": "Agreement 0-100",
+        "scoring": "100 - 2 x SD"
+      },
+      {
+        "id": "MA7",
+        "label": null,
+        "text": "Our current operating model could support twice today's business volume.",
+        "options": "Agreement 0-100",
+        "scoring": "100 - 2 x SD"
+      },
+      {
+        "id": "MA8",
+        "label": null,
+        "text": "Outsourcing more activities would make the firm more resilient.",
+        "options": "Agreement 0-100",
+        "scoring": "100 - 2 x SD"
+      },
+      {
+        "id": "MO1",
+        "label": null,
+        "text": "What are the three biggest operational risks facing the firm over the next 12 months?",
+        "options": "Free text",
+        "scoring": "Compared with staff themes (O2)."
+      }
+    ],
+    "H. Outcome questions (annual, admin / COO, optional, not scored)": [
+      {
+        "id": "OD1",
+        "label": null,
+        "text": "Client-impacting errors or incidents in the last 12 months (firm-wide)",
+        "options": "0 / 1-2 / 3-5 / 6-10 / 11+",
+        "scoring": "Validation"
+      },
+      {
+        "id": "OD2",
+        "label": null,
+        "text": "Regulatory breaches reported to a regulator in the last 24 months",
+        "options": "0 / 1 / 2-3 / 4+",
+        "scoring": "Validation"
+      },
+      {
+        "id": "OD3",
+        "label": null,
+        "text": "Operational loss events of USD 10,000 or more in the last 12 months",
+        "options": "0 / 1 / 2-3 / 4-10 / 11+",
+        "scoring": "Validation"
+      },
+      {
+        "id": "OD4",
+        "label": null,
+        "text": "Approximate total of those losses (including compensation, fines and write-offs)",
+        "options": "< USD 50k / 50-250k / 250k-1m / 1-5m / > 5m",
+        "scoring": "Validation"
+      },
+      {
+        "id": "OD6",
+        "label": null,
+        "text": "Client complaints received in the last 12 months",
+        "options": "0 / 1-5 / 6-20 / 21-50 / 51+",
+        "scoring": "Validation"
+      },
+      {
+        "id": "OD7",
+        "label": null,
+        "text": "Successful cyber or fraud incidents in the last 12 months",
+        "options": "0 / 1 / 2-3 / 4+",
+        "scoring": "Validation"
+      },
+      {
+        "id": "OD8",
+        "label": null,
+        "text": "Voluntary staff turnover in the last 12 months",
+        "options": "< 5% / 5-10% / 10-15% / 15-25% / > 25%",
+        "scoring": "Validation"
+      }
+    ],
+    "I. Firm footprint and set-up (admin; standard forms only)": [
+      {
+        "id": "EX1",
+        "label": null,
+        "text": "Business lines operated (ORX) and approximate share of revenue",
+        "options": "Pick list + % bands",
+        "scoring": "Importance weights; peer group."
+      },
+      {
+        "id": "EX2",
+        "label": null,
+        "text": "Office countries (and cities) with approximate headcount",
+        "options": "Country / city pick list",
+        "scoring": "Natural hazard, security, utilities, regulatory exposure."
+      },
+      {
+        "id": "EX3",
+        "label": null,
+        "text": "Parent, subsidiary and affiliate countries",
+        "options": "Country pick list",
+        "scoring": "Geopolitical and regulatory exposure."
+      },
+      {
+        "id": "EX4",
+        "label": null,
+        "text": "Top 5 client countries by share of clients or assets, plus 'rest of world'",
+        "options": "Country pick list + % bands",
+        "scoring": "Financial-crime and geopolitical exposure."
+      },
+      {
+        "id": "EX5",
+        "label": null,
+        "text": "Material service providers: name, service, country of service / data, accountable owner",
+        "options": "Short table (max 10 rows)",
+        "scoring": "Natural hazard / utilities exposure of providers; management question MC4."
+      },
+      {
+        "id": "EX6",
+        "label": null,
+        "text": "Top 5 counterparty, custodian and bank countries",
+        "options": "Country pick list",
+        "scoring": "Financial-crime and geopolitical exposure."
+      },
+      {
+        "id": "EX7",
+        "label": null,
+        "text": "Cloud hosting region(s) for client data",
+        "options": "Pick list",
+        "scoring": "Natural hazard / utilities / geopolitical exposure."
+      },
+      {
+        "id": "EX8",
+        "label": null,
+        "text": "Technical set-up: email and web domains; registered first contact for cyber incidents; LEI (optional)",
+        "options": "Guided form",
+        "scoring": "Checks C01-C08; management question MC8."
+      }
+    ]
+  },
+  "management_scoring": {
+    "MC2": [
+      {
+        "answer": "No documented appetite",
+        "points": 0
+      },
+      {
+        "answer": "Documented but rarely used",
+        "points": 33
+      },
+      {
+        "answer": "Used for some decisions",
+        "points": 67
+      },
+      {
+        "answer": "Used routinely, limits monitored",
+        "points": 100
+      }
+    ],
+    "MC3": [
+      {
+        "answer": "0",
+        "points": 100
+      },
+      {
+        "answer": "1",
+        "points": 67
+      },
+      {
+        "answer": "2-3",
+        "points": 33
+      },
+      {
+        "answer": "4 or more",
+        "points": 0
+      },
+      {
+        "answer": "Don't know",
+        "points": 0
+      }
+    ],
+    "MC5": [
+      {
+        "answer": "Within 12 months",
+        "points": 100
+      },
+      {
+        "answer": "12-24 months",
+        "points": 50
+      },
+      {
+        "answer": "Over 24 months",
+        "points": 0
+      },
+      {
+        "answer": "Never",
+        "points": 0
+      },
+      {
+        "answer": "Don't know",
+        "points": 0
+      }
+    ],
+    "MC6": [
+      {
+        "answer": "Within 3 months",
+        "points": 100
+      },
+      {
+        "answer": "3-12 months",
+        "points": 50
+      },
+      {
+        "answer": "Over 12 months",
+        "points": 0
+      },
+      {
+        "answer": "Never",
+        "points": 0
+      },
+      {
+        "answer": "Don't know",
+        "points": 0
+      }
+    ],
+    "MC7": [
+      {
+        "answer": "Monthly or more",
+        "points": 100
+      },
+      {
+        "answer": "Quarterly",
+        "points": 67
+      },
+      {
+        "answer": "Ad hoc",
+        "points": 33
+      },
+      {
+        "answer": "Never",
+        "points": 0
+      }
+    ],
+    "MC4": "percent of material providers attributed to the owner recorded at set-up (capped at 100)",
+    "MC8": "50 if contact matches the registered first responder + 50 if stored offline"
+  },
+  "department_hierarchy": [
+    {
+      "level_c": "Front office - client-facing (sales, relationship management, advice)",
+      "level_b": "Front office",
+      "level_a": "Revenue-generating"
+    },
+    {
+      "level_c": "Front office - investment & trading",
+      "level_b": "Front office",
+      "level_a": "Revenue-generating"
+    },
+    {
+      "level_c": "Operations (onboarding, settlement, fund operations)",
+      "level_b": "Operations",
+      "level_a": "Support & control"
+    },
+    {
+      "level_c": "Compliance & legal",
+      "level_b": "Control functions",
+      "level_a": "Support & control"
+    },
+    {
+      "level_c": "Risk & internal audit",
+      "level_b": "Control functions",
+      "level_a": "Support & control"
+    },
+    {
+      "level_c": "Finance",
+      "level_b": "Support functions",
+      "level_a": "Support & control"
+    },
+    {
+      "level_c": "Technology",
+      "level_b": "Support functions",
+      "level_a": "Support & control"
+    },
+    {
+      "level_c": "HR, admin & facilities",
+      "level_b": "Support functions",
+      "level_a": "Support & control"
+    }
+  ],
+  "default_reporting_level": [
+    {
+      "max_headcount_exclusive": 30,
+      "level": "A"
+    },
+    {
+      "max_headcount_exclusive": 151,
+      "level": "B"
+    },
+    {
+      "max_headcount_exclusive": null,
+      "level": "C"
+    }
+  ],
+  "checks": [
+    {
+      "id": "C01",
+      "integration": "XI028",
+      "name": "Legal Entity Identifier (LEI) status",
+      "area": "P-GO",
+      "weight": 0.05,
+      "metric": "LEI status (1 = active, 0 = lapsed / none)",
+      "direction": "Higher",
+      "thresholds": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source": "GLEIF API (free, open data)"
+    },
+    {
+      "id": "C02",
+      "integration": "XI032",
+      "name": "Client-facing website / portal performance",
+      "area": "SY1",
+      "weight": 0.1,
+      "metric": "Google PageSpeed performance score (mobile, 0-100)",
+      "direction": "Higher",
+      "thresholds": [
+        90.0,
+        75.0,
+        50.0,
+        30.0
+      ],
+      "source": "Google PageSpeed Insights API"
+    },
+    {
+      "id": "C03",
+      "integration": "XI034",
+      "name": "Device & browser hygiene (in survey)",
+      "area": "SY2",
+      "weight": 0.25,
+      "metric": "% respondents on supported OS / browser",
+      "direction": "Higher",
+      "thresholds": [
+        0.98,
+        0.95,
+        0.9,
+        0.8
+      ],
+      "source": "Own (user-agent)"
+    },
+    {
+      "id": "C04",
+      "integration": "XI045",
+      "name": "Email-domain and web configuration",
+      "area": "SY4",
+      "weight": 0.1,
+      "metric": "Rubric score: SPF / DKIM / DMARC, TLS, security headers (0-100)",
+      "direction": "Score",
+      "thresholds": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "source": "DNS lookups; MDN HTTP Observatory"
+    },
+    {
+      "id": "C05",
+      "integration": "XI048",
+      "name": "External attack-surface scan",
+      "area": "SY4",
+      "weight": 0.15,
+      "metric": "Rubric score: exposed services, weak configuration (0-100)",
+      "direction": "Score",
+      "thresholds": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "source": "Own scanner or partner"
+    },
+    {
+      "id": "C06",
+      "integration": "XI051",
+      "name": "Breached-credential exposure",
+      "area": "SY4",
+      "weight": 0.1,
+      "metric": "% staff email addresses in public breaches",
+      "direction": "Lower",
+      "thresholds": [
+        0.02,
+        0.05,
+        0.1,
+        0.2
+      ],
+      "source": "Have I Been Pwned domain search (subscription)"
+    },
+    {
+      "id": "C07",
+      "integration": "(earlier request)",
+      "name": "Phishing simulation (partner-run)",
+      "area": "SY4",
+      "weight": 0.25,
+      "metric": "Click rate",
+      "direction": "Lower",
+      "thresholds": [
+        0.03,
+        0.06,
+        0.12,
+        0.2
+      ],
+      "source": "Partner platform; client IT allow-lists sender"
+    },
+    {
+      "id": "C08",
+      "integration": "XI050",
+      "name": "Look-alike domain monitoring",
+      "area": "EX1",
+      "weight": 0.15,
+      "metric": "Active look-alike domains",
+      "direction": "Lower",
+      "thresholds": [
+        0.0,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "source": "dnstwist; certificate-transparency logs"
+    },
+    {
+      "id": "C09",
+      "integration": "XI061",
+      "name": "Payment-fraud call-back simulation (optional, partner)",
+      "area": "EX1",
+      "weight": 0.25,
+      "metric": "Verification performed (1 = yes, 0 = no)",
+      "direction": "Higher",
+      "thresholds": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source": "Specialist partner; CEO authorisation"
+    },
+    {
+      "id": "A01",
+      "integration": "Survey A3",
+      "name": "Activity survey: key-person indicator",
+      "area": "E-RL",
+      "weight": 0.2,
+      "metric": "% staff who are sole performers of at least one activity",
+      "direction": "Lower",
+      "thresholds": [
+        0.1,
+        0.2,
+        0.35,
+        0.5
+      ],
+      "source": "Survey A3"
+    },
+    {
+      "id": "A02",
+      "integration": "Survey A4",
+      "name": "Activity survey: unclear-responsibility indicator",
+      "area": "E-RR",
+      "weight": 0.2,
+      "metric": "% staff flagging at least one activity as unclear",
+      "direction": "Lower",
+      "thresholds": [
+        0.1,
+        0.2,
+        0.35,
+        0.5
+      ],
+      "source": "Survey A4"
+    }
+  ],
+  "exposures": [
+    {
+      "id": "X01",
+      "integration": "XI055",
+      "name": "Natural-hazard exposure",
+      "area": "EX2",
+      "index": "HAZ",
+      "footprint_weights": {
+        "OFF": 0.5,
+        "AFF": 0,
+        "CLI": 0,
+        "PRV": 0.5,
+        "CPT": 0
+      }
+    },
+    {
+      "id": "X02",
+      "integration": "XI064, XI065",
+      "name": "Security / terrorism exposure",
+      "area": "EX2",
+      "index": "SEC",
+      "footprint_weights": {
+        "OFF": 0.6,
+        "AFF": 0.1,
+        "CLI": 0,
+        "PRV": 0.3,
+        "CPT": 0
+      }
+    },
+    {
+      "id": "X03",
+      "integration": "XI067",
+      "name": "Utility-reliability exposure",
+      "area": "EX2",
+      "index": "UTL",
+      "footprint_weights": {
+        "OFF": 0.5,
+        "AFF": 0,
+        "CLI": 0,
+        "PRV": 0.5,
+        "CPT": 0
+      }
+    },
+    {
+      "id": "X04",
+      "integration": "XI071",
+      "name": "Financial-crime (AML) exposure",
+      "area": "EX1",
+      "index": "FC",
+      "footprint_weights": {
+        "OFF": 0.1,
+        "AFF": 0.1,
+        "CLI": 0.6,
+        "PRV": 0,
+        "CPT": 0.2
+      }
+    },
+    {
+      "id": "X05",
+      "integration": "XI070",
+      "name": "Geopolitical / governance exposure",
+      "area": "EX3",
+      "index": "GEO",
+      "footprint_weights": {
+        "OFF": 0.15,
+        "AFF": 0.15,
+        "CLI": 0.4,
+        "PRV": 0.15,
+        "CPT": 0.15
+      }
+    },
+    {
+      "id": "X06",
+      "integration": "XI074",
+      "name": "Regulatory / rule-of-law exposure",
+      "area": "EX3",
+      "index": "REG",
+      "footprint_weights": {
+        "OFF": 0.6,
+        "AFF": 0.2,
+        "CLI": 0.2,
+        "PRV": 0,
+        "CPT": 0
+      }
+    }
+  ],
+  "country_risk": {
+    "illustrative": true,
+    "index_types": [
+      "HAZ",
+      "SEC",
+      "UTL",
+      "GEO",
+      "FC",
+      "REG"
+    ],
+    "countries": {
+      "United Arab Emirates": {
+        "HAZ": 25,
+        "SEC": 20,
+        "UTL": 10,
+        "GEO": 25,
+        "FC": 55,
+        "REG": 25
+      },
+      "Saudi Arabia": {
+        "HAZ": 25,
+        "SEC": 35,
+        "UTL": 15,
+        "GEO": 35,
+        "FC": 45,
+        "REG": 35
+      },
+      "United Kingdom": {
+        "HAZ": 20,
+        "SEC": 25,
+        "UTL": 10,
+        "GEO": 15,
+        "FC": 30,
+        "REG": 10
+      },
+      "Switzerland": {
+        "HAZ": 25,
+        "SEC": 10,
+        "UTL": 5,
+        "GEO": 10,
+        "FC": 35,
+        "REG": 10
+      },
+      "Luxembourg": {
+        "HAZ": 15,
+        "SEC": 10,
+        "UTL": 5,
+        "GEO": 5,
+        "FC": 35,
+        "REG": 10
+      },
+      "Ireland": {
+        "HAZ": 15,
+        "SEC": 10,
+        "UTL": 10,
+        "GEO": 10,
+        "FC": 25,
+        "REG": 10
+      },
+      "United States": {
+        "HAZ": 40,
+        "SEC": 30,
+        "UTL": 15,
+        "GEO": 25,
+        "FC": 35,
+        "REG": 15
+      },
+      "Singapore": {
+        "HAZ": 20,
+        "SEC": 10,
+        "UTL": 5,
+        "GEO": 5,
+        "FC": 20,
+        "REG": 5
+      },
+      "India": {
+        "HAZ": 70,
+        "SEC": 55,
+        "UTL": 50,
+        "GEO": 45,
+        "FC": 55,
+        "REG": 50
+      },
+      "Pakistan": {
+        "HAZ": 75,
+        "SEC": 80,
+        "UTL": 70,
+        "GEO": 80,
+        "FC": 70,
+        "REG": 70
+      },
+      "Egypt": {
+        "HAZ": 45,
+        "SEC": 55,
+        "UTL": 35,
+        "GEO": 60,
+        "FC": 60,
+        "REG": 60
+      },
+      "Lebanon": {
+        "HAZ": 50,
+        "SEC": 70,
+        "UTL": 85,
+        "GEO": 85,
+        "FC": 75,
+        "REG": 80
+      },
+      "Nigeria": {
+        "HAZ": 55,
+        "SEC": 85,
+        "UTL": 85,
+        "GEO": 80,
+        "FC": 80,
+        "REG": 75
+      },
+      "Rest of world (average)": {
+        "HAZ": 45,
+        "SEC": 45,
+        "UTL": 40,
+        "GEO": 45,
+        "FC": 50,
+        "REG": 45
+      }
+    }
+  }
+}

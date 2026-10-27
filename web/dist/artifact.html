@@ -1,0 +1,1409 @@
+<title>Surface Risk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Surface Risk prototype: a benchmarked diagnostic of operational risk and performance for financial services firms.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: an instrument panel on deep navy. Hairline structure, data set in mono,
+   one expanded display face for headings, and the ribbon "surface" mark as the only ornament. */
+:root {
+  --bg: #0A111D;
+  --bg-2: #0E1726;
+  --panel: #121D2F;
+  --line: #22314A;
+  --line-2: #2F4262;
+  --fg: #E4EAF3;
+  --fg-2: #A9B6C9;
+  --fg-3: #7586A0;
+  --accent: #8FB6E2;
+  --accent-strong: #C3DAF3;
+  --accent-ink: #0A111D;
+  --accent-soft: rgba(143, 182, 226, 0.14);
+  --steel: #5B7398;
+  --good: #5FB49C;
+  --warn: #D7A85A;
+  --crit: #DD7A6E;
+  --band-0: #C0675D;
+  --band-1: #C9944A;
+  --band-2: #6F87AA;
+  --band-3: #6FA9C9;
+  --band-4: #A6D0EE;
+  --shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 12px 32px rgba(0,0,0,0.28);
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.125rem;
+  --step-2: 1.4rem;
+  --step-3: 1.9rem;
+  --step-4: clamp(2.1rem, 4.6vw, 3.3rem);
+  --radius: 10px;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #EEF2F7; --bg-2: #F6F8FB; --panel: #FFFFFF; --line: #D5DDE8; --line-2: #B8C5D7;
+    --fg: #0D1726; --fg-2: #3B4A60; --fg-3: #66768E; --accent: #1F4F8B; --accent-strong: #143A69;
+    --accent-ink: #FFFFFF; --accent-soft: rgba(31, 79, 139, 0.09); --steel: #5F7699;
+    --good: #2D876C; --warn: #A2711B; --crit: #B24B3F;
+    --band-0: #B4544A; --band-1: #B9822F; --band-2: #5C7699; --band-3: #3D86AE; --band-4: #1F5F94;
+    --shadow: 0 1px 2px rgba(13, 23, 38, 0.06), 0 8px 24px rgba(13, 23, 38, 0.06);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #EEF2F7; --bg-2: #F6F8FB; --panel: #FFFFFF; --line: #D5DDE8; --line-2: #B8C5D7;
+  --fg: #0D1726; --fg-2: #3B4A60; --fg-3: #66768E; --accent: #1F4F8B; --accent-strong: #143A69;
+  --accent-ink: #FFFFFF; --accent-soft: rgba(31, 79, 139, 0.09); --steel: #5F7699;
+  --good: #2D876C; --warn: #A2711B; --crit: #B24B3F;
+  --band-0: #B4544A; --band-1: #B9822F; --band-2: #5C7699; --band-3: #3D86AE; --band-4: #1F5F94;
+  --shadow: 0 1px 2px rgba(13, 23, 38, 0.06), 0 8px 24px rgba(13, 23, 38, 0.06);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: var(--step-0); line-height: 1.55;
+  margin: 0;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: var(--accent-strong); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-stretch: 112%; text-wrap: balance; margin: 0; line-height: 1.12; letter-spacing: -0.01em; }
+h1 { font-size: var(--step-4); font-weight: 650; }
+h2 { font-size: var(--step-3); font-weight: 620; }
+h3 { font-size: var(--step-1); font-weight: 600; }
+p { margin: 0; max-width: 66ch; }
+.mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); }
+.muted { color: var(--fg-2); }
+.faint { color: var(--fg-3); }
+.small { font-size: var(--step--1); }
+
+.wrap { max-width: 1140px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.section { padding-block: clamp(40px, 7vw, 84px); }
+.section + .section { border-top: 1px solid var(--line); }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.stack-lg { display: flex; flex-direction: column; gap: 28px; }
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 28px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 16px; }
+.grid-2 > *, .grid-3 > *, .grid-4 > * { min-width: 0; }
+
+/* Header */
+.site-header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .wrap { display: flex; align-items: center; gap: 20px; min-height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); flex-shrink: 0; }
+.brand svg { width: 30px; height: 30px; display: block; }
+.brand-word { font-family: var(--font-display); font-stretch: 112%; font-weight: 640; font-size: 1.05rem; letter-spacing: 0.01em; }
+.brand-word span { font-weight: 400; color: var(--fg-2); }
+.nav { display: flex; gap: 4px; margin-left: auto; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.nav a { color: var(--fg-2); text-decoration: none; padding: 7px 10px; border-radius: 7px; font-size: 0.9rem; }
+.nav a:hover { color: var(--fg); background: var(--accent-soft); }
+.nav a[aria-current="page"] { color: var(--fg); background: var(--accent-soft); }
+.nav .btn { margin-left: 6px; }
+.btn.menu-btn { display: none; margin-left: auto; }
+@media (max-width: 860px) {
+  .btn.menu-btn { display: inline-flex; }
+  .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch;
+    background: var(--bg-2); border-bottom: 1px solid var(--line); padding: 10px var(--gutter-r) 14px var(--gutter-l); gap: 2px; }
+  .nav.open { display: flex; }
+  .nav .btn { margin: 6px 0 0; justify-content: center; }
+}
+
+/* Buttons and chips */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font: 600 0.9rem/1 var(--font-body); padding: 11px 16px; border-radius: 8px;
+  border: 1px solid var(--line-2); background: transparent; color: var(--fg); text-decoration: none;
+}
+.btn:hover { border-color: var(--accent); color: var(--fg); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); color: var(--accent-ink); }
+.btn.small { padding: 7px 11px; font-size: 0.82rem; }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.03em;
+  padding: 5px 8px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--fg-2); white-space: nowrap; }
+.chip.accent { border-color: var(--accent); color: var(--accent); }
+.chip.good { border-color: var(--good); color: var(--good); }
+.chip.warn { border-color: var(--warn); color: var(--warn); }
+.chip.crit { border-color: var(--crit); color: var(--crit); }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.seg { display: inline-flex; align-self: flex-start; width: fit-content; max-width: 100%; flex-wrap: wrap; border: 1px solid var(--line-2); border-radius: 8px; padding: 3px; gap: 3px; background: var(--bg-2); }
+.seg button { font: 500 0.82rem/1 var(--font-body); color: var(--fg-2); background: transparent; border: 0; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--panel); color: var(--fg); box-shadow: 0 0 0 1px var(--line-2); }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(16px, 2.6vw, 26px); box-shadow: var(--shadow); min-width: 0; }
+.rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+.notice { border: 1px dashed var(--line-2); border-radius: 8px; padding: 10px 14px; color: var(--fg-2); font-size: var(--step--1); }
+.notice strong { color: var(--fg); }
+
+/* Hero */
+.hero { padding-block: clamp(40px, 7vw, 88px) clamp(28px, 5vw, 56px); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lede { font-size: var(--step-1); color: var(--fg-2); max-width: 54ch; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.facts > div { padding: 14px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 0 -1px -1px 0; }
+.facts .v { font: 600 1.35rem/1.1 var(--font-mono); color: var(--fg); }
+.facts .k { font-size: var(--step--1); color: var(--fg-2); margin-top: 4px; }
+
+/* Lists */
+.ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.ticks li { padding-left: 22px; position: relative; color: var(--fg-2); }
+.ticks li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 9px; height: 2px; background: var(--accent); }
+.ticks li strong { color: var(--fg); font-weight: 600; }
+.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 16px; padding: 20px 0; border-top: 1px solid var(--line); align-items: start; }
+.steps li::before { content: counter(s, decimal-leading-zero); font: 500 0.95rem/1.4 var(--font-mono); color: var(--accent); }
+.steps .who { font: 500 0.78rem/1.4 var(--font-mono); color: var(--fg-3); text-align: right; }
+@media (max-width: 600px) { .steps li { grid-template-columns: 40px minmax(0, 1fr); } .steps .who { grid-column: 2; text-align: left; } }
+
+.area-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+.area-group h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--line-2); margin-bottom: 10px; }
+.area-group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; color: var(--fg-2); font-size: 0.9rem; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+table { border-collapse: collapse; width: 100%; font-size: 0.875rem; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 500 0.72rem/1.3 var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-3); background: var(--bg-2); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Pricing */
+.price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 16px; }
+.price { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; background: var(--panel); display: flex; flex-direction: column; gap: 10px; }
+.price .amt { font: 600 1.7rem/1 var(--font-mono); }
+.price .amt small { font-size: 0.8rem; color: var(--fg-3); font-weight: 400; }
+
+/* Forms */
+form .field, .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+label, .label { font-size: 0.84rem; color: var(--fg-2); font-weight: 500; }
+input[type="text"], input[type="email"], input[type="number"], select, textarea {
+  font: 400 0.95rem/1.3 var(--font-body); color: var(--fg); background: var(--bg-2);
+  border: 1px solid var(--line-2); border-radius: 8px; padding: 10px 12px; width: 100%; min-width: 0;
+}
+textarea { min-height: 90px; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+.checks-list { display: grid; gap: 8px; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 0.9rem; color: var(--fg-2); }
+.check input { margin-top: 3px; accent-color: var(--accent); }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--line); padding-block: 32px 40px; color: var(--fg-3); font-size: var(--step--1); }
+.site-footer .wrap { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-start; }
+.site-footer p { max-width: 70ch; }
+
+/* App shell */
+.app-bar { border-bottom: 1px solid var(--line); background: var(--bg-2); }
+.app-bar .wrap { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs a { font-size: 0.86rem; text-decoration: none; color: var(--fg-2); padding: 8px 12px; border-radius: 7px; border: 1px solid transparent; }
+.tabs a[aria-current="page"] { color: var(--fg); border-color: var(--line-2); background: var(--panel); }
+.tabs a:hover { color: var(--fg); }
+
+/* Wizard */
+.wizard { display: grid; grid-template-columns: 220px minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+@media (max-width: 1080px) { .wizard { grid-template-columns: 200px minmax(0, 1fr); } .wizard .aside { grid-column: 1 / -1; } }
+@media (max-width: 720px) { .wizard { grid-template-columns: 1fr; } }
+.step-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.step-list button { width: 100%; text-align: left; background: transparent; border: 0; color: var(--fg-2); font: 500 0.88rem/1.3 var(--font-body); padding: 10px 12px; border-radius: 8px; cursor: pointer; display: flex; gap: 10px; align-items: center; }
+.step-list button .i { font: 500 0.75rem/1 var(--font-mono); width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; border: 1px solid var(--line-2); color: var(--fg-3); flex-shrink: 0; }
+.step-list button[aria-current="step"] { background: var(--panel); color: var(--fg); box-shadow: 0 0 0 1px var(--line-2); }
+.step-list button[aria-current="step"] .i { border-color: var(--accent); color: var(--accent); }
+.step-list button.done .i { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+@media (max-width: 720px) { .step-list { grid-auto-flow: column; overflow-x: auto; } .step-list button { white-space: nowrap; } }
+
+.kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; font-size: 0.88rem; }
+.kv dt { color: var(--fg-2); }
+.kv dd { margin: 0; font-family: var(--font-mono); text-align: right; }
+
+.bar-track { height: 8px; background: var(--bg-2); border-radius: 4px; position: relative; overflow: hidden; border: 1px solid var(--line); }
+.bar-fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 4px; }
+
+/* Survey */
+.survey { max-width: 760px; margin: 0 auto; }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress > div { height: 100%; background: var(--accent); transition: width 0.25s ease; }
+.q { padding: 18px 0; border-top: 1px solid var(--line); display: grid; gap: 12px; }
+.q .qtext { font-size: 1rem; color: var(--fg); }
+.q .qid { font: 500 0.72rem/1 var(--font-mono); color: var(--fg-3); }
+.anchors { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) auto; gap: 6px; }
+@media (max-width: 640px) { .anchors { grid-template-columns: 1fr; } }
+.anchors button, .opts button {
+  font: 500 0.8rem/1.25 var(--font-body); color: var(--fg-2); background: var(--bg-2); border: 1px solid var(--line-2);
+  border-radius: 8px; padding: 9px 8px; cursor: pointer; text-align: center; min-height: 44px;
+}
+.anchors button:hover, .opts button:hover { border-color: var(--accent); color: var(--fg); }
+.anchors button[aria-pressed="true"], .opts button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.anchors button.dk { color: var(--fg-3); }
+.opts { display: grid; gap: 6px; }
+.opts.inline { grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
+.opts button { text-align: left; padding: 10px 12px; }
+
+/* Report */
+.report-head { display: grid; gap: 14px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); }
+.kpi { padding: 16px 18px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 0 -1px -1px 0; display: grid; gap: 6px; align-content: start; }
+.kpi .k { font: 500 0.72rem/1.3 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-3); }
+.kpi .v { font: 600 1.7rem/1 var(--font-mono); font-variant-numeric: tabular-nums; }
+.kpi .v small { font-size: 0.8rem; color: var(--fg-3); font-weight: 400; }
+.kpi .s { font-size: 0.8rem; color: var(--fg-2); }
+.messages { counter-reset: m; list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.messages li { counter-increment: m; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; color: var(--fg-2); }
+.messages li::before { content: counter(m); font: 600 0.8rem/1.6 var(--font-mono); color: var(--accent); }
+.messages strong { color: var(--fg); font-weight: 600; }
+
+.areas-table { display: grid; gap: 0; }
+.area-row { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr) 56px 104px; gap: 14px; align-items: center; padding: 9px 4px; border-bottom: 1px solid var(--line); cursor: pointer; background: transparent; border-left: 0; border-right: 0; border-top: 0; text-align: left; color: inherit; font: inherit; width: 100%; }
+.area-row:hover { background: var(--accent-soft); }
+.area-row .nm { font-size: 0.88rem; color: var(--fg); overflow-wrap: anywhere; }
+.area-row .nm .code { font: 500 0.7rem/1 var(--font-mono); color: var(--fg-3); display: block; margin-bottom: 3px; }
+.area-row .sc { font: 600 0.95rem/1 var(--font-mono); text-align: right; }
+.area-row svg { width: 100%; height: 26px; display: block; overflow: visible; }
+.group-label { font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); padding: 18px 4px 8px; border-bottom: 1px solid var(--line-2); display: flex; justify-content: space-between; gap: 8px; }
+@media (max-width: 680px) { .area-row { grid-template-columns: minmax(0, 1fr) 48px; } .area-row svg { grid-column: 1 / -1; grid-row: 2; } .area-row .bandcell { display: none; } }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.78rem; color: var(--fg-2); align-items: center; }
+.legend i { display: inline-block; vertical-align: middle; margin-right: 6px; }
+.band-chip { font: 500 0.72rem/1 var(--font-mono); padding: 5px 7px; border-radius: 5px; text-align: center; color: var(--bg); }
+
+.heat { border-collapse: separate; border-spacing: 3px; font-size: 0.8rem; }
+.heat th, .heat td { border: 0; padding: 7px 8px; }
+.heat th { background: transparent; }
+.heat td.cell { font-family: var(--font-mono); text-align: center; border-radius: 5px; min-width: 64px; color: var(--fg); }
+.heat td.cell .f { font-size: 0.7rem; margin-left: 4px; font-weight: 600; }
+.heat td.rowname { color: var(--fg-2); white-space: nowrap; }
+
+.drawer-back { position: fixed; inset: 0; background: rgba(5, 9, 16, 0.55); z-index: 40; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(520px, 100%); background: var(--bg-2); border-left: 1px solid var(--line-2); z-index: 41; overflow-y: auto; display: flex; flex-direction: column;
+  padding: calc(20px + env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) 22px; gap: 18px; }
+.drawer > * { flex-shrink: 0; }
+.drawer .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.drawer .kpi .v { font-size: 1.35rem; }
+@media (max-width: 560px) { .facts { grid-template-columns: 1fr; } }
+
+.chart svg { width: 100%; height: auto; display: block; }
+.chart text { fill: var(--fg-2); font-family: var(--font-mono); font-size: 11px; }
+.chart .t-strong { fill: var(--fg); font-weight: 600; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .grid-2 { stroke: var(--line-2); stroke-width: 1; }
+.chart .zone { fill: var(--accent-soft); }
+.chart .zone-label { fill: var(--fg-3); font-size: 10px; letter-spacing: 0.04em; }
+
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--panel); border: 1px solid var(--line-2); color: var(--fg); padding: 10px 16px; border-radius: 8px; z-index: 50; box-shadow: var(--shadow); font-size: 0.88rem; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+</style>
+<div id="app"></div>
+<script>window.SR_DATA = {"report":{"methodology_version":"0.5","firm":{"name":"Example Wealth Partners Ltd","centre":"DFSA-authorised firm, DIFC","headcount":80,"invited":80,"received":62,"excluded":3,"valid_responses":59,"response_rate":0.775,"date":"October 2026","reporting_level":"B","fictional":true},"indices":{"loss":48.8,"perf":47.9,"band_loss":"Established","band_perf":"Established","archetype":"Steady","loss_tilt":0.9,"peer_loss":56.4,"peer_perf":55.5,"robust":true,"robustness":"Robust","equal_weight_index":48.7,"equal_weight_archetype":"Steady","top3_overlap":2,"low_evidence_areas":0},"mgmt":{"loss":60.2,"perf":59.9,"archetype":"Guarded","loss_tilt":0.3,"capability":46.2,"alignment":53.7,"mc1_overlap_mean":1.8,"avg_perception_gap":11.7,"blind_spots":1,"hidden_strengths":0,"managers":[{"role":"CEO","mc1":1,"mc2":67.0,"mc3":100.0,"mc4":60.0,"mc5":0.0,"mc6":50.0,"mc7":33.0,"mc8":0.0,"capability":44.3},{"role":"COO","mc1":3,"mc2":33.0,"mc3":33.0,"mc4":100.0,"mc5":0.0,"mc6":0.0,"mc7":100.0,"mc8":100.0,"capability":52.3},{"role":"Head of Compliance & Risk","mc1":2,"mc2":33.0,"mc3":67.0,"mc4":40.0,"mc5":50.0,"mc6":100.0,"mc7":67.0,"mc8":0.0,"capability":51.0},{"role":"Head of Technology","mc1":1,"mc2":0.0,"mc3":67.0,"mc4":60.0,"mc5":0.0,"mc6":0.0,"mc7":33.0,"mc8":100.0,"capability":37.1}]},"hidden_capacity":{"rework_share":0.16,"fte":12.8,"usd":1922034,"recoverable_fte":3.8},"l1":{"Employees":{"score":55.8,"mgmt":64.2,"peer":59.6},"Process failure":{"score":40.8,"mgmt":54.8,"peer":53.0},"Systems":{"score":44.5,"mgmt":57.0,"peer":53.7},"External":{"score":50.8,"mgmt":60.7,"peer":57.0}},"areas":[{"code":"E-AC","name":"Accidental errors (people)","group":"Employees","score":68.1,"ci":3.4,"band":"Strong","data_points":3,"survey":68.1,"check_weight":0.0,"preparedness":68.1,"exposure":null,"penalty":0.0,"mgmt":75.0,"mgmt_survey":75.0,"gap":6.9,"blind_spot":false,"gap_flag":"","peer":64.0,"loss_wt":0.047,"perf_wt":0.024,"priority":2.25,"low_evidence":false},{"code":"E-TC","name":"Training & competency","group":"Employees","score":71.0,"ci":4.2,"band":"Strong","data_points":3,"survey":71.0,"check_weight":0.0,"preparedness":71.0,"exposure":null,"penalty":0.0,"mgmt":81.2,"mgmt_survey":81.2,"gap":10.2,"blind_spot":false,"gap_flag":"","peer":62.0,"loss_wt":0.057,"perf_wt":0.071,"priority":3.72,"low_evidence":false},{"code":"E-RL","name":"Resourcing & key people","group":"Employees","score":25.4,"ci":4.1,"band":"Developing","data_points":4,"survey":31.7,"check_weight":0.2,"preparedness":25.4,"exposure":null,"penalty":0.0,"mgmt":36.7,"mgmt_survey":45.8,"gap":14.1,"blind_spot":false,"gap_flag":"","peer":50.0,"loss_wt":0.047,"perf_wt":0.071,"priority":8.81,"low_evidence":false},{"code":"E-RR","name":"Roles & responsibilities","group":"Employees","score":48.4,"ci":3.8,"band":"Established","data_points":4,"survey":54.2,"check_weight":0.2,"preparedness":48.4,"exposure":null,"penalty":0.0,"mgmt":56.7,"mgmt_survey":64.6,"gap":10.3,"blind_spot":false,"gap_flag":"","peer":58.0,"loss_wt":0.047,"perf_wt":0.048,"priority":4.86,"low_evidence":false},{"code":"E-MC","name":"Communication","group":"Employees","score":50.2,"ci":3.9,"band":"Established","data_points":3,"survey":50.2,"check_weight":0.0,"preparedness":50.2,"exposure":null,"penalty":0.0,"mgmt":62.5,"mgmt_survey":62.5,"gap":12.3,"blind_spot":false,"gap_flag":"","peer":55.0,"loss_wt":0.023,"perf_wt":0.048,"priority":3.53,"low_evidence":false},{"code":"E-CU","name":"Culture & speak-up","group":"Employees","score":69.8,"ci":5.2,"band":"Strong","data_points":3,"survey":69.8,"check_weight":0.0,"preparedness":69.8,"exposure":null,"penalty":0.0,"mgmt":77.1,"mgmt_survey":77.1,"gap":7.2,"blind_spot":false,"gap_flag":"","peer":62.0,"loss_wt":0.07,"perf_wt":0.071,"priority":4.26,"low_evidence":false},{"code":"E-MA","name":"Internal misconduct","group":"Employees","score":57.6,"ci":4.7,"band":"Established","data_points":3,"survey":57.6,"check_weight":0.0,"preparedness":57.6,"exposure":null,"penalty":0.0,"mgmt":60.4,"mgmt_survey":60.4,"gap":2.9,"blind_spot":false,"gap_flag":"","peer":66.0,"loss_wt":0.047,"perf_wt":0.024,"priority":2.99,"low_evidence":false},{"code":"P-DE","name":"Process & product design","group":"Process failure","score":44.6,"ci":4.4,"band":"Established","data_points":4,"survey":44.6,"check_weight":0.0,"preparedness":44.6,"exposure":null,"penalty":0.0,"mgmt":60.9,"mgmt_survey":60.9,"gap":16.3,"blind_spot":false,"gap_flag":"","peer":54.0,"loss_wt":0.07,"perf_wt":0.071,"priority":7.83,"low_evidence":false},{"code":"P-IM","name":"Process execution","group":"Process failure","score":37.8,"ci":3.7,"band":"Developing","data_points":4,"survey":37.8,"check_weight":0.0,"preparedness":37.8,"exposure":null,"penalty":0.0,"mgmt":50.0,"mgmt_survey":50.0,"gap":12.2,"blind_spot":false,"gap_flag":"","peer":52.0,"loss_wt":0.07,"perf_wt":0.071,"priority":8.79,"low_evidence":false},{"code":"P-CH","name":"Change & projects","group":"Process failure","score":34.4,"ci":5.3,"band":"Developing","data_points":4,"survey":34.4,"check_weight":0.0,"preparedness":34.4,"exposure":null,"penalty":0.0,"mgmt":46.9,"mgmt_survey":46.9,"gap":12.4,"blind_spot":false,"gap_flag":"","peer":48.0,"loss_wt":0.047,"perf_wt":0.071,"priority":7.74,"low_evidence":false},{"code":"P-GO","name":"Governance & oversight","group":"Process failure","score":46.2,"ci":3.6,"band":"Established","data_points":4,"survey":48.7,"check_weight":0.05,"preparedness":46.2,"exposure":null,"penalty":0.0,"mgmt":61.4,"mgmt_survey":64.6,"gap":15.9,"blind_spot":false,"gap_flag":"","peer":58.0,"loss_wt":0.07,"perf_wt":0.071,"priority":7.6,"low_evidence":false},{"code":"SY1","name":"Systems functionality & capacity","group":"Systems","score":46.0,"ci":3.5,"band":"Established","data_points":5,"survey":45.6,"check_weight":0.1,"preparedness":46.0,"exposure":null,"penalty":0.0,"mgmt":58.4,"mgmt_survey":59.4,"gap":13.8,"blind_spot":false,"gap_flag":"","peer":54.0,"loss_wt":0.047,"perf_wt":0.071,"priority":6.37,"low_evidence":false},{"code":"SY2","name":"Availability & maintenance","group":"Systems","score":46.8,"ci":4.8,"band":"Established","data_points":3,"survey":45.8,"check_weight":0.25,"preparedness":46.8,"exposure":null,"penalty":0.0,"mgmt":59.4,"mgmt_survey":62.5,"gap":16.7,"blind_spot":false,"gap_flag":"","peer":58.0,"loss_wt":0.047,"perf_wt":0.048,"priority":5.01,"low_evidence":false},{"code":"SY3","name":"Systems change delivery","group":"Systems","score":39.9,"ci":3.3,"band":"Developing","data_points":4,"survey":39.9,"check_weight":0.0,"preparedness":39.9,"exposure":null,"penalty":0.0,"mgmt":51.6,"mgmt_survey":51.6,"gap":11.7,"blind_spot":false,"gap_flag":"","peer":48.0,"loss_wt":0.047,"perf_wt":0.024,"priority":4.24,"low_evidence":false},{"code":"SY4","name":"Cyber security & access","group":"Systems","score":39.2,"ci":5.7,"band":"Developing","data_points":7,"survey":44.8,"check_weight":0.6,"preparedness":39.2,"exposure":null,"penalty":0.0,"mgmt":41.2,"mgmt_survey":50.0,"gap":5.2,"blind_spot":false,"gap_flag":"","peer":56.0,"loss_wt":0.07,"perf_wt":0.024,"priority":5.7,"low_evidence":false},{"code":"SY5","name":"Data & records","group":"Systems","score":47.7,"ci":3.6,"band":"Established","data_points":3,"survey":47.7,"check_weight":0.0,"preparedness":47.7,"exposure":null,"penalty":0.0,"mgmt":64.6,"mgmt_survey":64.6,"gap":16.9,"blind_spot":false,"gap_flag":"","peer":54.0,"loss_wt":0.023,"perf_wt":0.048,"priority":3.71,"low_evidence":false},{"code":"SY6","name":"Technology planning","group":"Systems","score":47.7,"ci":4.1,"band":"Established","data_points":3,"survey":47.7,"check_weight":0.0,"preparedness":47.7,"exposure":null,"penalty":0.0,"mgmt":66.7,"mgmt_survey":66.7,"gap":18.9,"blind_spot":false,"gap_flag":"","peer":52.0,"loss_wt":0.023,"perf_wt":0.071,"priority":4.95,"low_evidence":false},{"code":"EX1","name":"External fraud","group":"External","score":46.3,"ci":8.0,"band":"Established","data_points":3,"survey":56.5,"check_weight":0.15,"preparedness":55.5,"exposure":48.3,"penalty":9.2,"mgmt":72.7,"mgmt_survey":87.5,"gap":31.0,"blind_spot":true,"gap_flag":"Blind spot","peer":60.0,"loss_wt":0.07,"perf_wt":0.024,"priority":5.03,"low_evidence":false},{"code":"EX2","name":"Physical & environmental events","group":"External","score":48.7,"ci":7.5,"band":"Established","data_points":5,"survey":48.7,"check_weight":0.0,"preparedness":48.7,"exposure":16.6,"penalty":0.0,"mgmt":40.6,"mgmt_survey":40.6,"gap":-8.1,"blind_spot":false,"gap_flag":"","peer":57.0,"loss_wt":0.023,"perf_wt":0.024,"priority":2.42,"low_evidence":false},{"code":"EX3","name":"Geopolitical & regulatory change","group":"External","score":57.2,"ci":4.2,"band":"Established","data_points":4,"survey":57.2,"check_weight":0.0,"preparedness":57.2,"exposure":26.0,"penalty":0.0,"mgmt":68.8,"mgmt_survey":68.8,"gap":11.5,"blind_spot":false,"gap_flag":"","peer":54.0,"loss_wt":0.057,"perf_wt":0.024,"priority":3.46,"low_evidence":false}],"groups":[{"entity":"Firm (staff)","kind":"firm","n":59,"loss":48.8,"perf":47.9,"archetype":"Steady","flags":"-"},{"entity":"Management view","kind":"mgmt","n":4,"loss":60.2,"perf":59.9,"archetype":"Guarded","flags":"-"},{"entity":"Front office","kind":"dept","n":21,"loss":54.5,"perf":53.6,"archetype":"Steady","flags":7},{"entity":"Operations","kind":"dept","n":15,"loss":40.1,"perf":38.6,"archetype":"Stalled","flags":12},{"entity":"Control functions","kind":"dept","n":6,"loss":47.7,"perf":46.9,"archetype":"Steady","flags":1},{"entity":"Support functions","kind":"dept","n":16,"loss":50.5,"perf":50.2,"archetype":"Steady","flags":0},{"entity":"BL09 Private Banking & Wealth","kind":"bl","n":11,"loss":53.4,"perf":52.6,"archetype":"Steady","flags":1},{"entity":"BL07 Asset Management","kind":"bl","n":10,"loss":53.7,"perf":52.8,"archetype":"Steady","flags":0},{"entity":"Firm-wide / shared","kind":"bl","n":37,"loss":45.4,"perf":44.4,"archetype":"Steady","flags":1},{"entity":"Peer median (illustrative)","kind":"peer","n":"-","loss":56.4,"perf":55.5,"archetype":"Steady","flags":"-"}],"departments":{"B":{"names":["Front office","Operations","Control functions","Support functions"],"rows":[{"code":"E-AC","name":"Accidental errors (people)","firm":68.1,"values":[{"score":73.5,"n":21,"flag":""},{"score":61.2,"n":15,"flag":"Lower"},{"score":65.0,"n":6,"flag":""},{"score":69.4,"n":17,"flag":""}]},{"code":"E-TC","name":"Training & competency","firm":71.0,"values":[{"score":74.4,"n":21,"flag":""},{"score":60.7,"n":15,"flag":"Lower"},{"score":74.0,"n":6,"flag":""},{"score":75.0,"n":17,"flag":""}]},{"code":"E-RL","name":"Resourcing & key people","firm":31.7,"values":[{"score":38.8,"n":21,"flag":"Higher"},{"score":20.8,"n":15,"flag":"Lower"},{"score":32.6,"n":6,"flag":""},{"score":32.8,"n":17,"flag":""}]},{"code":"E-RR","name":"Roles & responsibilities","firm":54.2,"values":[{"score":58.8,"n":21,"flag":""},{"score":48.8,"n":15,"flag":""},{"score":45.9,"n":6,"flag":""},{"score":58.0,"n":17,"flag":""}]},{"code":"E-MC","name":"Communication","firm":50.2,"values":[{"score":57.3,"n":21,"flag":"Higher"},{"score":40.9,"n":15,"flag":"Lower"},{"score":47.8,"n":6,"flag":""},{"score":51.6,"n":17,"flag":""}]},{"code":"E-CU","name":"Culture & speak-up","firm":69.8,"values":[{"score":78.7,"n":21,"flag":"Higher"},{"score":59.8,"n":15,"flag":""},{"score":71.1,"n":6,"flag":""},{"score":68.0,"n":17,"flag":""}]},{"code":"E-MA","name":"Internal misconduct","firm":57.6,"values":[{"score":66.5,"n":21,"flag":"Higher"},{"score":51.3,"n":15,"flag":""},{"score":41.7,"n":6,"flag":"Lower"},{"score":60.6,"n":17,"flag":""}]},{"code":"P-DE","name":"Process & product design","firm":44.6,"values":[{"score":52.5,"n":21,"flag":"Higher"},{"score":29.8,"n":15,"flag":"Lower"},{"score":45.7,"n":6,"flag":""},{"score":48.3,"n":17,"flag":""}]},{"code":"P-IM","name":"Process execution","firm":37.8,"values":[{"score":45.5,"n":21,"flag":"Higher"},{"score":26.5,"n":15,"flag":"Lower"},{"score":36.5,"n":6,"flag":""},{"score":39.7,"n":17,"flag":""}]},{"code":"P-CH","name":"Change & projects","firm":34.4,"values":[{"score":41.6,"n":21,"flag":""},{"score":19.5,"n":15,"flag":"Lower"},{"score":33.6,"n":6,"flag":""},{"score":39.9,"n":17,"flag":""}]},{"code":"P-GO","name":"Governance & oversight","firm":48.7,"values":[{"score":54.9,"n":21,"flag":"Higher"},{"score":40.5,"n":15,"flag":"Lower"},{"score":45.2,"n":6,"flag":""},{"score":50.5,"n":17,"flag":""}]},{"code":"SY1","name":"Systems functionality & capacity","firm":45.6,"values":[{"score":50.8,"n":21,"flag":""},{"score":35.6,"n":15,"flag":"Lower"},{"score":43.4,"n":6,"flag":""},{"score":49.6,"n":17,"flag":""}]},{"code":"SY2","name":"Availability & maintenance","firm":45.8,"values":[{"score":50.1,"n":21,"flag":""},{"score":38.3,"n":15,"flag":""},{"score":45.8,"n":6,"flag":""},{"score":47.3,"n":17,"flag":""}]},{"code":"SY3","name":"Systems change delivery","firm":39.9,"values":[{"score":42.8,"n":21,"flag":""},{"score":32.2,"n":15,"flag":"Lower"},{"score":38.6,"n":6,"flag":""},{"score":44.0,"n":17,"flag":""}]},{"code":"SY4","name":"Cyber security & access","firm":44.8,"values":[{"score":48.0,"n":21,"flag":""},{"score":38.9,"n":15,"flag":""},{"score":51.4,"n":6,"flag":""},{"score":42.9,"n":17,"flag":""}]},{"code":"SY5","name":"Data & records","firm":47.7,"values":[{"score":52.6,"n":21,"flag":""},{"score":41.5,"n":15,"flag":""},{"score":45.9,"n":6,"flag":""},{"score":48.3,"n":17,"flag":""}]},{"code":"SY6","name":"Technology planning","firm":47.7,"values":[{"score":52.6,"n":21,"flag":""},{"score":35.7,"n":15,"flag":"Lower"},{"score":47.5,"n":6,"flag":""},{"score":53.1,"n":17,"flag":""}]},{"code":"EX1","name":"External fraud","firm":56.5,"values":[{"score":67.6,"n":21,"flag":""},{"score":45.4,"n":15,"flag":""},{"score":55.2,"n":6,"flag":""},{"score":53.9,"n":16,"flag":""}]},{"code":"EX2","name":"Physical & environmental events","firm":48.7,"values":[{"score":51.7,"n":21,"flag":""},{"score":45.3,"n":15,"flag":""},{"score":46.0,"n":6,"flag":""},{"score":49.7,"n":17,"flag":""}]},{"code":"EX3","name":"Geopolitical & regulatory change","firm":57.2,"values":[{"score":61.0,"n":21,"flag":""},{"score":48.1,"n":15,"flag":"Lower"},{"score":62.4,"n":6,"flag":""},{"score":58.5,"n":17,"flag":""}]}]},"A":{"names":["Revenue-generating","Support & control"],"rows":[{"code":"E-AC","name":"Accidental errors (people)","firm":68.1,"values":[{"score":73.5,"n":21,"flag":""},{"score":64.8,"n":38,"flag":""}]},{"code":"E-TC","name":"Training & competency","firm":71.0,"values":[{"score":74.4,"n":21,"flag":""},{"score":69.0,"n":38,"flag":""}]},{"code":"E-RL","name":"Resourcing & key people","firm":31.7,"values":[{"score":38.8,"n":21,"flag":"Higher"},{"score":27.4,"n":38,"flag":""}]},{"code":"E-RR","name":"Roles & responsibilities","firm":54.2,"values":[{"score":58.8,"n":21,"flag":""},{"score":51.5,"n":38,"flag":""}]},{"code":"E-MC","name":"Communication","firm":50.2,"values":[{"score":57.3,"n":21,"flag":"Higher"},{"score":46.0,"n":38,"flag":""}]},{"code":"E-CU","name":"Culture & speak-up","firm":69.8,"values":[{"score":78.7,"n":21,"flag":"Higher"},{"score":64.5,"n":38,"flag":""}]},{"code":"E-MA","name":"Internal misconduct","firm":57.6,"values":[{"score":66.5,"n":21,"flag":"Higher"},{"score":52.1,"n":38,"flag":""}]},{"code":"P-DE","name":"Process & product design","firm":44.6,"values":[{"score":52.5,"n":21,"flag":"Higher"},{"score":39.9,"n":38,"flag":""}]},{"code":"P-IM","name":"Process execution","firm":37.8,"values":[{"score":45.5,"n":21,"flag":"Higher"},{"score":33.2,"n":38,"flag":"Lower"}]},{"code":"P-CH","name":"Change & projects","firm":34.4,"values":[{"score":41.6,"n":21,"flag":""},{"score":30.1,"n":38,"flag":""}]},{"code":"P-GO","name":"Governance & oversight","firm":48.7,"values":[{"score":54.9,"n":21,"flag":"Higher"},{"score":44.9,"n":38,"flag":""}]},{"code":"SY1","name":"Systems functionality & capacity","firm":45.6,"values":[{"score":50.8,"n":21,"flag":""},{"score":42.4,"n":38,"flag":""}]},{"code":"SY2","name":"Availability & maintenance","firm":45.8,"values":[{"score":50.1,"n":21,"flag":""},{"score":43.1,"n":38,"flag":""}]},{"code":"SY3","name":"Systems change delivery","firm":39.9,"values":[{"score":42.8,"n":21,"flag":""},{"score":38.1,"n":38,"flag":""}]},{"code":"SY4","name":"Cyber security & access","firm":44.8,"values":[{"score":48.0,"n":21,"flag":""},{"score":42.8,"n":38,"flag":""}]},{"code":"SY5","name":"Data & records","firm":47.7,"values":[{"score":52.6,"n":21,"flag":""},{"score":44.7,"n":38,"flag":""}]},{"code":"SY6","name":"Technology planning","firm":47.7,"values":[{"score":52.6,"n":21,"flag":""},{"score":44.8,"n":38,"flag":""}]},{"code":"EX1","name":"External fraud","firm":56.5,"values":[{"score":67.6,"n":21,"flag":""},{"score":49.6,"n":37,"flag":""}]},{"code":"EX2","name":"Physical & environmental events","firm":48.7,"values":[{"score":51.7,"n":21,"flag":""},{"score":46.9,"n":38,"flag":""}]},{"code":"EX3","name":"Geopolitical & regulatory change","firm":57.2,"values":[{"score":61.0,"n":21,"flag":""},{"score":54.9,"n":38,"flag":""}]}]}},"priorities":{"top":[{"code":"E-RL","name":"Resourcing & key people","priority":8.81},{"code":"P-IM","name":"Process execution","priority":8.79},{"code":"P-DE","name":"Process & product design","priority":7.83},{"code":"P-CH","name":"Change & projects","priority":7.74},{"code":"P-GO","name":"Governance & oversight","priority":7.6}],"lowest":[{"code":"E-RL","name":"Resourcing & key people","score":25.4},{"code":"P-CH","name":"Change & projects","score":34.4},{"code":"P-IM","name":"Process execution","score":37.8},{"code":"SY4","name":"Cyber security & access","score":39.2},{"code":"SY3","name":"Systems change delivery","score":39.9}],"blind_spots":[{"code":"EX1","name":"External fraud","gap":31.0,"passes":true},{"code":"SY6","name":"Technology planning","gap":18.9,"passes":false},{"code":"SY5","name":"Data & records","gap":16.9,"passes":false},{"code":"SY2","name":"Availability & maintenance","gap":16.7,"passes":false},{"code":"P-DE","name":"Process & product design","gap":16.3,"passes":false}],"below_peer":[{"name":"Resourcing & key people","vs_peer":-24.6},{"name":"Cyber security & access","vs_peer":-16.8},{"name":"Process execution","vs_peer":-14.2},{"name":"External fraud","vs_peer":-13.7},{"name":"Change & projects","vs_peer":-13.6}]},"exposures":[{"id":"X01","name":"Natural-hazard exposure","area":"EX2","value":22.1,"penalty_applies":false},{"id":"X02","name":"Security / terrorism exposure","area":"EX2","value":18.8,"penalty_applies":false},{"id":"X03","name":"Utility-reliability exposure","area":"EX2","value":8.9,"penalty_applies":false},{"id":"X04","name":"Financial-crime (AML) exposure","area":"EX1","value":48.3,"penalty_applies":true},{"id":"X05","name":"Geopolitical / governance exposure","area":"EX3","value":26.9,"penalty_applies":false},{"id":"X06","name":"Regulatory / rule-of-law exposure","area":"EX3","value":25.1,"penalty_applies":false}],"checks":[{"id":"C01","name":"Legal Entity Identifier (LEI) status","area":"P-GO","run":true,"result":0.0,"score":0.0,"weight":0.05},{"id":"C02","name":"Client-facing website / portal performance","area":"SY1","run":true,"result":62.0,"score":50.0,"weight":0.1},{"id":"C03","name":"Device & browser hygiene (in survey)","area":"SY2","run":true,"result":0.93,"score":50.0,"weight":0.25},{"id":"C04","name":"Email-domain and web configuration","area":"SY4","run":true,"result":50.0,"score":50.0,"weight":0.1},{"id":"C05","name":"External attack-surface scan","area":"SY4","run":true,"result":50.0,"score":50.0,"weight":0.15},{"id":"C06","name":"Breached-credential exposure","area":"SY4","run":true,"result":0.18,"score":25.0,"weight":0.1},{"id":"C07","name":"Phishing simulation (partner-run)","area":"SY4","run":true,"result":0.14,"score":25.0,"weight":0.25},{"id":"C08","name":"Look-alike domain monitoring","area":"EX1","run":true,"result":2.0,"score":50.0,"weight":0.15},{"id":"C09","name":"Payment-fraud call-back simulation (optional, partner)","area":"EX1","run":false,"result":null,"score":null,"weight":0.25},{"id":"A01","name":"Activity survey: key-person indicator","area":"E-RL","run":true,"result":0.508,"score":0.0,"weight":0.2},{"id":"A02","name":"Activity survey: unclear-responsibility indicator","area":"E-RR","run":true,"result":0.441,"score":25.0,"weight":0.2}],"engine_tests":[{"name":"Null firm (seed 1)","loss":50.8,"perf":51.2,"loss_tilt":-0.3,"archetype":"Steady","dept_flags":0,"mgmt_flags":3,"robustness":"Sensitive","verdict":"PASS: no structure invented"},{"name":"Null firm (seed 2)","loss":49.0,"perf":49.6,"loss_tilt":-0.6,"archetype":"Steady","dept_flags":0,"mgmt_flags":1,"robustness":"Sensitive","verdict":"PASS: no structure invented"},{"name":"Null firm (seed 3)","loss":49.5,"perf":50.0,"loss_tilt":-0.6,"archetype":"Steady","dept_flags":0,"mgmt_flags":1,"robustness":"Sensitive","verdict":"PASS: no structure invented"},{"name":"High-wire firm","loss":49.0,"perf":62.4,"loss_tilt":-13.4,"archetype":"Accelerating","dept_flags":0,"mgmt_flags":2,"robustness":"Sensitive","verdict":"PARTIAL: performance axis separates; loss axis stays Mid"},{"name":"Fortress firm","loss":53.7,"perf":41.1,"loss_tilt":12.5,"archetype":"Steady","dept_flags":0,"mgmt_flags":3,"robustness":"Robust","verdict":"PARTIAL: performance axis separates; loss axis stays Mid"}]},"ui":{"methodology_version":"0.5","areas":[{"code":"E-AC","name":"Accidental errors (people)","group":"Employees","loss_tier":"M","perf_tier":"L","loss_overrides":{"BL02":"H","BL05":"H"},"perf_overrides":{},"rationale":"Frequent slips, mostly small; occasional very large (fat-finger).","good":"Safe workplace; near misses and slips are reported and learned from; checks are built into routine work so simple errors are caught.","loss":"Keying, payment or instruction errors (wrong amount, account, security or recipient) cause direct losses, client compensation and data breaches.","perf":"Rework, correction effort and client apologies consume time; double-checking everything slows throughput."},{"code":"E-TC","name":"Training & competency","group":"Employees","loss_tier":"M","perf_tier":"H","loss_overrides":{"BL08":"H","BL09":"H","INS-L":"H"},"perf_overrides":{},"rationale":"Errors and unsuitable advice; strong driver of quality and productivity.","good":"Staff have the skills their roles need; training is planned and prioritised; skills are mapped to role requirements.","loss":"Staff who do not understand products, rules or systems give unsuitable advice, mis-execute, or miss red flags.","perf":"Slower work, more escalations and supervision, lower client service quality and weaker innovation."},{"code":"E-RL","name":"Resourcing & key people","group":"Employees","loss_tier":"M","perf_tier":"H","loss_overrides":{},"perf_overrides":{},"rationale":"Skipped controls and key-person risk; burnout and attrition.","good":"Workloads are sustainable; critical tasks have trained cover; succession exists for key people.","loss":"Stretched teams skip or shorten checks, build backlogs (e.g., KYC reviews) and depend on single individuals.","perf":"Burnout, attrition and hiring costs; firefighting crowds out improvement and growth work."},{"code":"E-RR","name":"Roles & responsibilities","group":"Employees","loss_tier":"M","perf_tier":"M","loss_overrides":{},"perf_overrides":{},"rationale":"Gaps between teams; duplicated effort.","good":"Clear, documented roles; individual ownership of processes and controls; no gaps or overlaps between teams.","loss":"Work and controls fall between people or teams; conflicting roles remove independent checks.","perf":"Duplicated effort, slow decisions and friction between teams."},{"code":"E-MC","name":"Communication","group":"Employees","loss_tier":"L","perf_tier":"M","loss_overrides":{},"perf_overrides":{},"rationale":"Hand-off errors, usually moderate; efficiency drag.","good":"Timely, accurate information flows between teams and to leadership; a single source of truth; leadership hears the truth first-hand.","loss":"Information arrives late, incomplete or distorted; warnings are not escalated.","perf":"Rework, delays and decisions taken on stale or wrong information."},{"code":"E-CU","name":"Culture & speak-up","group":"Employees","loss_tier":"H","perf_tier":"H","loss_overrides":{},"perf_overrides":{},"rationale":"Behind the largest conduct failures; drives engagement and retention.","good":"Shared vision; staff feel valued and safe to speak up; accountability and fair reward; continuous improvement encouraged.","loss":"Incentives and norms that tolerate rule-bending or silence lead to systemic misconduct and late discovery of problems.","perf":"Disengagement, turnover, silence about problems and lost ideas; culture is a major driver of productivity."},{"code":"E-MA","name":"Internal misconduct","group":"Employees","loss_tier":"M","perf_tier":"L","loss_overrides":{"BL01":"H","BL02":"H"},"perf_overrides":{},"rationale":"Rare but potentially severe (fraud, rogue trading).","good":"High integrity; ethical breaches have consequences regardless of seniority; trust backed by effective compliance oversight.","loss":"Deliberate wrongdoing by staff: fraud, unauthorised trading, theft of client funds or data.","perf":"Erosion of trust; heavy controls and investigations divert resources."},{"code":"P-DE","name":"Process & product design","group":"Process failure","loss_tier":"H","perf_tier":"H","loss_overrides":{},"perf_overrides":{},"rationale":"Repeated errors and mass client harm; cost-to-serve.","good":"Processes are defined, documented, efficient and have preventive controls built in.","loss":"Processes or products designed without adequate controls or suitability lead to repeated errors or mass mis-selling.","perf":"Unnecessary steps, approvals and hand-offs raise cost-to-serve and slow client service."},{"code":"P-IM","name":"Process execution","group":"Process failure","loss_tier":"H","perf_tier":"H","loss_overrides":{},"perf_overrides":{},"rationale":"Most frequent processing losses; workarounds and rework.","good":"Processes are followed consistently; non-adherence is identified; errors are caught before reaching clients or regulators.","loss":"Processes not followed or controls not operating: missed checks, unreconciled breaks, KYC not done.","perf":"Workarounds, rework and inconsistent output; quality depends on who does the work."},{"code":"P-CH","name":"Change & projects","group":"Process failure","loss_tier":"M","perf_tier":"H","loss_overrides":{},"perf_overrides":{},"rationale":"Outages and errors from change; delivery capacity limits growth.","good":"Change is planned, resourced, tested and communicated; benefits are tracked and realised.","loss":"Poorly planned or tested change introduces errors, outages and data problems.","perf":"Benefits not realised, change fatigue, delayed strategy."},{"code":"P-GO","name":"Governance & oversight","group":"Process failure","loss_tier":"H","perf_tier":"H","loss_overrides":{},"perf_overrides":{},"rationale":"Root cause in most major failures; decision quality.","good":"Management understand how the business works; clear accountability and decision-making; policies understood; outsourced providers actively overseen.","loss":"Leadership lacks information, challenge or accountability, so risks accumulate unseen (incl. outsourced providers).","perf":"Slow or poor decisions; strategy not executed; resources misallocated."},{"code":"SY1","name":"Systems functionality & capacity","group":"Systems","loss_tier":"M","perf_tier":"H","loss_overrides":{"BL01":"L","BL02":"H"},"perf_overrides":{"BL01":"M"},"rationale":"Workarounds and confusing systems cause errors; major productivity driver.","good":"Systems support end-to-end processes without manual gaps; data and reports are trusted.","loss":"Systems that do not fit processes force manual workarounds, re-keying and confusing interfaces that cause errors.","perf":"Manual effort, slow processing, poor data for decisions and limits on scale."},{"code":"SY2","name":"Availability & maintenance","group":"Systems","loss_tier":"M","perf_tier":"M","loss_overrides":{"BL05":"H","BL06":"H"},"perf_overrides":{"BL05":"H"},"rationale":"Outages and unsupported software / key-person spreadsheets.","good":"Software and devices are current and supported; critical spreadsheets/tools are controlled.","loss":"Unpatched or unsupported software is exploited or fails; uncontrolled spreadsheets produce errors.","perf":"Fragile, slow tools; dependence on individuals; costly emergency fixes."},{"code":"SY3","name":"Systems change delivery","group":"Systems","loss_tier":"M","perf_tier":"L","loss_overrides":{},"perf_overrides":{},"rationale":"Escaped defects and faulty releases; occasionally severe.","good":"The business specifies and tests changes; systems work as expected at go-live.","loss":"Changes or models not properly tested produce wrong results in live use.","perf":"Defects cost more to fix later; users lose confidence in systems."},{"code":"SY4","name":"Cyber security & access","group":"Systems","loss_tier":"H","perf_tier":"L","loss_overrides":{},"perf_overrides":{},"rationale":"Cyber and email-enabled fraud are among the most frequent losses for small firms.","good":"Access and configuration are controlled; least-privilege access; prompt removal on moves and leavers.","loss":"Wrong settings or excessive access expose data or allow wrong processing (e.g., wrong fee tables).","perf":"Access requests and fixes consume IT and user time."},{"code":"SY5","name":"Data & records","group":"Systems","loss_tier":"L","perf_tier":"M","loss_overrides":{"INS-L":"M"},"perf_overrides":{},"rationale":"Record-keeping failures; time lost finding information.","good":"Staff know what to keep, where and for how long; records are findable; destruction is controlled.","loss":"Records lost, kept too long, disposed of insecurely or not producible for regulators.","perf":"Time wasted searching for information; duplicated documents and versions."},{"code":"SY6","name":"Technology planning","group":"Systems","loss_tier":"L","perf_tier":"H","loss_overrides":{},"perf_overrides":{},"rationale":"Slow-burn cause of legacy and change problems; limits growth.","good":"IT plans follow business strategy; sufficient investment and expertise; lock-in managed.","loss":"Under-investment, lock-in and poor IT strategy leave the firm with fragile, outdated technology.","perf":"Technology fails to support growth; high running costs; competitors move faster."},{"code":"EX1","name":"External fraud","group":"External","loss_tier":"H","perf_tier":"L","loss_overrides":{},"perf_overrides":{},"rationale":"Impersonation, payment and counterparty fraud are frequent and costly.","good":"Instructions and requests are independently verified; counterparties are subject to due diligence; robust anti-fraud checks.","loss":"Clients, suppliers or counterparties commit fraud (fake instructions, forged documents, impersonation).","perf":"Extra verification friction; limited performance impact."},{"code":"EX2","name":"Physical & environmental events","group":"External","loss_tier":"L","perf_tier":"L","loss_overrides":{},"perf_overrides":{},"rationale":"Rare for most office-based firms; exposure depends on locations.","good":"Business continuity plans are clear, known and tested; critical work can continue remotely.","loss":"Pandemics, floods or earthquakes disrupt premises, people and providers.","perf":"Lost productivity during disruption; costs of relocation."},{"code":"EX3","name":"Geopolitical & regulatory change","group":"External","loss_tier":"M","perf_tier":"L","loss_overrides":{"BL04":"H","BL09":"H"},"perf_overrides":{},"rationale":"Sanctions and regulatory change bring fines, remediation and exits.","good":"The firm considers how geopolitical or economic shocks affect clients and operations.","loss":"Sanctions, conflict or instability in client, counterparty or provider jurisdictions freeze assets or force rapid exits.","perf":"Business lost in affected markets; management time absorbed."}],"statements":[{"id":"Q01","cause_code":"E-AC","area":"E-AC","text":"My workplace is physically safe, and accidents or near misses are reported and learned from.","format":"How true (5 anchors)","reverse":false},{"id":"Q02","cause_code":"E-AC","area":"E-AC","text":"Simple slips (e.g., wrong figure, wrong recipient) are rare because checks are built into how we work.","format":"How true (5 anchors)","reverse":false},{"id":"Q49","cause_code":"E-AC","area":"E-AC","text":"In the last 3 months, how often did a mistake by you or your team reach a client, counterparty or other external party?","format":"How often (5 anchors)","reverse":true},{"id":"Q03","cause_code":"E-TC","area":"E-TC","text":"I have the knowledge and skills I need to do my job well, including the rules that apply to it.","format":"How true (5 anchors)","reverse":false},{"id":"Q04","cause_code":"E-TC","area":"E-TC","text":"In the last 12 months I received training or development that genuinely improved how I do my job.","format":"How true (5 anchors)","reverse":false},{"id":"Q50","cause_code":"E-TC","area":"E-TC","text":"How often are you asked to do tasks you do not feel competent to do, without support?","format":"How often (5 anchors)","reverse":true},{"id":"Q05","cause_code":"E-RL","area":"E-RL","text":"I can complete my work to the required standard within my normal working hours.","format":"How true (5 anchors)","reverse":false},{"id":"Q06","cause_code":"E-RL","area":"E-RL","text":"If I were unexpectedly absent for two weeks, someone else could do my critical tasks without serious problems.","format":"How true (5 anchors)","reverse":false},{"id":"Q51","cause_code":"E-RL","area":"E-RL","text":"In the last month, how often were checks or controls skipped or shortened because there was not enough time?","format":"How often (5 anchors)","reverse":true},{"id":"Q07","cause_code":"E-RR","area":"E-RR","text":"I am clear what I am personally responsible for, including any checks or controls I own.","format":"How true (5 anchors)","reverse":false},{"id":"Q08","cause_code":"E-RR","area":"E-RR","text":"It is clear which team is responsible for each activity, so work does not fall between teams or get duplicated.","format":"How true (5 anchors)","reverse":false},{"id":"Q52","cause_code":"E-RR","area":"E-RR","text":"How often does work stall or get missed because nobody is sure who should do it?","format":"How often (5 anchors)","reverse":true},{"id":"Q09","cause_code":"E-MC","area":"E-MC","text":"Information I need from other teams reaches me on time, complete and accurate.","format":"How true (5 anchors)","reverse":false},{"id":"Q10","cause_code":"E-MC","area":"E-MC","text":"Senior management have an accurate picture of what really happens day to day in my area.","format":"How true (5 anchors)","reverse":false},{"id":"Q53","cause_code":"E-MC","area":"E-MC","text":"In the last 3 months, how often did you act on information that later turned out to be out of date or wrong?","format":"How often (5 anchors)","reverse":true},{"id":"Q11","cause_code":"E-CU","area":"E-CU","text":"I could raise a concern about a mistake or wrongdoing without fear of negative consequences.","format":"How true (5 anchors)","reverse":false},{"id":"Q12","cause_code":"E-CU","area":"E-CU","text":"People here are motivated, feel valued and would recommend the firm as a place to work.","format":"How true (5 anchors)","reverse":false},{"id":"Q54","cause_code":"E-CU","area":"E-CU","text":"In the last 6 months, I stayed silent about a problem because raising it seemed pointless or risky.","format":"Yes / No","reverse":true},{"id":"Q13","cause_code":"E-MA","area":"E-MA","text":"In the last 6 months I have felt pressure to bend rules or procedures to get things done.","format":"How often (5 anchors)","reverse":true},{"id":"Q14","cause_code":"E-MA","area":"E-MA","text":"Unethical behaviour has real consequences here, regardless of seniority or performance.","format":"How true (5 anchors)","reverse":false},{"id":"Q55","cause_code":"E-MA","area":"E-MA","text":"If I reported misconduct by a senior or high-performing colleague, I am confident it would be investigated fairly.","format":"How true (5 anchors)","reverse":false},{"id":"Q15","cause_code":"P-DE","area":"P-DE","text":"The processes I follow are documented, up to date and easy to find.","format":"How true (5 anchors)","reverse":false},{"id":"Q16","cause_code":"P-DE","area":"P-DE","text":"Our processes are efficient, without unnecessary steps, approvals or duplication.","format":"How true (5 anchors)","reverse":false},{"id":"Q17","cause_code":"P-DE","area":"P-DE","text":"Key processes have controls built in that prevent errors, rather than relying on catching them afterwards.","format":"How true (5 anchors)","reverse":false},{"id":"Q56","cause_code":"P-DE","area":"P-DE","text":"When a process involves several teams, the hand-off points (who passes what, when, and how it is checked) are clearly defined.","format":"How true (5 anchors)","reverse":false},{"id":"Q18","cause_code":"P-IM","area":"P-IM","text":"I often have to use manual workarounds (spreadsheets, emails, re-keying) because the standard process or system does not work.","format":"How often (5 anchors)","reverse":true},{"id":"Q19","cause_code":"P-IM","area":"P-IM","text":"Processes are followed consistently, whoever is doing the work.","format":"How true (5 anchors)","reverse":false},{"id":"Q20","cause_code":"P-IM","area":"P-IM","text":"Errors in my area are caught before they reach clients, counterparties or regulators.","format":"How true (5 anchors)","reverse":false},{"id":"Q57","cause_code":"P-IM","area":"P-IM","text":"In the last 3 months, how often did you see a required check signed off without being properly done?","format":"How often (5 anchors)","reverse":true},{"id":"Q21","cause_code":"P-CH","area":"P-CH","text":"Changes to processes or systems that affect me are planned, tested and explained before they go live.","format":"How true (5 anchors)","reverse":false},{"id":"Q22","cause_code":"P-CH","area":"P-CH","text":"Recent changes in my area have delivered the benefits that were promised.","format":"How true (5 anchors)","reverse":false},{"id":"Q23","cause_code":"P-CH","area":"P-CH","text":"The firm has the capacity and skills to deliver change alongside day-to-day work.","format":"How true (5 anchors)","reverse":false},{"id":"Q58","cause_code":"P-CH","area":"P-CH","text":"In the last 12 months, a change in my area caused errors, outages or client issues after it went live.","format":"Yes / No","reverse":true},{"id":"Q24","cause_code":"P-GO","area":"P-GO","text":"When something goes wrong, it is clear who is accountable for fixing it, and it gets fixed.","format":"How true (5 anchors)","reverse":false},{"id":"Q25","cause_code":"P-GO","area":"P-GO","text":"Decisions that affect my work are made in good time, based on facts, and explained clearly.","format":"How true (5 anchors)","reverse":false},{"id":"Q26","cause_code":"P-GO","area":"P-GO","text":"Our key outsourced providers (e.g., fund administrator, IT provider) are actively overseen, with clear owners and escalation when service falls short.","format":"How true (5 anchors)","reverse":false},{"id":"Q27","cause_code":"S-FU","area":"SY1","text":"The systems I use support my work well, without needing workarounds.","format":"How true (5 anchors)","reverse":false},{"id":"Q28","cause_code":"S-FU","area":"SY1","text":"I trust the data and reports our systems produce.","format":"How true (5 anchors)","reverse":false},{"id":"Q29","cause_code":"S-PC","area":"SY1","text":"Our systems stay fast and responsive at busy times (e.g., month-end, market events).","format":"How true (5 anchors)","reverse":false},{"id":"Q59","cause_code":"S-FU","area":"SY1","text":"How often do you find that two systems or reports show different figures for the same thing?","format":"How often (5 anchors)","reverse":true},{"id":"Q31","cause_code":"S-LM","area":"SY2","text":"I rely on spreadsheets or self-built tools that only a few people understand for important calculations or reports.","format":"How true (5 anchors)","reverse":true},{"id":"Q32","cause_code":"S-UN","area":"SY2","text":"The systems I need are available whenever I need them.","format":"How true (5 anchors)","reverse":false},{"id":"Q33","cause_code":"S-TD","area":"SY3","text":"Users are involved in specifying and testing new or changed systems before they go live.","format":"How true (5 anchors)","reverse":false},{"id":"Q34","cause_code":"S-TD","area":"SY3","text":"New systems or system changes work as expected when they go live.","format":"How true (5 anchors)","reverse":false},{"id":"Q35","cause_code":"S-RD","area":"SY3","text":"I am told in advance about system changes and know how to get help if something goes wrong afterwards.","format":"How true (5 anchors)","reverse":false},{"id":"Q60","cause_code":"S-TD","area":"SY3","text":"Spreadsheets and models used for important outputs are checked by someone other than their author before first use.","format":"How true (5 anchors)","reverse":false},{"id":"Q36","cause_code":"S-MC","area":"SY4","text":"I have access to systems or data that I do not need for my current role.","format":"How true (5 anchors)","reverse":true},{"id":"Q40","cause_code":"S-SV","area":"SY4","text":"In my team, clients or colleagues use personal messaging apps or personal email (e.g., WhatsApp, Gmail) to discuss work matters.","format":"How often (5 anchors)","reverse":true},{"id":"Q61","cause_code":"S-MC","area":"SY4","text":"Shared logins or passwords are used for some systems I work with.","format":"Yes / No","reverse":true},{"id":"Q37","cause_code":"S-DS","area":"SY5","text":"I know where information must be stored, how long it must be kept and how it must be disposed of.","format":"How true (5 anchors)","reverse":false},{"id":"Q38","cause_code":"S-DS","area":"SY5","text":"I can quickly find the information and records I need.","format":"How true (5 anchors)","reverse":false},{"id":"Q62","cause_code":"S-DS","area":"SY5","text":"Client and business records are kept in approved, backed-up locations rather than personal drives, email folders or desktops.","format":"How true (5 anchors)","reverse":false},{"id":"Q41","cause_code":"S-TP","area":"SY6","text":"The tools and systems I use have kept pace with how the business has grown.","format":"How true (5 anchors)","reverse":false},{"id":"Q42","cause_code":"S-TP","area":"SY6","text":"When I need help to use a system properly, I can quickly get it from someone who knows it well.","format":"How true (5 anchors)","reverse":false},{"id":"Q63","cause_code":"S-TP","area":"SY6","text":"Technology decisions involve the people who will use the systems.","format":"How true (5 anchors)","reverse":false},{"id":"Q44","cause_code":"X-MA","area":"EX1","text":"Scenario: an email that appears to come from a long-standing client asks you to send funds urgently to a new bank account. What do you do?","format":"Scenario (pick one)","reverse":false},{"id":"Q43","cause_code":"X-ND","area":"EX2","text":"I know what to do, and could keep doing my critical work, if our office or key systems became unavailable.","format":"How true (5 anchors)","reverse":false},{"id":"Q64","cause_code":"X-ND","area":"EX2","text":"I have taken part in a business continuity test or exercise in the last 12 months.","format":"Yes / No","reverse":false},{"id":"Q48","cause_code":"X-RE","area":"EX3","text":"We hear about regulatory changes early and implement them on time without disrupting the business.","format":"How true (5 anchors)","reverse":false},{"id":"Q65","cause_code":"X-RE","area":"EX3","text":"I am told about regulatory changes that affect my work before they take effect, with practical guidance on what to do differently.","format":"How true (5 anchors)","reverse":false}],"open":[{"id":"O1","label":null,"text":"What is the one thing that most often stops you doing your job well?","options":null,"scoring":"AI tags each comment to an ORX cause; themes counted. Surfaces performance blockers."},{"id":"O2","label":null,"text":"If you could fix one risk or weakness in the firm, what would it be?","options":null,"scoring":"AI-tagged; compared with management's top risks (MO1)."}],"profile":[{"id":"Z1","label":"Department (Level C)","text":"Front office - client-facing; Front office - investment & trading; Operations; Compliance & legal; Risk & internal audit; Finance; Technology; HR, admin & facilities","options":null,"scoring":null},{"id":"Z2","label":"Business line you mainly work in","text":"Firm's ORX business lines + 'Firm-wide / shared'","options":null,"scoring":null},{"id":"Z3","label":"Seniority","text":"Director / C-suite / Line manager / Individual contributor","options":null,"scoring":null},{"id":"Z4","label":"Length of service","text":"< 1 year / 1-3 years / > 3 years","options":null,"scoring":null}],"activity":[{"id":"A1","label":null,"text":"Which activity takes most of your time, and roughly what share of your time goes on your top 3 activities?","options":"Pick from process list + bands","scoring":"Where time goes vs peers."},{"id":"A2","label":null,"text":"Roughly what % of your time goes on rework, chasing, manual workarounds or fixing errors?","options":"Banded %","scoring":"Hidden capacity."},{"id":"A3","label":null,"text":"For which activities are you the ONLY person who knows how to do the work?","options":"Multi-select","scoring":"Key-person indicator (A01)."},{"id":"A4","label":null,"text":"For which activities is it UNCLEAR who is responsible or who should decide?","options":"Multi-select","scoring":"Unclear-responsibility indicator (A02)."}],"processes":[{"n":1,"name":"Develop, design and maintain products or services","group":"Transaction life cycle"},{"n":2,"name":"Market products or services","group":"Transaction life cycle"},{"n":3,"name":"Sell or reach agreement to conduct specific business","group":"Transaction life cycle"},{"n":4,"name":"Take on and maintain counterparties (onboarding, KYC)","group":"Transaction life cycle"},{"n":5,"name":"Capture and document transactions","group":"Transaction life cycle"},{"n":6,"name":"Deliver products or services","group":"Transaction life cycle"},{"n":7,"name":"Perform settlements and closing activities","group":"Transaction life cycle"},{"n":8,"name":"Perform transaction accounting","group":"Transaction life cycle"},{"n":9,"name":"Manage human resources","group":"Corporate activities"},{"n":10,"name":"Manage information technology","group":"Corporate activities"},{"n":11,"name":"Manage financial reporting & taxation","group":"Corporate activities"},{"n":12,"name":"Manage capital, funding & liquidity","group":"Corporate activities"},{"n":13,"name":"Manage suppliers and outsourcing","group":"Corporate activities"},{"n":14,"name":"Manage physical assets & facilities","group":"Corporate activities"},{"n":15,"name":"Manage audit, compliance, governance & legal","group":"Corporate activities"},{"n":16,"name":"Manage risk","group":"Corporate activities"}],"mgmt_capability":[{"id":"MC1","label":null,"text":"Select the five areas (from the list of 20) that you believe pose the greatest risk to the firm today.","options":"Pick 5","scoring":"Not scored. Compared with the five highest-priority areas from the assessment (overlap 0-5) and with other managers.","options_list":null},{"id":"MC2","label":null,"text":"Which statement best describes the firm's risk appetite?","options":"No documented appetite / Documented but rarely used / Used for some decisions / Used routinely, limits monitored","scoring":"0 / 33 / 67 / 100","options_list":["No documented appetite","Documented but rarely used","Used for some decisions","Used routinely, limits monitored"]},{"id":"MC3","label":null,"text":"How many roles in your area could NOT be covered for two weeks without serious disruption?","options":"0 / 1 / 2-3 / 4 or more / Don't know","scoring":"100 / 67 / 33 / 0 / 0","options_list":["0","1","2-3","4 or more","Don't know"]},{"id":"MC4","label":null,"text":"For each material provider listed at set-up, select the internal owner accountable for it.","options":"Pick from staff list per provider / Don't know","scoring":"% matching the owner recorded at set-up","options_list":null},{"id":"MC5","label":null,"text":"When did you last take part in a test or exercise of the business continuity plan?","options":"Within 12 months / 12-24 months / Over 24 months / Never / Don't know","scoring":"100 / 50 / 0 / 0 / 0","options_list":["Within 12 months","12-24 months","Over 24 months","Never","Don't know"]},{"id":"MC6","label":null,"text":"When did you last review upcoming regulatory changes affecting your area with compliance?","options":"Within 3 months / 3-12 months / Over 12 months / Never / Don't know","scoring":"100 / 50 / 0 / 0 / 0","options_list":["Within 3 months","3-12 months","Over 12 months","Never","Don't know"]},{"id":"MC7","label":null,"text":"How often do you receive a report of errors, incidents and near misses in your area?","options":"Monthly or more / Quarterly / Ad hoc / Never","scoring":"100 / 67 / 33 / 0 (the error count itself moves to outcome data)","options_list":["Monthly or more","Quarterly","Ad hoc","Never"]},{"id":"MC8","label":null,"text":"In the first hour of a suspected cyber incident, who would you contact first? Is that contact stored somewhere you can reach without your work devices?","options":"Contact pick list + Yes / No","scoring":"50 if contact matches the first responder recorded at set-up + 50 if stored offline","options_list":null}],"alignment":[{"id":"MA1","label":null,"text":"Growth is a higher priority than strengthening controls over the next 12 months.","options":"Agreement 0-100","scoring":"100 - 2 x SD"},{"id":"MA2","label":null,"text":"We would decline profitable business that sits outside our risk appetite.","options":"Agreement 0-100","scoring":"100 - 2 x SD"},{"id":"MA3","label":null,"text":"Our biggest constraint on performance is people capacity, rather than systems or processes.","options":"Agreement 0-100","scoring":"100 - 2 x SD"},{"id":"MA4","label":null,"text":"Technology should be our top investment priority next year.","options":"Agreement 0-100","scoring":"100 - 2 x SD"},{"id":"MA5","label":null,"text":"Mistakes are best discussed openly across the firm rather than handled privately within teams.","options":"Agreement 0-100","scoring":"100 - 2 x SD"},{"id":"MA6","label":null,"text":"Compliance should be involved before any new client type, product or market is agreed.","options":"Agreement 0-100","scoring":"100 - 2 x SD"},{"id":"MA7","label":null,"text":"Our current operating model could support twice today's business volume.","options":"Agreement 0-100","scoring":"100 - 2 x SD"},{"id":"MA8","label":null,"text":"Outsourcing more activities would make the firm more resilient.","options":"Agreement 0-100","scoring":"100 - 2 x SD"},{"id":"MO1","label":null,"text":"What are the three biggest operational risks facing the firm over the next 12 months?","options":"Free text","scoring":"Compared with staff themes (O2)."}],"outcome":[{"id":"OD1","label":null,"text":"Client-impacting errors or incidents in the last 12 months (firm-wide)","options":"0 / 1-2 / 3-5 / 6-10 / 11+","scoring":"Validation"},{"id":"OD2","label":null,"text":"Regulatory breaches reported to a regulator in the last 24 months","options":"0 / 1 / 2-3 / 4+","scoring":"Validation"},{"id":"OD3","label":null,"text":"Operational loss events of USD 10,000 or more in the last 12 months","options":"0 / 1 / 2-3 / 4-10 / 11+","scoring":"Validation"},{"id":"OD4","label":null,"text":"Approximate total of those losses (including compensation, fines and write-offs)","options":"< USD 50k / 50-250k / 250k-1m / 1-5m / > 5m","scoring":"Validation"},{"id":"OD6","label":null,"text":"Client complaints received in the last 12 months","options":"0 / 1-5 / 6-20 / 21-50 / 51+","scoring":"Validation"},{"id":"OD7","label":null,"text":"Successful cyber or fraud incidents in the last 12 months","options":"0 / 1 / 2-3 / 4+","scoring":"Validation"},{"id":"OD8","label":null,"text":"Voluntary staff turnover in the last 12 months","options":"< 5% / 5-10% / 10-15% / 15-25% / > 25%","scoring":"Validation"}],"business_lines":[{"code":"BL01","label":"Corporate Finance","orx_l2":"BL0101 Corporate Finance; BL0102 Municipal/Government; BL0103 Advisory Services","basel":"Investment Banking - Corporate Finance","guidance":"Corporate finance advisers; arrangers"},{"code":"BL02","label":"Trading & Sales","orx_l2":"BL0201 Equities; BL0202 Global Markets; BL0203 Corporate Investment; BL0204 Treasury","basel":"Investment Banking - Trading & Sales","guidance":"Dealing as principal/agent; brokers (institutional)"},{"code":"BL03","label":"Retail Banking","orx_l2":"BL0301 Retail Banking; BL0302 Card Services","basel":"Banking - Retail Banking","guidance":"Retail lenders; payment/card providers"},{"code":"BL04","label":"Commercial Banking","orx_l2":"BL0401 Commercial Banking","basel":"Banking - Commercial Banking","guidance":"Providing credit to businesses"},{"code":"BL05","label":"Clearing","orx_l2":"BL0501 Cash Clearing; BL0502 Securities Clearing","basel":"Payments & Settlements","guidance":"Clearing, money services"},{"code":"BL06","label":"Agency Services","orx_l2":"BL0601 Custody Services; BL0602 Corporate Trust & Agency","basel":"Agency Services","guidance":"Custody; fund administration; trust services"},{"code":"BL07","label":"Asset Management","orx_l2":"BL0703 Fund Management","basel":"Asset Management","guidance":"Discretionary management of funds and segregated portfolios, incl. for HNW clients."},{"code":"BL08","label":"Retail Brokerage","orx_l2":"BL0801 Retail Brokerage","basel":"Retail Brokerage","guidance":"Retail brokers; execution-only platforms"},{"code":"BL09","label":"Private Banking & Wealth (HNW advisory and services)","orx_l2":"BL0901 Private Banking","basel":"(within Retail Banking in Basel)","guidance":"Banking, lending, deposits and investment ADVICE to HNW clients and families. Discretionary portfolio management for HNW clients maps to BL07 (ORX: segregated portfolios are Asset Management)."},{"code":"BL10","label":"Corporate Items","orx_l2":"BL1001 Corporate Items","basel":"-","guidance":"Firm-wide items; used here for shared services"},{"code":"INS-L","label":"Insurance - Life (ORX Insurance)","orx_l2":"Pensions; Traditional Life; Protection","basel":"n/a (insurance)","guidance":"Life insurers; pension providers"},{"code":"INS-N","label":"Insurance - Non-life (ORX Insurance)","orx_l2":"Property Casualty; Liability; Motor","basel":"n/a (insurance)","guidance":"General insurers; MGAs; brokers"}],"checks":[{"id":"C01","integration":"XI028","name":"Legal Entity Identifier (LEI) status","area":"P-GO","weight":0.05,"metric":"LEI status (1 = active, 0 = lapsed / none)","direction":"Higher","thresholds":[1.0,1.0,1.0,1.0],"source":"GLEIF API (free, open data)"},{"id":"C02","integration":"XI032","name":"Client-facing website / portal performance","area":"SY1","weight":0.1,"metric":"Google PageSpeed performance score (mobile, 0-100)","direction":"Higher","thresholds":[90.0,75.0,50.0,30.0],"source":"Google PageSpeed Insights API"},{"id":"C03","integration":"XI034","name":"Device & browser hygiene (in survey)","area":"SY2","weight":0.25,"metric":"% respondents on supported OS / browser","direction":"Higher","thresholds":[0.98,0.95,0.9,0.8],"source":"Own (user-agent)"},{"id":"C04","integration":"XI045","name":"Email-domain and web configuration","area":"SY4","weight":0.1,"metric":"Rubric score: SPF / DKIM / DMARC, TLS, security headers (0-100)","direction":"Score","thresholds":[null,null,null,null],"source":"DNS lookups; MDN HTTP Observatory"},{"id":"C05","integration":"XI048","name":"External attack-surface scan","area":"SY4","weight":0.15,"metric":"Rubric score: exposed services, weak configuration (0-100)","direction":"Score","thresholds":[null,null,null,null],"source":"Own scanner or partner"},{"id":"C06","integration":"XI051","name":"Breached-credential exposure","area":"SY4","weight":0.1,"metric":"% staff email addresses in public breaches","direction":"Lower","thresholds":[0.02,0.05,0.1,0.2],"source":"Have I Been Pwned domain search (subscription)"},{"id":"C07","integration":"(earlier request)","name":"Phishing simulation (partner-run)","area":"SY4","weight":0.25,"metric":"Click rate","direction":"Lower","thresholds":[0.03,0.06,0.12,0.2],"source":"Partner platform; client IT allow-lists sender"},{"id":"C08","integration":"XI050","name":"Look-alike domain monitoring","area":"EX1","weight":0.15,"metric":"Active look-alike domains","direction":"Lower","thresholds":[0.0,1.0,2.0,4.0],"source":"dnstwist; certificate-transparency logs"},{"id":"C09","integration":"XI061","name":"Payment-fraud call-back simulation (optional, partner)","area":"EX1","weight":0.25,"metric":"Verification performed (1 = yes, 0 = no)","direction":"Higher","thresholds":[1.0,1.0,1.0,1.0],"source":"Specialist partner; CEO authorisation"},{"id":"A01","integration":"Survey A3","name":"Activity survey: key-person indicator","area":"E-RL","weight":0.2,"metric":"% staff who are sole performers of at least one activity","direction":"Lower","thresholds":[0.1,0.2,0.35,0.5],"source":"Survey A3"},{"id":"A02","integration":"Survey A4","name":"Activity survey: unclear-responsibility indicator","area":"E-RR","weight":0.2,"metric":"% staff flagging at least one activity as unclear","direction":"Lower","thresholds":[0.1,0.2,0.35,0.5],"source":"Survey A4"}],"exposures":[{"id":"X01","integration":"XI055","name":"Natural-hazard exposure","area":"EX2","index":"HAZ","footprint_weights":{"OFF":0.5,"AFF":0,"CLI":0,"PRV":0.5,"CPT":0}},{"id":"X02","integration":"XI064, XI065","name":"Security / terrorism exposure","area":"EX2","index":"SEC","footprint_weights":{"OFF":0.6,"AFF":0.1,"CLI":0,"PRV":0.3,"CPT":0}},{"id":"X03","integration":"XI067","name":"Utility-reliability exposure","area":"EX2","index":"UTL","footprint_weights":{"OFF":0.5,"AFF":0,"CLI":0,"PRV":0.5,"CPT":0}},{"id":"X04","integration":"XI071","name":"Financial-crime (AML) exposure","area":"EX1","index":"FC","footprint_weights":{"OFF":0.1,"AFF":0.1,"CLI":0.6,"PRV":0,"CPT":0.2}},{"id":"X05","integration":"XI070","name":"Geopolitical / governance exposure","area":"EX3","index":"GEO","footprint_weights":{"OFF":0.15,"AFF":0.15,"CLI":0.4,"PRV":0.15,"CPT":0.15}},{"id":"X06","integration":"XI074","name":"Regulatory / rule-of-law exposure","area":"EX3","index":"REG","footprint_weights":{"OFF":0.6,"AFF":0.2,"CLI":0.2,"PRV":0,"CPT":0}}],"country_risk":{"illustrative":true,"index_types":["HAZ","SEC","UTL","GEO","FC","REG"],"countries":{"United Arab Emirates":{"HAZ":25,"SEC":20,"UTL":10,"GEO":25,"FC":55,"REG":25},"Saudi Arabia":{"HAZ":25,"SEC":35,"UTL":15,"GEO":35,"FC":45,"REG":35},"United Kingdom":{"HAZ":20,"SEC":25,"UTL":10,"GEO":15,"FC":30,"REG":10},"Switzerland":{"HAZ":25,"SEC":10,"UTL":5,"GEO":10,"FC":35,"REG":10},"Luxembourg":{"HAZ":15,"SEC":10,"UTL":5,"GEO":5,"FC":35,"REG":10},"Ireland":{"HAZ":15,"SEC":10,"UTL":10,"GEO":10,"FC":25,"REG":10},"United States":{"HAZ":40,"SEC":30,"UTL":15,"GEO":25,"FC":35,"REG":15},"Singapore":{"HAZ":20,"SEC":10,"UTL":5,"GEO":5,"FC":20,"REG":5},"India":{"HAZ":70,"SEC":55,"UTL":50,"GEO":45,"FC":55,"REG":50},"Pakistan":{"HAZ":75,"SEC":80,"UTL":70,"GEO":80,"FC":70,"REG":70},"Egypt":{"HAZ":45,"SEC":55,"UTL":35,"GEO":60,"FC":60,"REG":60},"Lebanon":{"HAZ":50,"SEC":70,"UTL":85,"GEO":85,"FC":75,"REG":80},"Nigeria":{"HAZ":55,"SEC":85,"UTL":85,"GEO":80,"FC":80,"REG":75},"Rest of world (average)":{"HAZ":45,"SEC":45,"UTL":40,"GEO":45,"FC":50,"REG":45}}},"department_hierarchy":[{"level_c":"Front office - client-facing (sales, relationship management, advice)","level_b":"Front office","level_a":"Revenue-generating"},{"level_c":"Front office - investment & trading","level_b":"Front office","level_a":"Revenue-generating"},{"level_c":"Operations (onboarding, settlement, fund operations)","level_b":"Operations","level_a":"Support & control"},{"level_c":"Compliance & legal","level_b":"Control functions","level_a":"Support & control"},{"level_c":"Risk & internal audit","level_b":"Control functions","level_a":"Support & control"},{"level_c":"Finance","level_b":"Support functions","level_a":"Support & control"},{"level_c":"Technology","level_b":"Support functions","level_a":"Support & control"},{"level_c":"HR, admin & facilities","level_b":"Support functions","level_a":"Support & control"}],"default_reporting_level":[{"max_headcount_exclusive":30,"level":"A"},{"max_headcount_exclusive":151,"level":"B"},{"max_headcount_exclusive":null,"level":"C"}],"parameters":{"min_reporting_group":5,"blind_spot_threshold":20,"speeder_threshold_x_median":0.33,"archetype_low":40,"archetype_high":60,"max_non_survey_weight":0.8,"tier_points":{"H":3,"M":2,"L":1},"shrinkage_k":5,"z95":1.96,"min_data_points":3,"exposure_baseline":30,"penalty_per_point":0.5,"recoverable_share":0.3},"bands":[{"label":"Weak","from":0,"meaning":"Good practice is largely absent; losses and under-performance likely."},{"label":"Developing","from":20,"meaning":"Good practice is patchy or informal."},{"label":"Established","from":40,"meaning":"Good practice is in place most of the time - the baseline for a well-run small firm."},{"label":"Strong","from":60,"meaning":"Good practice is consistent and embedded."},{"label":"Leading","from":80,"meaning":"Good practice is how the firm works; a source of advantage."}],"archetypes":[{"key":"Low|Low","name":"Fragile","description":"Exposed to loss and under-performing. Fix the basics first."},{"key":"Low|Mid","name":"Exposed","description":"Getting by, but controls are thin. A single event could hurt."},{"key":"Low|High","name":"High-wire","description":"Performing well while taking unmanaged risk; growth may be outrunning control."},{"key":"Mid|Low","name":"Stalled","description":"Adequately controlled, but processes and capacity hold performance back."},{"key":"Mid|Mid","name":"Steady","description":"Middle of the pack. Targeted fixes will move both dials."},{"key":"Mid|High","name":"Accelerating","description":"Strong performer; strengthen controls to protect the gains."},{"key":"High|Low","name":"Fortress","description":"Well controlled but inefficient; control may be stifling performance."},{"key":"High|Mid","name":"Guarded","description":"Well protected, with performance still to unlock."},{"key":"High|High","name":"Resilient performer","description":"Strong on both. Sustain, and use as a benchmark."}]},"tests":{"methodology_version":"0.5","tests":[{"name":"Null firm (seed 1)","loss":50.8,"perf":51.2,"loss_tilt":-0.3,"archetype":"Steady","dept_flags":0,"mgmt_flags":3,"robustness":"Sensitive","verdict":"PASS: no structure invented"},{"name":"Null firm (seed 2)","loss":49.0,"perf":49.6,"loss_tilt":-0.6,"archetype":"Steady","dept_flags":0,"mgmt_flags":1,"robustness":"Sensitive","verdict":"PASS: no structure invented"},{"name":"Null firm (seed 3)","loss":49.5,"perf":50.0,"loss_tilt":-0.6,"archetype":"Steady","dept_flags":0,"mgmt_flags":1,"robustness":"Sensitive","verdict":"PASS: no structure invented"},{"name":"High-wire firm","loss":49.0,"perf":62.4,"loss_tilt":-13.4,"archetype":"Accelerating","dept_flags":0,"mgmt_flags":2,"robustness":"Sensitive","verdict":"PARTIAL: performance axis separates; loss axis stays Mid"},{"name":"Fortress firm","loss":53.7,"perf":41.1,"loss_tilt":12.5,"archetype":"Steady","dept_flags":0,"mgmt_flags":3,"robustness":"Robust","verdict":"PARTIAL: performance axis separates; loss axis stays Mid"}]},"profile":{"fictional":true,"name":"Example Wealth Partners Ltd","centre":"DFSA-authorised firm, DIFC","headcount":80,"loaded_cost_usd":150000,"date":"October 2026","first_contact":"IT provider incident line","domains":"examplewealth.example","lei":"Lapsed - renewal overdue","business_line_mix":{"BL01":0,"BL02":0,"BL03":0,"BL04":0,"BL05":0,"BL06":0,"BL07":0.55,"BL08":0,"BL09":0.45,"INS-L":0,"INS-N":0},"footprint":{"OFF":{"United Arab Emirates":1},"AFF":{"United Kingdom":1},"CLI":{"United Arab Emirates":0.35,"Saudi Arabia":0.15,"United Kingdom":0.08,"Switzerland":0.03,"India":0.12,"Pakistan":0.05,"Egypt":0.07,"Lebanon":0.08,"Nigeria":0.07},"PRV":{"United Arab Emirates":0.2,"United Kingdom":0.15,"Switzerland":0.15,"Luxembourg":0.3,"Ireland":0.2},"CPT":{"United Kingdom":0.4,"Switzerland":0.3,"United States":0.3}},"providers":[{"name":"Fund administrator","service":"Fund administration & NAV","provider_country":"Luxembourg","data_country":"Luxembourg","criticality":"Critical","owner":"COO"},{"name":"Custodian A","service":"Custody & settlement","provider_country":"Switzerland","data_country":"Switzerland","criticality":"Critical","owner":"Head of Operations"},{"name":"Custodian B","service":"Custody & settlement","provider_country":"United Kingdom","data_country":"United Kingdom","criticality":"Critical","owner":"Head of Operations"},{"name":"IT managed service provider","service":"IT support, endpoint and network","provider_country":"United Arab Emirates","data_country":"United Arab Emirates","criticality":"Critical","owner":"Head of Technology"},{"name":"Portfolio management system (cloud)","service":"PMS / order management","provider_country":"United Kingdom","data_country":"Ireland","criticality":"Critical","owner":"COO"}]},"roster":{"Front office - client-facing (sales, relationship management, advice)":15,"Front office - investment & trading":13,"Operations (onboarding, settlement, fund operations)":21,"Compliance & legal":5,"Risk & internal audit":3,"Finance":10,"Technology":5,"HR, admin & facilities":8},"mgmtScoring":{"MC2":[{"answer":"No documented appetite","points":0},{"answer":"Documented but rarely used","points":33},{"answer":"Used for some decisions","points":67},{"answer":"Used routinely, limits monitored","points":100}],"MC3":[{"answer":"0","points":100},{"answer":"1","points":67},{"answer":"2-3","points":33},{"answer":"4 or more","points":0},{"answer":"Don't know","points":0}],"MC5":[{"answer":"Within 12 months","points":100},{"answer":"12-24 months","points":50},{"answer":"Over 24 months","points":0},{"answer":"Never","points":0},{"answer":"Don't know","points":0}],"MC6":[{"answer":"Within 3 months","points":100},{"answer":"3-12 months","points":50},{"answer":"Over 12 months","points":0},{"answer":"Never","points":0},{"answer":"Don't know","points":0}],"MC7":[{"answer":"Monthly or more","points":100},{"answer":"Quarterly","points":67},{"answer":"Ad hoc","points":33},{"answer":"Never","points":0}],"MC4":"percent of material providers attributed to the owner recorded at set-up (capped at 100)","MC8":"50 if contact matches the registered first responder + 50 if stored offline"}};
+window.SR_MARK = "<path d=\"M8.00 26.00 Q15.00 39.00 22.00 52.00\" fill=\"none\" stroke=\"#465C80\" stroke-width=\"1.30\" stroke-linecap=\"round\"/><path d=\"M11.09 24.91 Q18.09 34.27 25.09 50.91\" fill=\"none\" stroke=\"#52688B\" stroke-width=\"1.42\" stroke-linecap=\"round\"/><path d=\"M14.18 23.82 Q21.18 30.27 28.18 49.82\" fill=\"none\" stroke=\"#5D7395\" stroke-width=\"1.54\" stroke-linecap=\"round\"/><path d=\"M17.27 22.73 Q24.27 27.00 31.27 48.73\" fill=\"none\" stroke=\"#697FA0\" stroke-width=\"1.65\" stroke-linecap=\"round\"/><path d=\"M20.36 21.64 Q27.36 24.45 34.36 47.64\" fill=\"none\" stroke=\"#758BAB\" stroke-width=\"1.77\" stroke-linecap=\"round\"/><path d=\"M23.45 20.55 Q30.45 22.64 37.45 46.55\" fill=\"none\" stroke=\"#8097B5\" stroke-width=\"1.89\" stroke-linecap=\"round\"/><path d=\"M26.55 19.45 Q33.55 21.55 40.55 45.45\" fill=\"none\" stroke=\"#8CA2C0\" stroke-width=\"2.01\" stroke-linecap=\"round\"/><path d=\"M29.64 18.36 Q36.64 21.18 43.64 44.36\" fill=\"none\" stroke=\"#97AECA\" stroke-width=\"2.13\" stroke-linecap=\"round\"/><path d=\"M32.73 17.27 Q39.73 21.55 46.73 43.27\" fill=\"none\" stroke=\"#A3BAD5\" stroke-width=\"2.25\" stroke-linecap=\"round\"/><path d=\"M35.82 16.18 Q42.82 22.64 49.82 42.18\" fill=\"none\" stroke=\"#AFC6E0\" stroke-width=\"2.36\" stroke-linecap=\"round\"/><path d=\"M38.91 15.09 Q45.91 24.45 52.91 41.09\" fill=\"none\" stroke=\"#BAD1EA\" stroke-width=\"2.48\" stroke-linecap=\"round\"/><path d=\"M42.00 14.00 Q49.00 27.00 56.00 40.00\" fill=\"none\" stroke=\"#C6DDF5\" stroke-width=\"2.60\" stroke-linecap=\"round\"/>";</script>
+<script>
+/* Surface Risk prototype — core helpers, router and website pages.
+   Data arrives as window.SR_DATA = { report, ui, tests, profile, roster } (inlined at build time). */
+"use strict";
+const D = window.SR_DATA;
+const R = D.report;
+const U = D.ui;
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const f1 = (n) => (n == null || Number.isNaN(n) ? "–" : (Math.round(n * 10) / 10).toFixed(1));
+const f0 = (n) => (n == null || Number.isNaN(n) ? "–" : String(Math.round(n)));
+const sign = (n) => (n > 0 ? "+" : n < 0 ? "−" : "±") + Math.abs(Math.round(n * 10) / 10).toFixed(1);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+const BANDS = U.bands; // [{label, from}]
+function bandOf(score) {
+  let idx = 0;
+  BANDS.forEach((b, i) => { if (score >= b.from) idx = i; });
+  return { idx, label: BANDS[idx].label };
+}
+const P = U.parameters;
+function zone(v) { return v < P.archetype_low ? "Low" : v < P.archetype_high ? "Mid" : "High"; }
+function archetypeOf(loss, perf) {
+  const key = zone(loss) + "|" + zone(perf);
+  return U.archetypes.find((a) => a.key === key) || { name: "–", description: "" };
+}
+const GROUPS = ["Employees", "Process failure", "Systems", "External"];
+const GROUP_LABEL = { Employees: "People", "Process failure": "Process", Systems: "Systems", External: "External events" };
+const areaMeta = Object.fromEntries(U.areas.map((a) => [a.code, a]));
+
+function toast(msg) {
+  const t = document.createElement("div");
+  t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2600);
+}
+
+/* Logo mark (paths generated by web/brand) */
+const MARK_PATHS = window.SR_MARK;
+function markSVG(size = 30, tile = true) {
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true">${tile ? '<rect width="64" height="64" rx="14" fill="#0E1A2E"/>' : ""}${MARK_PATHS}</svg>`;
+}
+
+/* ---------- Router ---------- */
+const ROUTES = {};
+const NAV = [
+  ["how", "How it works"],
+  ["report", "Sample report"],
+  ["founding", "Founding Members"],
+  ["demo", "Try the demo"],
+];
+function route(name, render, opts = {}) { ROUTES[name] = { render, ...opts }; }
+
+function renderShell() {
+  document.getElementById("app").innerHTML = `
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="#home" aria-label="Surface Risk home">${markSVG(30)}<span class="brand-word">surface<span> risk</span></span></a>
+      <button class="btn small menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav class="nav" id="nav" aria-label="Main">
+        ${NAV.map(([h, l]) => `<a href="#${h}" data-nav="${h}">${l}</a>`).join("")}
+        <a class="btn primary small" href="#register" data-nav="register">Register interest</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="stack" style="gap:10px">
+        <a class="brand" href="#home">${markSVG(24)}<span class="brand-word">surface<span> risk</span></span></a>
+        <p>Prototype for discovery conversations. Every firm, person and result shown here is fictional; country risk values and peer figures are illustrative. Nothing you enter is sent or stored.</p>
+      </div>
+      <p>Surface Risk is a benchmarked diagnostic of operational risk and performance. It does not predict losses and is not a regulatory assessment. Methodology v${esc(U.methodology_version)}.</p>
+    </div>
+  </footer>`;
+  const btn = $("#menuBtn"), nav = $("#nav");
+  btn.addEventListener("click", () => { const o = nav.classList.toggle("open"); btn.setAttribute("aria-expanded", String(o)); });
+  nav.addEventListener("click", (e) => { if (e.target.closest("a")) { nav.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); } });
+}
+
+function go() {
+  const name = (location.hash || "#home").slice(1) || "home";
+  const r = ROUTES[name] || ROUTES.home;
+  const key = ROUTES[name] ? name : "home";
+  $$("[data-nav]").forEach((a) => {
+    const n = a.dataset.nav;
+    const on = n === key || (n === "demo" && ["setup", "survey"].includes(key));
+    if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  // Fresh <main> per view so listeners from the previous view are dropped.
+  const old = $("#main"), main = old.cloneNode(false);
+  old.replaceWith(main);
+  main.innerHTML = r.render();
+  if (r.after) r.after(main);
+  window.scrollTo(0, 0);
+}
+
+/* ---------- Shared charts ---------- */
+
+// Staff vs management view per area (dumbbell), sorted by gap.
+function gapChart({ rows = R.areas, compact = false } = {}) {
+  const data = [...rows].sort((a, b) => b.gap - a.gap);
+  const fs = compact ? 12 : 11.5, rowH = compact ? 21 : 22, top = 30, W = compact ? 480 : 660;
+  const left = compact ? 196 : 238, right = 96;
+  const maxCh = compact ? 26 : 34;
+  const H = top + data.length * rowH + 30;
+  const x = (v) => left + (v / 100) * (W - left - right);
+  const nm = (s) => (s.length > maxCh ? s.slice(0, maxCh - 1) + "…" : s);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Staff and management scores by area for the fictional sample firm" style="font-size:${fs}px">`;
+  [0, 20, 40, 60, 80, 100].forEach((t) => {
+    s += `<line class="grid" x1="${x(t)}" x2="${x(t)}" y1="${top - 8}" y2="${H - 24}"/><text x="${x(t)}" y="${H - 8}" text-anchor="middle" style="font-size:${fs}px">${t}</text>`;
+  });
+  s += `<circle cx="${left + 4}" cy="10" r="4.2" fill="var(--fg)"/><text x="${left + 13}" y="14" class="t-strong" style="font-size:${fs}px">staff</text>`;
+  s += `<path d="M${left + 70} 5 l5 5 l-5 5 l-5 -5z" fill="var(--accent)"/><text x="${left + 80}" y="14" style="fill:var(--accent);font-size:${fs}px">management</text>`;
+  data.forEach((a, i) => {
+    const y = top + i * rowH + rowH / 2;
+    const st = a.survey; // staff survey score
+    const hot = a.blind_spot;
+    const col = hot ? "var(--crit)" : "var(--line-2)";
+    s += `<text x="${left - 10}" y="${y + 4}" text-anchor="end" style="font-size:${fs}px" ${hot ? 'class="t-strong"' : ""}>${esc(nm(a.name))}</text>`;
+    s += `<line x1="${x(st)}" x2="${x(a.mgmt_survey)}" y1="${y}" y2="${y}" stroke="${col}" stroke-width="${hot ? 3 : 2}"/>`;
+    s += `<circle cx="${x(st)}" cy="${y}" r="4.2" fill="var(--fg)"/>`;
+    s += `<path d="M${x(a.mgmt_survey)} ${y - 5} l5 5 l-5 5 l-5 -5z" fill="var(--accent)"/>`;
+    if (hot) s += `<text x="${x(a.mgmt_survey) + 10}" y="${y + 4}" style="fill:var(--crit);font-size:${fs}px">${sign(a.gap)}</text>`;
+  });
+  return s + "</svg>";
+}
+
+/* ---------- Website pages ---------- */
+
+route("home", () => {
+  const passing = R.areas.filter((a) => a.blind_spot);
+  return `
+  <section class="hero"><div class="wrap hero-grid">
+    <div class="stack-lg">
+      <span class="eyebrow">Operational risk &amp; performance · DIFC and ADGM</span>
+      <h1>See your firm the way <em>your staff</em> see it.</h1>
+      <p class="lede">Surface Risk is a benchmarked diagnostic for financial services firms with 20 to 500 staff. Staff and senior managers answer the same questions about how work really gets done. We add automated checks and country exposure, then show where controls are strong, where they are thin, and where leadership’s picture differs from the front line.</p>
+      <div class="row"><a class="btn primary" href="#founding">Become a Founding Member</a><a class="btn" href="#report">See the sample report</a><a class="btn" href="#survey">Take the staff survey</a></div>
+      <div class="facts">
+        <div><div class="v">20</div><div class="k">risk areas across people, process, systems and external events</div></div>
+        <div><div class="v">12–15 min</div><div class="k">per staff member, on any device</div></div>
+        <div><div class="v">~40 min</div><div class="k">set-up for your administrator</div></div>
+      </div>
+    </div>
+    <figure class="panel chart stack" style="margin:0">
+      <div class="row" style="justify-content:space-between"><span class="eyebrow">Fictional sample firm</span><span class="chip crit"><span class="dot"></span>${passing.length} blind spot${passing.length === 1 ? "" : "s"}</span></div>
+      ${gapChart({ compact: true })}
+      <figcaption class="small muted">Staff and management scores (0–100) for each area. Management scores itself higher almost everywhere; only gaps beyond the statistical range are called blind spots.</figcaption>
+    </figure>
+  </div></section>
+
+  <section class="section"><div class="wrap grid-2">
+    <div class="stack">
+      <span class="eyebrow">Two results, equal weight</span>
+      <h2>Fewer losses and a firm that works better</h2>
+      <p class="muted">Every area is scored once and read two ways. The Loss Index weights the areas that drive errors, fraud and fines. The Performance Index weights the areas that drive capacity, quality and growth. Many weaknesses cost you on both.</p>
+    </div>
+    <div class="grid-2" style="gap:16px">
+      <div class="panel stack" style="gap:8px"><span class="eyebrow">Loss Index</span><p class="muted small">Weighted towards culture, process design and execution, governance, cyber security and external fraud.</p></div>
+      <div class="panel stack" style="gap:8px"><span class="eyebrow">Performance Index</span><p class="muted small">Weighted towards training, resourcing and key people, systems, change capacity and technology planning.</p></div>
+      <div class="panel stack" style="gap:8px"><span class="eyebrow">Hidden capacity</span><p class="muted small">Time lost to rework, chasing and workarounds, converted into staff time and cost.</p></div>
+      <div class="panel stack" style="gap:8px"><span class="eyebrow">Peer comparison</span><p class="muted small">Your scores against firms like yours. The benchmark grows as Founding Members join.</p></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap stack-lg">
+    <div class="stack"><span class="eyebrow">What we measure</span><h2>20 areas in four groups</h2>
+    <p class="muted">The areas follow an established industry taxonomy of operational risk causes, so results line up with how risk teams already think about loss events.</p></div>
+    ${areaGroupsHTML()}
+  </div></section>
+
+  <section class="section"><div class="wrap grid-2">
+    <div class="stack">
+      <span class="eyebrow">Where the evidence comes from</span>
+      <h2>Survey answers, checked against outside evidence</h2>
+      <ul class="ticks">
+        <li><strong>Staff and management survey.</strong> 60 statements about everyday practice, answered by everyone. Managers add questions with factual answers, such as when they last tested the continuity plan.</li>
+        <li><strong>Automated checks.</strong> Email and web configuration, external attack surface, breached credentials, look-alike domains and a partner-run phishing simulation. No access to your internal systems is needed.</li>
+        <li><strong>Country exposure.</strong> Where your offices, clients, providers and counterparties are. Exposure can only lower a score, never raise it.</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <span class="eyebrow">Built to be trusted by staff</span>
+      <h2>Honest answers need real confidentiality</h2>
+      <ul class="ticks">
+        <li>Names and email addresses are stored separately from answers.</li>
+        <li>No group smaller than five people is ever reported; small teams roll up automatically.</li>
+        <li>We do not record IP addresses or device fingerprints.</li>
+        <li>Your administrator sees response rates, never who said what.</li>
+      </ul>
+      <p class="small faint">Production hosting is planned in a UAE cloud region.</p>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="panel grid-2" style="align-items:center">
+      <div class="stack"><span class="eyebrow">Founding Members</span><h2>Help shape the benchmark</h2>
+      <p class="muted">We are inviting 30 firms in DIFC and ADGM to take the assessment during our founding period and tell us what would make it indispensable.</p></div>
+      <div class="row" style="justify-content:flex-end"><a class="btn primary" href="#founding">See the programme</a><a class="btn" href="#register">Register interest</a></div>
+    </div>
+  </div></section>`;
+});
+
+function areaGroupsHTML() {
+  return `<div class="area-groups">${GROUPS.map((g) => {
+    const list = U.areas.filter((a) => a.group === g);
+    return `<div class="area-group"><h3>${GROUP_LABEL[g]}<span class="eyebrow">${list.length} areas</span></h3><ul>${list.map((a) => `<li>${esc(a.name)}</li>`).join("")}</ul></div>`;
+  }).join("")}</div>`;
+}
+
+route("how", () => {
+  const t = D.tests.tests || [];
+  return `
+  <section class="hero"><div class="wrap stack-lg">
+    <span class="eyebrow">How it works</span>
+    <h1>About an hour of effort in total, spread across the firm</h1>
+    <p class="lede">Your administrator sets things up once. Staff and managers answer online. The platform scores the results, a person reviews the report, and you get a debrief with clear priorities.</p>
+  </div></section>
+  <section class="section" style="padding-top:0"><div class="wrap">
+    <ol class="steps">
+      <li><div class="stack" style="gap:6px"><h3>Set up your firm</h3><p class="muted">Business lines, where you operate, key providers and a staff list. Pick lists and bands only; nothing to write.</p></div><span class="who">Administrator · ~40 min</span></li>
+      <li><div class="stack" style="gap:6px"><h3>Staff and managers answer</h3><p class="muted">60 statements on everyday practice, a few questions about where time goes, and two open questions. Managers add factual questions and their view of the biggest risks.</p></div><span class="who">Everyone · 12–15 min</span></li>
+      <li><div class="stack" style="gap:6px"><h3>Checks run alongside</h3><p class="muted">Public-data and partner checks run in parallel, including a phishing simulation your IT team allow-lists. Country exposure is calculated from your footprint.</p></div><span class="who">Automated</span></li>
+      <li><div class="stack" style="gap:6px"><h3>Scoring and review</h3><p class="muted">Responses are quality-filtered, scored per person and combined with checks. A person reviews every report before release, and anything raising a welfare concern always goes to a person.</p></div><span class="who">Platform + reviewer</span></li>
+      <li><div class="stack" style="gap:6px"><h3>Report and debrief</h3><p class="muted">Area scores with confidence ranges, priorities, management–staff gaps, department views and peer comparison, plus a short summary you can share with staff.</p></div><span class="who">Leadership team</span></li>
+    </ol>
+  </div></section>
+  <section class="section"><div class="wrap grid-2">
+    <div class="stack">
+      <span class="eyebrow">Method</span>
+      <h2>Statistics that don’t invent findings</h2>
+      <ul class="ticks">
+        <li><strong>Every score has a range.</strong> With 15 respondents a single question is uncertain by about ten points, so we show 95% ranges and only call out differences beyond them.</li>
+        <li><strong>Small groups are steadied.</strong> Department scores are pulled towards the firm average in proportion to their size, so one unhappy person cannot create a red flag.</li>
+        <li><strong>Blind spots must clear two tests.</strong> A gap of 20 points or more between management and staff, and outside the combined statistical range.</li>
+        <li><strong>Robustness check.</strong> We re-run the result with equal weights. If the headline or the top priorities change, we tell you the result is sensitive.</li>
+        <li><strong>Minimum evidence.</strong> No area is scored on fewer than three data points.</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <span class="eyebrow">Engine tests</span>
+      <h2>We test the engine on firms we built ourselves</h2>
+      <p class="muted">Before any client sees a result, the scoring engine is run on synthetic firms with known patterns. A firm that answers at random should come out unremarkable, with no department flags.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Synthetic firm</th><th class="n">Loss</th><th class="n">Perf.</th><th>Result</th></tr></thead>
+        <tbody>${t.map((r) => `<tr><td>${esc(r.name)}</td><td class="n">${f1(r.loss)}</td><td class="n">${f1(r.perf)}</td><td>${esc(r.archetype)} · ${esc(r.robustness)}${r.dept_flags != null ? ` · ${r.dept_flags} dept flags` : ""}</td></tr>`).join("")}</tbody>
+      </table></div>
+      <p class="small faint">The two indices separate less than the patterns we built, so the report leads with area scores and priorities.</p>
+    </div>
+  </div></section>
+  <section class="section"><div class="wrap grid-2">
+    <div class="stack"><span class="eyebrow">What it is, and isn’t</span><h2>A benchmarked diagnostic</h2>
+      <p class="muted">Surface Risk measures how practice looks from inside the firm, checked against outside evidence and compared with peers. It is not an audit, not a regulatory assessment, and it does not predict losses. We are validating the method with Founding Members, including comparisons with outcomes they choose to share.</p></div>
+    <div class="stack"><span class="eyebrow">Taxonomy</span><h2>Aligned to how risk teams classify causes</h2>
+      <p class="muted">The 20 areas group the operational risk cause categories used by the industry’s loss-data consortium (ORX), with business lines mapped to Basel. Use of the ORX taxonomy is subject to permission, which we are seeking.</p></div>
+  </div></section>`;
+});
+
+route("founding", () => {
+  const tiers = [["20–99 staff", 6], ["100–249 staff", 9], ["250–500 staff", 14]];
+  return `
+  <section class="hero"><div class="wrap grid-2" style="align-items:end">
+    <div class="stack-lg"><span class="eyebrow">Founding Members</span>
+      <h1>The first 30 firms in DIFC and ADGM</h1>
+      <p class="lede">Founding Members take the full assessment at no cost during the founding period, and help us decide what the product must do brilliantly.</p>
+      <div class="row"><a class="btn primary" href="#register">Register interest</a><a class="btn" href="#report">See the sample report</a></div></div>
+    <div class="panel stack">
+      <span class="eyebrow">Founding period</span>
+      <dl class="kv"><dt>Places</dt><dd>30 UAE firms</dd><dt>Firm size</dt><dd>20–500 staff</dd><dt>Cost</dt><dd>No charge</dd><dt>UK programme</dt><dd>Later in 2027</dd></dl>
+    </div>
+  </div></section>
+  <section class="section" style="padding-top:0"><div class="wrap grid-2">
+    <div class="stack"><h2>What you get</h2><ul class="ticks">
+      <li><strong>The full assessment</strong> for your whole firm, with checks and country exposure.</li>
+      <li><strong>A debrief with the founders</strong> on your results and priorities.</li>
+      <li><strong>Early benchmark access</strong> as the peer group fills.</li>
+      <li><strong>A say in the roadmap</strong>, from report design to what we measure next.</li>
+    </ul></div>
+    <div class="stack"><h2>What we ask</h2><ul class="ticks">
+      <li><strong>Two feedback conversations</strong>, one before and one after your report.</li>
+      <li><strong>Consent to use anonymised, banded results</strong> in the benchmark. Your firm is never named.</li>
+      <li><strong>Optionally</strong>, a short case study or a few outcome figures to help us validate the method.</li>
+    </ul></div>
+  </div></section>
+  <section class="section"><div class="wrap stack-lg">
+    <div class="stack"><span class="eyebrow">After the founding period</span><h2>Indicative pricing</h2>
+      <p class="muted">Priced per firm by headcount, not per user. These figures are indicative and we would value your view on them.</p></div>
+    <div class="price-grid">${tiers.map(([n, k]) => `
+      <div class="price"><span class="eyebrow">${n}</span>
+        <div class="amt">USD ${k}k<small> / year</small></div>
+        <p class="small muted">Board tier: annual assessment, report and debrief.</p>
+        <hr class="rule"><div class="small"><span class="mono">USD ${k * 2}k</span> <span class="muted">Continuous tier with quarterly pulse surveys</span></div>
+      </div>`).join("")}</div>
+    <p class="small faint">Indicative only. Not an offer.</p>
+  </div></section>`;
+});
+
+route("register", () => `
+  <section class="hero"><div class="wrap grid-2">
+    <div class="stack-lg"><span class="eyebrow">Register interest</span><h1>Talk to the founders</h1>
+      <p class="lede">Tell us a little about your firm. We will arrange a 30-minute conversation and a walk-through of the sample report.</p>
+      <div class="notice"><strong>Prototype:</strong> this form does not send or store anything. Submitting shows a summary you can copy.</div></div>
+    <form class="panel stack" id="regForm" novalidate>
+      <div class="form-grid">
+        <div class="field"><label for="rg-name">Your name</label><input id="rg-name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="rg-role">Role</label><select id="rg-role"><option>CEO</option><option>COO</option><option>CRO / Head of Risk</option><option>Head of Compliance</option><option>Board member</option><option>Outsourced compliance provider</option><option>Other</option></select></div>
+        <div class="field"><label for="rg-firm">Firm</label><input id="rg-firm" type="text" autocomplete="organization" required></div>
+        <div class="field"><label for="rg-centre">Regulated in</label><select id="rg-centre"><option>DIFC (DFSA)</option><option>ADGM (FSRA)</option><option>UK (FCA)</option><option>Other</option></select></div>
+        <div class="field"><label for="rg-size">Staff</label><select id="rg-size"><option>Fewer than 20</option><option selected>20–99</option><option>100–249</option><option>250–500</option><option>More than 500</option></select></div>
+        <div class="field"><label for="rg-email">Work email</label><input id="rg-email" type="email" autocomplete="email" required></div>
+      </div>
+      <fieldset class="field" style="border:0;padding:0;margin:0"><legend class="label" style="margin-bottom:6px">I am interested in</legend>
+        <div class="checks-list">
+          <label class="check"><input type="checkbox" id="rg-i1" checked> Becoming a Founding Member</label>
+          <label class="check"><input type="checkbox" id="rg-i2"> A discovery conversation only</label>
+          <label class="check"><input type="checkbox" id="rg-i3"> Offering Surface Risk to clients (compliance and risk providers)</label>
+        </div></fieldset>
+      <div class="field"><label for="rg-note">What would you most want to know about your firm? (optional)</label><textarea id="rg-note"></textarea></div>
+      <div class="row"><button class="btn primary" type="submit">Submit</button><span class="small faint" id="rg-err" role="alert"></span></div>
+      <div id="rg-done" hidden class="stack"></div>
+    </form>
+  </div></section>`, {
+  after(main) {
+    const form = $("#regForm", main);
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = $("#rg-name").value.trim(), firm = $("#rg-firm").value.trim(), email = $("#rg-email").value.trim();
+      const err = $("#rg-err");
+      if (!name || !firm || !/^\S+@\S+\.\S+$/.test(email)) { err.textContent = "Add your name, firm and a valid work email."; return; }
+      err.textContent = "";
+      const ints = [["rg-i1", "Founding Member"], ["rg-i2", "Discovery conversation"], ["rg-i3", "Offering to clients"]].filter(([id]) => $("#" + id).checked).map(([, l]) => l);
+      const txt = `${name}, ${$("#rg-role").value}, ${firm} (${$("#rg-centre").value}, ${$("#rg-size").value} staff). ${email}. Interested in: ${ints.join(", ") || "not specified"}.${$("#rg-note").value.trim() ? " Note: " + $("#rg-note").value.trim() : ""}`;
+      const done = $("#rg-done");
+      done.hidden = false;
+      done.innerHTML = `<hr class="rule"><p><strong>Nothing was sent.</strong> In this prototype the form stops here. Copy the summary below and share it with the founders directly.</p><textarea id="rg-summary" readonly>${esc(txt)}</textarea><div><button class="btn small" type="button" id="rg-copy">Copy summary</button></div>`;
+      $("#rg-copy").addEventListener("click", () => {
+        const ta = $("#rg-summary");
+        navigator.clipboard.writeText(ta.value).then(() => toast("Summary copied"), () => { ta.select(); toast("Press Ctrl+C or ⌘C to copy"); });
+      });
+    });
+  },
+});
+
+route("demo", () => `
+  <section class="hero"><div class="wrap stack-lg">
+    <span class="eyebrow">Try the demo</span>
+    <h1>Walk through an assessment</h1>
+    <p class="lede">Three parts of the product, each pre-filled with a fictional firm so you can click straight through. Nothing you enter leaves your browser.</p>
+  </div></section>
+  <section class="section" style="padding-top:0"><div class="wrap grid-3">
+    ${[["setup", "1 · Administrator set-up", "Firm profile, business lines, footprint, checks and staff list. See how reporting groups are formed and what country exposure does.", "About 5 minutes"],
+       ["survey", "2 · Staff and management survey", "The real 60 statements, activity questions and the manager-only questions. Use “Fill with sample answers” to move quickly.", "2 to 15 minutes"],
+       ["report", "3 · The report", "Results for Example Wealth Partners, a fictional DIFC firm with 80 staff. Click any area for detail.", "Explore at your own pace"]]
+      .map(([h, t, d, m]) => `<a class="panel stack" href="#${h}" style="text-decoration:none;color:inherit"><h3>${t}</h3><p class="muted small">${d}</p><span class="eyebrow" style="margin-top:auto">${m} →</span></a>`).join("")}
+  </div></section>`);
+
+/* Surface Risk prototype — sample report view (fictional firm, data from the Python engine). */
+"use strict";
+
+const reportState = { view: "matrix", level: R.firm.reporting_level };
+
+function bandColor(idx) { return `var(--band-${idx})`; }
+
+function keyMessages() {
+  const I = R.indices, M = R.mgmt;
+  const peerGap = ((I.peer_loss + I.peer_perf) - (I.loss + I.perf)) / 2;
+  const top = R.priorities.top.slice(0, 4).map((p) => `${p.name.toLowerCase()} (${f0(R.areas.find((a) => a.code === p.code).score)})`);
+  const spots = R.areas.filter((a) => a.blind_spot);
+  const phish = R.checks.find((c) => c.id === "C07"), breach = R.checks.find((c) => c.id === "C06");
+  const depts = R.groups.filter((g) => g.kind === "dept").sort((a, b) => (b.flags || 0) - (a.flags || 0));
+  const worst = depts[0];
+  const recentTest = M.managers.filter((m) => m.mc5 >= 100).length;
+  const msgs = [
+    `Overall <strong>${esc(I.archetype)}</strong> (Loss ${f0(I.loss)}, Performance ${f0(I.perf)}), about ${f0(peerGap)} points behind illustrative peers. The equal-weight check ${I.robust ? "agrees, so the result is robust" : "changes the result, so treat it as sensitive"}. Top priorities: ${top.join(", ")}.`,
+    `Management see the firm as <strong>${esc(M.archetype)}</strong> (${f0(M.loss)} / ${f0(M.perf)}). ${spots.length ? `${spots.length === 1 ? "Only one gap passes" : spots.length + " gaps pass"} the statistical test: ${spots.map((a) => `${a.name.toLowerCase()} (management ${f0(a.mgmt_survey)} vs staff ${f0(a.survey)})`).join(", ")}.` : "No gap passes the statistical test."}${phish && breach ? ` Cyber checks back the staff view: ${f0(phish.result * 100)}% phishing click rate and ${f0(breach.result * 100)}% of staff email addresses in public breaches.` : ""}`,
+    `${esc(worst.entity)} is <strong>${esc(worst.archetype)}</strong> (${f0(worst.loss)} / ${f0(worst.perf)}), notably below the firm in ${worst.flags} of 20 areas after adjusting for small numbers. Leadership capability is ${f0(M.capability)}/100: ${recentTest === 0 ? "no manager has taken part in a continuity test in the last 12 months" : recentTest + " manager(s) tested the continuity plan in the last 12 months"}, and managers’ top-5 risks overlap with the assessment’s by ${f1(M.mc1_overlap_mean)} of 5 on average.`,
+  ];
+  return `<ol class="messages">${msgs.map((m) => `<li><p>${m}</p></li>`).join("")}</ol>`;
+}
+
+function matrixChart() {
+  const pts = R.groups.filter((g) => ["firm", "mgmt", "dept", "peer"].includes(g.kind));
+  const W = 560, H = 440, pad = { l: 56, r: 20, t: 20, b: 50 };
+  const lo = 20, hi = 80;
+  const x = (v) => pad.l + ((clamp(v, lo, hi) - lo) / (hi - lo)) * (W - pad.l - pad.r);
+  const y = (v) => H - pad.b - ((clamp(v, lo, hi) - lo) / (hi - lo)) * (H - pad.t - pad.b);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Loss Index against Performance Index">`;
+  const zs = [[lo, P.archetype_low], [P.archetype_low, P.archetype_high], [P.archetype_high, hi]];
+  const zn = ["Low", "Mid", "High"];
+  zs.forEach(([l0, l1], i) => zs.forEach(([p0, p1], j) => {
+    const a = U.archetypes.find((q) => q.key === zn[i] + "|" + zn[j]);
+        if ((i + j) % 2 === 0) s += `<rect class="zone" x="${x(p0)}" y="${y(l1)}" width="${x(p1) - x(p0)}" height="${y(l0) - y(l1)}"/>`;
+    s += `<text class="zone-label" x="${x(p0) + 6}" y="${y(l1) + 14}">${esc(a.name)}</text>`;
+  }));
+  [20, 30, 40, 50, 60, 70, 80].forEach((t) => {
+    s += `<line class="${t === 40 || t === 60 ? "grid-2" : "grid"}" x1="${x(t)}" x2="${x(t)}" y1="${pad.t}" y2="${H - pad.b}"/><line class="${t === 40 || t === 60 ? "grid-2" : "grid"}" x1="${pad.l}" x2="${W - pad.r}" y1="${y(t)}" y2="${y(t)}"/>`;
+    s += `<text x="${x(t)}" y="${H - pad.b + 16}" text-anchor="middle">${t}</text><text x="${pad.l - 8}" y="${y(t) + 4}" text-anchor="end">${t}</text>`;
+  });
+  s += `<text x="${(W + pad.l) / 2}" y="${H - 10}" text-anchor="middle" class="t-strong">Performance Index →</text>`;
+  s += `<text transform="translate(16 ${(H - pad.b + pad.t) / 2}) rotate(-90)" text-anchor="middle" class="t-strong">Loss Index →</text>`;
+  const placed = [];
+  const order = [...pts].sort((a, b) => ({ firm: 0, mgmt: 1, peer: 2, dept: 3 }[a.kind] - { firm: 0, mgmt: 1, peer: 2, dept: 3 }[b.kind]));
+  let marks = "", labels = "";
+  order.forEach((g) => {
+    const cx = x(g.perf), cy = y(g.loss);
+    const style = { firm: ["var(--fg)", 7], mgmt: ["var(--accent)", 6], dept: ["var(--steel)", 4.5], peer: ["var(--fg-3)", 5] }[g.kind];
+    marks += g.kind === "mgmt" ? `<path d="M${cx} ${cy - 7} l7 7 l-7 7 l-7 -7z" fill="${style[0]}"/>` : g.kind === "peer" ? `<rect x="${cx - 5}" y="${cy - 5}" width="10" height="10" fill="none" stroke="${style[0]}" stroke-width="1.5"/>` : `<circle cx="${cx}" cy="${cy}" r="${style[1]}" fill="${style[0]}"/>`;
+    const lbl = g.kind === "firm" ? "Firm (staff)" : g.kind === "mgmt" ? "Management" : g.kind === "peer" ? "Peers" : g.entity;
+    const w = lbl.length * 6.8 + 4;
+    let lx = cx + 11, ly = cy + 4;
+    if (lx + w > W - pad.r) lx = cx - 11 - w;
+    let guard = 0;
+    while (placed.some((p) => Math.abs(p.y - ly) < 12 && lx < p.x + p.w && lx + w > p.x) && guard++ < 12) ly += 12;
+    placed.push({ x: lx, y: ly, w });
+    if (Math.abs(ly - (cy + 4)) > 2) labels += `<line x1="${cx}" y1="${cy}" x2="${lx - 2}" y2="${ly - 4}" stroke="var(--line-2)"/>`;
+    labels += `<text x="${lx}" y="${ly}" ${g.kind === "firm" || g.kind === "mgmt" ? 'class="t-strong"' : ""}>${esc(lbl)}</text>`;
+  });
+  s += marks + labels;
+  return s + "</svg>";
+}
+
+function tiltChart() {
+  const rows = R.groups.filter((g) => g.kind !== "bl");
+  const W = 680, rowH = 34, top = 40, left = 150, lvlR = 400, t0 = 460, tw = 160, H = top + rows.length * rowH + 30;
+  const xl = (v) => left + (v / 100) * (lvlR - left);
+  const xt = (v) => t0 + tw / 2 + (clamp(v, -10, 10) / 10) * (tw / 2);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Overall level and loss tilt by group">`;
+  s += `<text x="${left}" y="16" class="t-strong">Overall level</text><text x="${left}" y="30">average of the two indices</text>`;
+  s += `<text x="${t0}" y="16" class="t-strong">Loss tilt</text><text x="${t0}" y="30">Loss − Performance</text>`;
+  [0, 25, 50, 75, 100].forEach((t) => { s += `<line class="grid" x1="${xl(t)}" x2="${xl(t)}" y1="${top - 4}" y2="${H - 24}"/><text x="${xl(t)}" y="${H - 8}" text-anchor="middle">${t}</text>`; });
+  [-10, -5, 0, 5, 10].forEach((t) => { s += `<line class="${t === 0 ? "grid-2" : "grid"}" x1="${xt(t)}" x2="${xt(t)}" y1="${top - 4}" y2="${H - 24}"/><text x="${xt(t)}" y="${H - 8}" text-anchor="middle">${t > 0 ? "+" : ""}${t}</text>`; });
+  rows.forEach((g, i) => {
+    const y = top + i * rowH + rowH / 2, lvl = (g.loss + g.perf) / 2, tilt = g.loss - g.perf;
+    const lbl = g.kind === "firm" ? "Firm (staff)" : g.kind === "mgmt" ? "Management" : g.kind === "peer" ? "Peers (illustr.)" : g.entity;
+    s += `<text x="${left - 10}" y="${y + 4}" text-anchor="end" ${g.kind === "firm" ? 'class="t-strong"' : ""}>${esc(lbl)}</text>`;
+    s += `<line x1="${xl(0)}" x2="${xl(lvl)}" y1="${y}" y2="${y}" stroke="var(--line-2)" stroke-width="2"/><circle cx="${xl(lvl)}" cy="${y}" r="5" fill="${g.kind === "mgmt" ? "var(--accent)" : "var(--fg)"}"/><text x="${xl(lvl) + 10}" y="${y + 4}">${f0(lvl)}</text>`;
+    const x0 = xt(0), x1 = xt(tilt);
+    s += `<rect x="${Math.min(x0, x1)}" y="${y - 6}" width="${Math.max(2, Math.abs(x1 - x0))}" height="12" fill="${tilt >= 0 ? "var(--accent)" : "var(--warn)"}"/><text x="${t0 + tw + 12}" y="${y + 4}">${sign(tilt)}</text>`;
+  });
+  return s + "</svg>";
+}
+
+function areaRowSVG(a) {
+  // viewBox 0..100 horizontally (score scale), stretched to fit; markers drawn with rects so they survive stretching.
+  const b = bandOf(a.score);
+  const lo = clamp(a.score - a.ci, 0, 100), hi = clamp(a.score + a.ci, 0, 100);
+  return `<svg viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true">
+    ${[20, 40, 60, 80].map((t) => `<rect x="${t - 0.1}" y="3" width="0.2" height="20" fill="var(--line)"/>`).join("")}
+    <rect x="0" y="9" width="100" height="8" fill="var(--bg-2)"/>
+    <rect x="0" y="9" width="${a.score}" height="8" fill="${bandColor(b.idx)}"/>
+    <rect x="${lo}" y="12.4" width="${hi - lo}" height="1.2" fill="var(--fg)"/>
+    <rect x="${a.peer - 0.35}" y="4" width="0.7" height="18" fill="var(--fg-3)"/>
+    <rect x="${a.mgmt - 0.6}" y="1" width="1.2" height="7" fill="var(--accent)"/>
+  </svg>`;
+}
+
+function areasHTML() {
+  const top5 = new Set(R.priorities.top.map((p) => p.code));
+  return `<div class="areas-table">${GROUPS.map((g) => {
+    const list = R.areas.filter((a) => a.group === g);
+    const l1 = R.l1[g];
+    return `<div class="group-label"><span>${GROUP_LABEL[g]}</span><span>group ${f0(l1.score)} · peers ${f0(l1.peer)}</span></div>` +
+      list.map((a) => {
+        const b = bandOf(a.score);
+        return `<button class="area-row" data-area="${a.code}" aria-label="${esc(a.name)}: ${f1(a.score)}, ${b.label}. Open details.">
+          <span class="nm"><span class="code">${a.code}${top5.has(a.code) ? " · priority" : ""}${a.blind_spot ? " · blind spot" : ""}${a.penalty > 0 ? " · exposure penalty" : ""}</span>${esc(a.name)}</span>
+          ${areaRowSVG(a)}
+          <span class="sc">${f0(a.score)}<span class="faint small">±${f0(a.ci)}</span></span>
+          <span class="bandcell"><span class="band-chip" style="background:${bandColor(b.idx)}">${b.label}</span></span>
+        </button>`;
+      }).join("");
+  }).join("")}</div>`;
+}
+
+function deptHTML() {
+  const lv = reportState.level;
+  const d = R.departments[lv];
+  const levels = Object.keys(R.departments);
+  const names = { A: "2 groups", B: "4 groups", C: "8 groups" };
+  return `<div class="row" style="justify-content:space-between">
+      <div class="seg" role="group" aria-label="Department level">${levels.map((l) => `<button data-level="${l}" aria-pressed="${l === lv}">Level ${l} · ${names[l]}</button>`).join("")}</div>
+      <span class="small faint">${R.firm.headcount} staff → default level ${R.firm.reporting_level}. Firms over 150 staff see 8 groups; every firm can roll up to 2.</span>
+    </div>
+    <div class="table-wrap" style="border:0"><table class="heat">
+      <thead><tr><th>Area</th><th class="n">Firm</th>${d.names.map((n, i) => `<th class="n">${esc(n)}<br><span class="faint">n=${d.rows[0].values[i].n}</span></th>`).join("")}</tr></thead>
+      <tbody>${d.rows.map((r) => `<tr><td class="rowname">${esc(r.name)}</td><td class="n">${f0(r.firm)}</td>${r.values.map((v) => {
+        const b = bandOf(v.score);
+        const mark = v.flag === "Lower" ? `<span class="f" style="color:var(--crit)" title="Notably lower">▼</span>` : v.flag === "Higher" ? `<span class="f" style="color:var(--good)" title="Notably higher">▲</span>` : "";
+        return `<td class="cell" style="background:color-mix(in srgb, ${bandColor(b.idx)} 30%, transparent)">${f0(v.score)}${mark}</td>`;
+      }).join("")}</tr>`).join("")}</tbody>
+    </table></div>
+    <p class="small faint">Scores are adjusted towards the firm average for group size. ▼ / ▲ mark scores outside the firm’s 95% range for a group that size.</p>`;
+}
+
+function drawerHTML(code) {
+  const a = R.areas.find((x) => x.code === code), m = areaMeta[code], b = bandOf(a.score);
+  const checks = R.checks.filter((c) => c.area === code);
+  const exps = R.exposures.filter((e) => e.area === code);
+  const dept = R.departments[reportState.level];
+  const drow = dept.rows.find((r) => r.code === code);
+  return `<div class="row" style="justify-content:space-between;align-items:flex-start">
+      <div class="stack" style="gap:6px"><span class="eyebrow">${a.code} · ${GROUP_LABEL[a.group]}</span><h2 style="font-size:var(--step-2)">${esc(a.name)}</h2></div>
+      <button class="btn small" id="drawerClose">Close</button></div>
+    <div class="kpis">
+      <div class="kpi"><span class="k">Score</span><span class="v">${f1(a.score)}</span><span class="s">${b.label} · ±${f1(a.ci)}</span></div>
+      <div class="kpi"><span class="k">Peers</span><span class="v">${f0(a.peer)}</span><span class="s">${sign(a.score - a.peer)} vs peers</span></div>
+      <div class="kpi"><span class="k">Management</span><span class="v">${f0(a.mgmt_survey)}</span><span class="s">staff ${f0(a.survey)} · ${a.blind_spot ? "blind spot" : "within range"}</span></div>
+    </div>
+    <dl class="kv">
+      <dt>Staff survey score</dt><dd>${f1(a.survey)}</dd>
+      <dt>Weight from checks</dt><dd>${f0(a.check_weight * 100)}%</dd>
+      <dt>Preparedness</dt><dd>${f1(a.preparedness)}</dd>
+      <dt>Exposure penalty</dt><dd>${a.penalty > 0 ? "−" + f1(a.penalty) : "none"}</dd>
+      <dt>Data points</dt><dd>${a.data_points}</dd>
+      <dt>Importance (loss / performance)</dt><dd>${m.loss_tier} / ${m.perf_tier}</dd>
+    </dl>
+    ${checks.length ? `<div class="stack" style="gap:8px"><span class="eyebrow">Checks</span>${checks.map((c) => `<div class="row small" style="justify-content:space-between"><span class="muted">${esc(c.name)}</span><span class="mono">${c.run ? f0(c.score) + "/100" : "not run"}</span></div>`).join("")}</div>` : ""}
+    ${exps.length ? `<div class="stack" style="gap:8px"><span class="eyebrow">Country exposure (penalty only)</span>${exps.map((e) => `<div class="row small" style="justify-content:space-between"><span class="muted">${esc(e.name)}</span><span class="mono">${f1(e.value)}${e.penalty_applies ? " · above baseline" : ""}</span></div>`).join("")}</div>` : ""}
+    ${drow ? `<div class="stack" style="gap:8px"><span class="eyebrow">By department</span>${dept.names.map((n, i) => `<div class="row small" style="justify-content:space-between"><span class="muted">${esc(n)}</span><span class="mono">${f0(drow.values[i].score)}${drow.values[i].flag ? " · " + drow.values[i].flag.toLowerCase() : ""}</span></div>`).join("")}</div>` : ""}
+    <div class="stack" style="gap:10px"><span class="eyebrow">What good looks like</span><p class="muted small">${esc(m.good)}</p>
+    <span class="eyebrow">How it leads to loss</span><p class="muted small">${esc(m.loss)}</p>
+    <span class="eyebrow">How it holds back performance</span><p class="muted small">${esc(m.perf)}</p></div>`;
+}
+
+function openDrawer(code) {
+  closeDrawer();
+  const back = document.createElement("div"); back.className = "drawer-back"; back.id = "drawerBack";
+  const dr = document.createElement("aside"); dr.className = "drawer"; dr.id = "drawer"; dr.setAttribute("role", "dialog"); dr.setAttribute("aria-modal", "true");
+  dr.innerHTML = drawerHTML(code);
+  document.body.append(back, dr);
+  back.addEventListener("click", closeDrawer);
+  $("#drawerClose").addEventListener("click", closeDrawer);
+  $("#drawerClose").focus();
+}
+function closeDrawer() { $("#drawer")?.remove(); $("#drawerBack")?.remove(); }
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+
+route("report", () => {
+  const I = R.indices, M = R.mgmt, F = R.firm, H = R.hidden_capacity;
+  const spots = R.areas.filter((a) => a.blind_spot).length;
+  return `
+  ${appBar("report")}
+  <section class="section" style="padding-top:32px"><div class="wrap stack-lg">
+    <div class="report-head">
+      <div class="row" style="justify-content:space-between;align-items:flex-end">
+        <div class="stack" style="gap:8px"><span class="eyebrow">Operational risk &amp; performance assessment · ${esc(F.date)}</span>
+          <h1 style="font-size:var(--step-3)">${esc(F.name)}</h1>
+          <span class="muted small">${esc(F.centre)} · ${F.headcount} staff · ${F.valid_responses} valid responses from ${F.received} received (${f0(F.response_rate * 100)}% response rate)</span></div>
+        <span class="chip warn"><span class="dot"></span>Fictional sample</span>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span class="k">Loss Index</span><span class="v">${f0(I.loss)}<small> /100</small></span><span class="s">${I.band_loss} · peers ${f0(I.peer_loss)}</span></div>
+        <div class="kpi"><span class="k">Performance Index</span><span class="v">${f0(I.perf)}<small> /100</small></span><span class="s">${I.band_perf} · peers ${f0(I.peer_perf)}</span></div>
+        <div class="kpi"><span class="k">Archetype</span><span class="v" style="font-family:var(--font-display);font-stretch:112%">${esc(I.archetype)}</span><span class="s">${I.robust ? "Robust to equal weights" : "Sensitive to weights"}</span></div>
+        <div class="kpi"><span class="k">Management vs staff</span><span class="v">${sign(M.avg_perception_gap)}</span><span class="s">${spots} blind spot${spots === 1 ? "" : "s"} · management see ${esc(M.archetype)}</span></div>
+        <div class="kpi"><span class="k">Leadership</span><span class="v">${f0(M.capability)}</span><span class="s">capability · alignment ${f0(M.alignment)}</span></div>
+        <div class="kpi"><span class="k">Hidden capacity</span><span class="v">${f1(H.fte)}<small> FTE</small></span><span class="s">c. USD ${f1(H.usd / 1e6)}m a year · ${f1(H.recoverable_fte)} FTE recoverable</span></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="stack"><span class="eyebrow">Key messages</span>${keyMessages()}</div>
+      <div class="panel stack">
+        <div class="row" style="justify-content:space-between">
+          <span class="eyebrow">Where the firm sits</span>
+          <div class="seg" role="group" aria-label="Chart view"><button data-view="matrix" aria-pressed="${reportState.view === "matrix"}">Matrix</button><button data-view="tilt" aria-pressed="${reportState.view === "tilt"}">Loss tilt</button></div>
+        </div>
+        <div class="chart" id="posChart">${reportState.view === "matrix" ? matrixChart() : tiltChart()}</div>
+        <p class="small faint" id="posNote">${reportState.view === "matrix" ? "Nine zones from the two indices. Real firms tend to sit close to the diagonal, because most areas matter for both." : "Loss tilt = Loss Index minus Performance Index. Positive means better protected than performing; negative means performing ahead of its controls."}</p>
+        <p class="small muted"><strong>Discovery question:</strong> which of these two views is more useful to your board?</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap stack-lg">
+    <div class="row" style="justify-content:space-between;align-items:flex-end">
+      <div class="stack" style="gap:8px"><span class="eyebrow">20 areas</span><h2>Area scores</h2></div>
+      <div class="legend"><span><i style="width:18px;height:8px;background:var(--band-2)"></i>score</span><span><i style="width:18px;height:2px;background:var(--fg)"></i>95% range</span><span><i style="width:2px;height:14px;background:var(--fg-3)"></i>peers</span><span><i style="width:3px;height:9px;background:var(--accent)"></i>management</span></div>
+    </div>
+    <p class="muted small">Select an area for what it covers, its checks and its department view. Bands: ${BANDS.map((b) => `${b.label} ${b.from}+`).join(" · ")}.</p>
+    ${areasHTML()}
+  </div></section>
+
+  <section class="section"><div class="wrap grid-2">
+    <div class="stack"><span class="eyebrow">Priorities</span><h2>Where to act first</h2>
+      <p class="muted small">Priority combines how weak an area is with how much it matters for loss and for performance in your business lines.</p>
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>Area</th><th class="n">Score</th><th class="n">Priority</th></tr></thead>
+      <tbody>${R.priorities.top.map((p, i) => `<tr><td class="mono">${i + 1}</td><td>${esc(p.name)}</td><td class="n">${f0(R.areas.find((a) => a.code === p.code).score)}</td><td class="n">${f1(p.priority)}</td></tr>`).join("")}</tbody></table></div>
+      <p class="small faint">Equal-weight check: index ${f1(I.equal_weight_index)}, ${I.top3_overlap} of the top 3 priorities unchanged → ${esc(I.robustness)}.</p>
+    </div>
+    <div class="stack"><span class="eyebrow">Perception gap</span><h2>Management and staff, side by side</h2>
+      <div class="chart">${gapChart()}</div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap stack-lg">
+    <div class="stack" style="gap:8px"><span class="eyebrow">Departments</span><h2>Where the differences are</h2></div>
+    <div id="deptBox" class="stack">${deptHTML()}</div>
+  </div></section>
+
+  <section class="section"><div class="wrap grid-2">
+    <div class="stack"><span class="eyebrow">Outside evidence</span><h2>Checks</h2>
+      <div class="table-wrap"><table><thead><tr><th>Check</th><th>Area</th><th class="n">Result</th><th class="n">Score</th></tr></thead>
+      <tbody>${R.checks.map((c) => `<tr><td>${esc(c.name)}</td><td class="mono">${c.area}</td><td class="n">${c.run ? (c.result < 1 && c.result > 0 ? f0(c.result * 100) + "%" : f0(c.result)) : "–"}</td><td class="n">${c.run ? f0(c.score) : "not run"}</td></tr>`).join("")}</tbody></table></div>
+    </div>
+    <div class="stack"><span class="eyebrow">Footprint</span><h2>Country exposure</h2>
+      <p class="muted small">Footprint-weighted country risk (0–100). Above ${P.exposure_baseline}, each point costs ${P.penalty_per_point} of a point on the related area. Country values are illustrative.</p>
+      <div class="table-wrap"><table><thead><tr><th>Exposure</th><th>Area</th><th class="n">Level</th><th>Penalty</th></tr></thead>
+      <tbody>${R.exposures.map((e) => `<tr><td>${esc(e.name)}</td><td class="mono">${e.area}</td><td class="n">${f1(e.value)}</td><td>${e.penalty_applies ? `<span class="chip crit">applies</span>` : `<span class="faint">none</span>`}</td></tr>`).join("")}</tbody></table></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="wrap stack-lg">
+    <div class="stack" style="gap:8px"><span class="eyebrow">Leadership</span><h2>Capability and alignment</h2>
+      <p class="muted small">Capability is scored from factual answers (risk appetite use, cover for key roles, provider ownership, continuity testing, regulatory review, incident reporting, cyber first contact). MC1 counts how many of each manager’s top-5 risks match the assessment’s top 5; it is not scored.</p></div>
+    <div class="table-wrap"><table><thead><tr><th>Manager</th><th class="n">Top-5 overlap</th>${["Appetite", "Cover", "Providers", "Continuity", "Reg. change", "Incidents", "Cyber"].map((h) => `<th class="n">${h}</th>`).join("")}<th class="n">Capability</th></tr></thead>
+    <tbody>${M.managers.map((m) => `<tr><td>${esc(m.role)}</td><td class="n">${m.mc1} / 5</td>${["mc2", "mc3", "mc4", "mc5", "mc6", "mc7", "mc8"].map((k) => `<td class="n">${f0(m[k])}</td>`).join("")}<td class="n"><strong>${f0(m.capability)}</strong></td></tr>`).join("")}</tbody></table></div>
+    <p class="small faint">All data fictional. Peer figures and country values illustrative. Methodology v${esc(U.methodology_version)}.</p>
+  </div></section>`;
+}, {
+  after(main) {
+    main.addEventListener("click", (e) => {
+      const v = e.target.closest("[data-view]");
+      if (v) {
+        reportState.view = v.dataset.view;
+        $$("[data-view]", main).forEach((b) => b.setAttribute("aria-pressed", String(b === v)));
+        $("#posChart").innerHTML = reportState.view === "matrix" ? matrixChart() : tiltChart();
+        $("#posNote").textContent = reportState.view === "matrix" ? "Nine zones from the two indices. Real firms tend to sit close to the diagonal, because most areas matter for both." : "Loss tilt = Loss Index minus Performance Index. Positive means better protected than performing; negative means performing ahead of its controls.";
+        return;
+      }
+      const l = e.target.closest("[data-level]");
+      if (l) { reportState.level = l.dataset.level; $("#deptBox").innerHTML = deptHTML(); return; }
+      const a = e.target.closest("[data-area]");
+      if (a) openDrawer(a.dataset.area);
+    });
+  },
+});
+
+function appBar(current) {
+  const tabs = [["setup", "1 · Set-up"], ["survey", "2 · Survey"], ["report", "3 · Report"]];
+  return `<div class="app-bar"><div class="wrap"><nav class="tabs" aria-label="Demo">${tabs.map(([h, l]) => `<a href="#${h}" ${h === current ? 'aria-current="page"' : ""}>${l}</a>`).join("")}</nav><span class="chip warn"><span class="dot"></span>Demo · fictional data</span></div></div>`;
+}
+
+/* Surface Risk prototype — administrator set-up wizard and staff / management survey.
+   Everything is held in memory; nothing leaves the browser. */
+"use strict";
+
+const PROFILE = D.profile;
+const COUNTRIES = Object.keys(U.country_risk.countries);
+const IDX = U.country_risk.index_types;
+const TIER_PTS = P.tier_points; // {H:3, M:2, L:1}
+const HIER = U.department_hierarchy;
+
+/* ---------------- Set-up wizard ---------------- */
+const setup = {
+  step: 0,
+  name: PROFILE.name, centre: "DIFC (DFSA)", headcount: PROFILE.headcount, levelOverride: "",
+  bl: { ...PROFILE.business_line_mix },
+  office: Object.keys(PROFILE.footprint.OFF)[0],
+  parent: Object.keys(PROFILE.footprint.AFF)[0],
+  clients: Object.entries(PROFILE.footprint.CLI).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([c, s]) => ({ c, s: Math.round(s * 100) })),
+  providers: PROFILE.providers.map((p) => ({ ...p })),
+  providerShares: { ...PROFILE.footprint.PRV },
+  counterparties: { ...PROFILE.footprint.CPT },
+  domain: PROFILE.domains, firstContact: PROFILE.first_contact, lei: "lapsed",
+  checks: Object.fromEntries(U.checks.map((c) => [c.id, c.id !== "C09"])),
+  rosterLoaded: true,
+};
+const STEPS = ["Firm", "Business lines", "Footprint", "Checks", "Staff list", "Launch"];
+
+function defaultLevel(n) {
+  for (const r of U.default_reporting_level) if (r.max_headcount_exclusive == null || n < r.max_headcount_exclusive) return r.level;
+  return "C";
+}
+function level() { return setup.levelOverride || defaultLevel(setup.headcount); }
+
+function firmWeights() {
+  const mix = Object.entries(setup.bl).filter(([, s]) => s > 0);
+  const tot = mix.reduce((t, [, s]) => t + s, 0) || 1;
+  const rows = U.areas.map((a) => {
+    let lp = 0, pp = 0;
+    if (!mix.length) { lp = TIER_PTS[a.loss_tier]; pp = TIER_PTS[a.perf_tier]; }
+    mix.forEach(([bl, s]) => {
+      lp += (s / tot) * TIER_PTS[a.loss_overrides[bl] || a.loss_tier];
+      pp += (s / tot) * TIER_PTS[a.perf_overrides[bl] || a.perf_tier];
+    });
+    return { code: a.code, name: a.name, lp, pp, baseL: TIER_PTS[a.loss_tier], baseP: TIER_PTS[a.perf_tier] };
+  });
+  const sl = rows.reduce((t, r) => t + r.lp, 0), sp = rows.reduce((t, r) => t + r.pp, 0);
+  rows.forEach((r) => { r.lw = r.lp / sl; r.pw = r.pp / sp; });
+  return rows;
+}
+
+function footprintShares() {
+  const cli = {}; let used = 0;
+  setup.clients.forEach(({ c, s }) => { if (c && s > 0) { cli[c] = (cli[c] || 0) + s / 100; used += s / 100; } });
+  if (used < 1) cli["Rest of world (average)"] = (cli["Rest of world (average)"] || 0) + (1 - used);
+  const norm = (o) => { const t = Object.values(o).reduce((a, b) => a + b, 0) || 1; return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, v / t])); };
+  return { OFF: { [setup.office]: 1 }, AFF: { [setup.parent]: 1 }, CLI: norm(cli), PRV: norm(setup.providerShares), CPT: norm(setup.counterparties) };
+}
+function exposures() {
+  const fp = footprintShares();
+  const risk = (country, idx) => (U.country_risk.countries[country] || U.country_risk.countries["Rest of world (average)"])[idx];
+  return U.exposures.map((e) => {
+    let v = 0;
+    Object.entries(e.footprint_weights).forEach(([f, w]) => {
+      if (!w) return;
+      Object.entries(fp[f] || {}).forEach(([c, s]) => { v += w * s * risk(c, e.index); });
+    });
+    return { ...e, value: v };
+  });
+}
+function areaPenalties() {
+  const ex = exposures(), by = {};
+  ex.forEach((e) => { (by[e.area] = by[e.area] || []).push(e.value); });
+  return Object.entries(by).map(([area, vals]) => {
+    const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+    return { area, exposure: avg, penalty: P.penalty_per_point * Math.max(0, avg - P.exposure_baseline) };
+  });
+}
+
+function rosterGroups(lv) {
+  // Start from level C counts, aggregate to the chosen level, then merge any group below the minimum
+  // into its smallest sibling under the same parent (the engine applies the same rule to actual responses).
+  const key = { A: "level_a", B: "level_b", C: "level_c" }[lv];
+  const parentKey = { A: null, B: "level_a", C: "level_b" }[lv];
+  const groups = {};
+  HIER.forEach((h) => {
+    const n = D.roster[h.level_c] || 0;
+    const g = (groups[h[key]] = groups[h[key]] || { name: h[key], n: 0, parent: parentKey ? h[parentKey] : "Firm" });
+    g.n += n;
+  });
+  let list = Object.values(groups).filter((g) => g.n > 0);
+  const min = P.min_reporting_group;
+  let changed = true;
+  while (changed) {
+    changed = false;
+    list.sort((a, b) => a.n - b.n);
+    const small = list.find((g) => g.n < min);
+    if (!small) break;
+    const sib = list.filter((g) => g !== small && g.parent === small.parent).sort((a, b) => a.n - b.n)[0];
+    if (sib) { sib.name = sib.name + " + " + small.name; sib.n += small.n; list = list.filter((g) => g !== small); changed = true; }
+  }
+  return list.sort((a, b) => b.n - a.n);
+}
+
+function stepBody() {
+  const s = setup;
+  switch (s.step) {
+    case 0: return `<div class="stack"><h2 style="font-size:var(--step-2)">Your firm</h2>
+      <div class="form-grid">
+        <div class="field"><label for="su-name">Firm name</label><input id="su-name" type="text" value="${esc(s.name)}"></div>
+        <div class="field"><label for="su-centre">Regulated in</label><select id="su-centre">${["DIFC (DFSA)", "ADGM (FSRA)", "UK (FCA)", "Other"].map((o) => `<option ${o === s.centre ? "selected" : ""}>${o}</option>`).join("")}</select></div>
+        <div class="field"><label for="su-head">Headcount</label><input id="su-head" type="number" min="5" max="2000" value="${s.headcount}"></div>
+        <div class="field"><label for="su-level">Department reporting level</label><select id="su-level">
+          <option value="" ${!s.levelOverride ? "selected" : ""}>Automatic for your size (Level ${defaultLevel(s.headcount)})</option>
+          <option value="A" ${s.levelOverride === "A" ? "selected" : ""}>Level A · 2 groups</option>
+          <option value="B" ${s.levelOverride === "B" ? "selected" : ""}>Level B · 4 groups</option>
+          <option value="C" ${s.levelOverride === "C" ? "selected" : ""}>Level C · 8 groups</option></select></div>
+      </div>
+      <p class="small muted">Under 30 staff reports 2 groups, 30–150 reports 4, over 150 reports all 8 departments. Any group with fewer than ${P.min_reporting_group} respondents is merged with a neighbouring team, and every report can also roll up to 2 groups for comparison with smaller firms.</p></div>`;
+    case 1: {
+      const tot = Object.values(s.bl).reduce((a, b) => a + b, 0);
+      return `<div class="stack"><h2 style="font-size:var(--step-2)">Business lines</h2>
+      <p class="small muted">Approximate share of revenue. This sets which areas matter most for loss and for performance.</p>
+      <div class="table-wrap"><table><thead><tr><th>Business line</th><th class="n">Share %</th></tr></thead><tbody>
+      ${U.business_lines.filter((b) => b.code !== "BL10").map((b) => `<tr><td><span class="mono faint small">${b.code}</span> ${esc(b.label)}<div class="small faint">${esc(b.guidance)}</div></td>
+        <td class="n"><input type="number" min="0" max="100" step="5" style="width:80px" data-bl="${b.code}" aria-label="${esc(b.label)} share" value="${Math.round((s.bl[b.code] || 0) * 100)}"></td></tr>`).join("")}
+      </tbody></table></div>
+      <p class="small ${Math.abs(tot - 1) > 0.001 ? "" : "faint"}" id="blTot">Total ${Math.round(tot * 100)}%${Math.abs(tot - 1) > 0.001 ? " · shares are scaled to 100%" : ""}</p></div>`;
+    }
+    case 2: return `<div class="stack"><h2 style="font-size:var(--step-2)">Where you operate</h2>
+      <div class="form-grid">
+        <div class="field"><label for="su-off">Main office country</label><select id="su-off">${COUNTRIES.map((c) => `<option ${c === s.office ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></div>
+        <div class="field"><label for="su-aff">Parent or main affiliate</label><select id="su-aff">${COUNTRIES.map((c) => `<option ${c === s.parent ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></div>
+      </div>
+      <div class="stack" style="gap:8px"><span class="label">Top 5 client countries (share of clients or assets)</span>
+      ${s.clients.map((r, i) => `<div class="row"><select data-cli="${i}" aria-label="Client country ${i + 1}" style="flex:1 1 200px">${COUNTRIES.map((c) => `<option ${c === r.c ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>
+        <input type="number" min="0" max="100" step="5" data-clis="${i}" aria-label="Share for client country ${i + 1}" value="${r.s}" style="width:90px"><span class="small faint">%</span></div>`).join("")}
+      <span class="small faint">The remainder counts as “rest of world”.</span></div>
+      <div class="stack" style="gap:6px"><span class="label">Material providers (from your provider list)</span>
+      <div class="table-wrap"><table><thead><tr><th>Provider</th><th>Data held in</th><th>Owner</th></tr></thead><tbody>${s.providers.map((p) => `<tr><td>${esc(p.name)}<div class="small faint">${esc(p.service)}</div></td><td>${esc(p.data_country)}</td><td>${esc(p.owner)}</td></tr>`).join("")}</tbody></table></div></div></div>`;
+    case 3: return `<div class="stack"><h2 style="font-size:var(--step-2)">Technical set-up and checks</h2>
+      <div class="form-grid">
+        <div class="field"><label for="su-dom">Email and web domain</label><input id="su-dom" type="text" value="${esc(s.domain)}"></div>
+        <div class="field"><label for="su-fc">First contact for a cyber incident</label><input id="su-fc" type="text" value="${esc(s.firstContact)}"></div>
+        <div class="field"><label for="su-lei">Legal Entity Identifier</label><select id="su-lei"><option value="active" ${s.lei === "active" ? "selected" : ""}>Active</option><option value="lapsed" ${s.lei === "lapsed" ? "selected" : ""}>Lapsed</option><option value="none" ${s.lei === "none" ? "selected" : ""}>None</option></select></div>
+      </div>
+      <p class="small muted">We confirm you control the domain with a DNS record before any external check runs.</p>
+      <div class="checks-list">${U.checks.filter((c) => c.id.startsWith("C")).map((c) => `<label class="check"><input type="checkbox" data-check="${c.id}" ${s.checks[c.id] ? "checked" : ""}>
+        <span><strong style="color:var(--fg)">${esc(c.name)}</strong> <span class="mono faint small">${c.area} · ${Math.round(c.weight * 100)}% of area</span><br><span class="small">${esc(c.metric)}${c.id === "C07" ? ". Run by a partner; your IT team allow-lists the sender." : ""}${c.id === "C09" ? ". Optional; needs CEO authorisation." : ""}</span></span></label>`).join("")}</div>
+      <p class="small faint">Two more indicators come from the staff survey itself: key-person dependency and unclear responsibilities.</p></div>`;
+    case 4: {
+      const lv = level(), groups = rosterGroups(lv), a = rosterGroups("A");
+      const total = Object.values(D.roster).reduce((x, y) => x + y, 0);
+      return `<div class="stack"><h2 style="font-size:var(--step-2)">Staff list</h2>
+      <p class="small muted">Upload a CSV with name, email, department, business line and seniority. Emails are stored separately from answers and used only to send invitations and reminders.</p>
+      <div class="row"><button class="btn small" type="button" id="loadRoster">${s.rosterLoaded ? "Sample list loaded" : "Load sample staff list"}</button><span class="small faint">${total} people · fictional</span></div>
+      <div class="grid-2" style="gap:16px">
+        <div class="stack" style="gap:8px"><span class="eyebrow">Reporting groups · Level ${lv}</span>
+          <div class="table-wrap"><table><tbody>${groups.map((g) => `<tr><td>${esc(g.name)}</td><td class="n">${g.n}</td></tr>`).join("")}</tbody></table></div></div>
+        <div class="stack" style="gap:8px"><span class="eyebrow">Roll-up for comparison · Level A</span>
+          <div class="table-wrap"><table><tbody>${a.map((g) => `<tr><td>${esc(g.name)}</td><td class="n">${g.n}</td></tr>`).join("")}</tbody></table></div></div>
+      </div>
+      <p class="small faint">Groups are checked again on actual responses; any that fall below ${P.min_reporting_group} are merged before the report is produced.</p></div>`;
+    }
+    default: {
+      const pen = areaPenalties().filter((p) => p.penalty > 0);
+      return `<div class="stack"><h2 style="font-size:var(--step-2)">Ready to launch</h2>
+      <dl class="kv"><dt>Firm</dt><dd>${esc(s.name)}</dd><dt>Invitations</dt><dd>${Object.values(D.roster).reduce((x, y) => x + y, 0)}</dd><dt>Reporting level</dt><dd>Level ${level()}</dd>
+      <dt>Checks scheduled</dt><dd>${Object.values(s.checks).filter(Boolean).length}</dd><dt>Survey window</dt><dd>2 weeks</dd><dt>Staff time</dt><dd>12–15 min each</dd>
+      <dt>Areas with an exposure penalty</dt><dd>${pen.length ? pen.map((p) => p.area).join(", ") : "none"}</dd></dl>
+      <div class="notice">In the live product this sends invitations and starts the checks. In this demo, continue to the survey or the sample report.</div>
+      <div class="row"><a class="btn primary" href="#survey">Open the staff survey</a><a class="btn" href="#report">View the sample report</a></div></div>`;
+    }
+  }
+}
+
+function asideHTML() {
+  const w = firmWeights();
+  const topL = [...w].sort((a, b) => b.lw - a.lw).slice(0, 5), topP = [...w].sort((a, b) => b.pw - a.pw).slice(0, 5);
+  const changed = w.filter((r) => Math.abs(r.lp - r.baseL) > 0.01 || Math.abs(r.pp - r.baseP) > 0.01);
+  const ex = exposures(), pen = areaPenalties();
+  return `<div class="panel stack" style="gap:14px">
+    <span class="eyebrow">Live preview</span>
+    <div class="stack" style="gap:6px"><span class="label">Most important for loss</span>${topL.map((r) => `<div class="row small" style="justify-content:space-between"><span class="muted">${esc(r.name)}</span><span class="mono">${f1(r.lw * 100)}%</span></div>`).join("")}</div>
+    <div class="stack" style="gap:6px"><span class="label">Most important for performance</span>${topP.map((r) => `<div class="row small" style="justify-content:space-between"><span class="muted">${esc(r.name)}</span><span class="mono">${f1(r.pw * 100)}%</span></div>`).join("")}</div>
+    ${changed.length ? `<p class="small faint">Adjusted for your business lines: ${changed.map((r) => esc(r.name)).join(", ")}.</p>` : ""}
+    <hr class="rule">
+    <div class="stack" style="gap:6px"><span class="label">Country exposure (illustrative values)</span>
+      ${ex.map((e) => `<div class="stack" style="gap:3px"><div class="row small" style="justify-content:space-between"><span class="muted">${esc(e.name.replace(" exposure", ""))}</span><span class="mono">${f0(e.value)}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${clamp(e.value, 0, 100)}%;background:${e.value > P.exposure_baseline ? "var(--warn)" : "var(--steel)"}"></div></div></div>`).join("")}
+      <p class="small faint">Above ${P.exposure_baseline} a penalty applies: ${pen.filter((p) => p.penalty > 0).map((p) => `${p.area} −${f1(p.penalty)}`).join(", ") || "none at present"}.</p>
+    </div></div>`;
+}
+
+route("setup", () => `${appBar("setup")}
+  <section class="section" style="padding-top:28px"><div class="wrap stack-lg">
+    <div class="stack" style="gap:8px"><span class="eyebrow">Administrator set-up · about 40 minutes in the live product</span><h1 style="font-size:var(--step-3)">Set up an assessment</h1>
+    <p class="muted">Pre-filled with Example Wealth Partners, a fictional DIFC firm. Change anything and watch the preview.</p></div>
+    <div class="wizard">
+      <ol class="step-list" id="stepList" aria-label="Set-up steps"></ol>
+      <div class="panel stack" id="stepBody"></div>
+      <div class="aside" id="stepAside"></div>
+    </div>
+  </div></section>`, {
+  after(main) {
+    const paint = () => {
+      $("#stepList").innerHTML = STEPS.map((n, i) => `<li><button type="button" data-step="${i}" class="${i < setup.step ? "done" : ""}" ${i === setup.step ? 'aria-current="step"' : ""}><span class="i">${i < setup.step ? "✓" : i + 1}</span>${n}</button></li>`).join("");
+      $("#stepBody").innerHTML = stepBody() + (setup.step < STEPS.length - 1 ? `<div class="row" style="justify-content:space-between;margin-top:8px"><button class="btn" type="button" data-nav-step="-1" ${setup.step === 0 ? "disabled" : ""}>Back</button><button class="btn primary" type="button" data-nav-step="1">Continue</button></div>` : "");
+      $("#stepAside").innerHTML = asideHTML();
+    };
+    const refreshAside = () => { $("#stepAside").innerHTML = asideHTML(); };
+    paint();
+    main.addEventListener("click", (e) => {
+      const st = e.target.closest("[data-step]");
+      if (st) { setup.step = +st.dataset.step; paint(); return; }
+      const nv = e.target.closest("[data-nav-step]");
+      if (nv && !nv.disabled) { setup.step = clamp(setup.step + +nv.dataset.navStep, 0, STEPS.length - 1); paint(); $("#stepBody").scrollIntoView({ block: "nearest" }); return; }
+      if (e.target.id === "loadRoster") { setup.rosterLoaded = true; toast("Sample staff list loaded"); }
+    });
+    main.addEventListener("input", (e) => {
+      const t = e.target;
+      if (t.id === "su-name") setup.name = t.value;
+      if (t.id === "su-head") { setup.headcount = Math.max(1, +t.value || 1); const opt = $("#su-level option[value='']"); if (opt) opt.textContent = `Automatic for your size (Level ${defaultLevel(setup.headcount)})`; }
+      if (t.dataset.bl) { setup.bl[t.dataset.bl] = Math.max(0, +t.value || 0) / 100; const tot = Object.values(setup.bl).reduce((a, b) => a + b, 0); $("#blTot").textContent = `Total ${Math.round(tot * 100)}%${Math.abs(tot - 1) > 0.001 ? " · shares are scaled to 100%" : ""}`; }
+      if (t.dataset.clis) setup.clients[+t.dataset.clis].s = Math.max(0, +t.value || 0);
+      if (t.id === "su-dom") setup.domain = t.value;
+      if (t.id === "su-fc") setup.firstContact = t.value;
+      refreshAside();
+    });
+    main.addEventListener("change", (e) => {
+      const t = e.target;
+      if (t.id === "su-centre") setup.centre = t.value;
+      if (t.id === "su-level") setup.levelOverride = t.value;
+      if (t.id === "su-off") setup.office = t.value;
+      if (t.id === "su-aff") setup.parent = t.value;
+      if (t.dataset.cli) setup.clients[+t.dataset.cli].c = t.value;
+      if (t.id === "su-lei") setup.lei = t.value;
+      if (t.dataset.check) setup.checks[t.dataset.check] = t.checked;
+      refreshAside();
+    });
+  },
+});
+
+/* ---------------- Survey ---------------- */
+const ANCHORS = {
+  "How true (5 anchors)": ["Not true", "Rarely true", "Partly true", "Mostly true", "Fully true"],
+  "How often (5 anchors)": ["Never", "Rarely", "Sometimes", "Often", "Very often"],
+};
+const SCENARIO_Q44 = [
+  ["Process it as asked", 0], ["Reply to the email to confirm", 25], ["Ask a colleague whether it looks genuine", 50],
+  ["Call the client on the number already on file, or pass it to payments flagged as suspicious", 100],
+];
+const survey = { role: "staff", page: 0, answers: {}, profile: {}, activity: { a3: [], a4: [] }, mc: { mc1: [] }, ma: {} };
+
+function surveyPages() {
+  const pages = [{ kind: "intro" }, { kind: "profile" }];
+  const codes = U.areas.map((a) => a.code);
+  for (let i = 0; i < codes.length; i += 3) pages.push({ kind: "statements", areas: codes.slice(i, i + 3) });
+  pages.push({ kind: "activity" }, { kind: "open" });
+  if (survey.role === "mgmt") pages.push({ kind: "capability" }, { kind: "alignment" });
+  pages.push({ kind: "done" });
+  return pages;
+}
+
+function answerValue(st, raw) {
+  if (raw == null || raw === "dk") return null;
+  const v = typeof raw === "number" ? raw : raw === "Yes" ? 100 : 0;
+  return st.reverse ? 100 - v : v;
+}
+
+function statementHTML(st) {
+  const cur = survey.answers[st.id];
+  let ctrl;
+  if (st.format.startsWith("How")) {
+    const labels = ANCHORS[st.format];
+    ctrl = `<div class="anchors" role="group" aria-label="Answer">${labels.map((l, i) => `<button type="button" data-ans="${st.id}" data-v="${i * 25}" aria-pressed="${cur === i * 25}">${l}</button>`).join("")}<button type="button" class="dk" data-ans="${st.id}" data-v="dk" aria-pressed="${cur === "dk"}">Don’t know</button></div>`;
+  } else if (st.format === "Yes / No") {
+    ctrl = `<div class="opts inline" role="group" aria-label="Answer">${["Yes", "No"].map((l) => `<button type="button" data-ans="${st.id}" data-v="${l}" aria-pressed="${cur === l}">${l}</button>`).join("")}<button type="button" data-ans="${st.id}" data-v="dk" aria-pressed="${cur === "dk"}">Don’t know</button></div>`;
+  } else {
+    ctrl = `<div class="opts" role="group" aria-label="Answer">${SCENARIO_Q44.map(([l, v]) => `<button type="button" data-ans="${st.id}" data-v="${v}" aria-pressed="${cur === v}">${esc(l)}</button>`).join("")}</div>`;
+  }
+  const text = st.text.replace(/^Scenario: /, "");
+  return `<div class="q"><span class="qid">${st.id}</span><div class="qtext">${esc(text)}</div>${ctrl}</div>`;
+}
+
+function optButtons(key, opts, cur, multi = false) {
+  return `<div class="opts inline" role="group">${opts.map((o) => `<button type="button" data-${multi ? "multi" : "pick"}="${key}" data-v="${esc(o)}" aria-pressed="${multi ? (cur || []).includes(o) : cur === o}">${esc(o)}</button>`).join("")}</div>`;
+}
+
+function pageHTML(pg, idx, total) {
+  const head = (t, sub) => `<div class="stack" style="gap:8px"><span class="eyebrow">${survey.role === "mgmt" ? "Management survey" : "Staff survey"} · page ${idx} of ${total - 1}</span><h2 style="font-size:var(--step-2)">${t}</h2>${sub ? `<p class="muted small">${sub}</p>` : ""}</div>`;
+  switch (pg.kind) {
+    case "intro": return `<div class="stack-lg"><div class="stack" style="gap:10px"><span class="eyebrow">Example Wealth Partners · fictional</span><h1 style="font-size:var(--step-3)">How work really gets done here</h1>
+      <p class="muted">This survey asks about everyday practice in your firm: what helps you do your job well and what gets in the way. It takes 12 to 15 minutes. There are no right answers.</p></div>
+      <ul class="ticks"><li><strong>Your answers are confidential.</strong> Your name and email are stored separately from your answers.</li><li><strong>No small groups.</strong> Results are only ever shown for groups of ${P.min_reporting_group} or more.</li><li><strong>“Don’t know” is fine.</strong> It is better than guessing.</li></ul>
+      <div class="stack" style="gap:8px"><span class="label">Demo: answer as</span><div class="seg" role="group" aria-label="Respondent type"><button type="button" data-role="staff" aria-pressed="${survey.role === "staff"}">Staff member</button><button type="button" data-role="mgmt" aria-pressed="${survey.role === "mgmt"}">Senior manager</button></div></div></div>`;
+    case "profile": return `${head("About you", "Used only to group results. Groups smaller than five are merged.")}
+      <div class="stack"><span class="label">Department</span>${optButtons("Z1", HIER.map((h) => h.level_c), survey.profile.Z1)}
+      <span class="label">Business line you mainly work in</span>${optButtons("Z2", ["Asset Management", "Private Banking & Wealth", "Firm-wide / shared"], survey.profile.Z2)}
+      <span class="label">Seniority</span>${optButtons("Z3", ["Director / C-suite", "Line manager", "Individual contributor"], survey.profile.Z3)}
+      <span class="label">Length of service</span>${optButtons("Z4", ["Less than 1 year", "1–3 years", "More than 3 years"], survey.profile.Z4)}</div>`;
+    case "statements": {
+      const parts = surveyPages().filter((p) => p.kind === "statements");
+      const sts = U.statements.filter((s) => pg.areas.includes(s.area));
+      return `${head(`Everyday practice · part ${parts.findIndex((p) => p.areas[0] === pg.areas[0]) + 1} of ${parts.length}`, "Think about the last few months. Answer for your own area of work.")}<div>${sts.map(statementHTML).join("")}</div>`;
+    }
+    case "activity": {
+      const procs = U.processes.map((p) => p.name);
+      return `${head("Where your time goes")}
+      <div class="stack"><span class="label">Which activity takes most of your time?</span><select id="a1" aria-label="Main activity"><option value="">Choose an activity</option>${procs.map((p) => `<option ${survey.activity.a1 === p ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
+      <span class="label">Roughly what share of your time goes on rework, chasing, manual workarounds or fixing errors?</span>${optButtons("A2", ["Under 5%", "5–10%", "10–20%", "20–30%", "Over 30%"], survey.activity.A2)}
+      <span class="label">For which activities are you the only person who knows how to do the work?</span>${optButtons("a3", procs, survey.activity.a3, true)}
+      <span class="label">For which activities is it unclear who is responsible or who should decide?</span>${optButtons("a4", procs, survey.activity.a4, true)}</div>`;
+    }
+    case "open": return `${head("In your own words", "Optional. Comments are grouped into themes; individual comments are never attributed. Anything suggesting someone may be at risk is read by a person.")}
+      <div class="stack"><div class="field"><label for="o1">${esc(U.open[0].text)}</label><textarea id="o1">${esc(survey.o1 || "")}</textarea></div>
+      <div class="field"><label for="o2">${esc(U.open[1].text)}</label><textarea id="o2">${esc(survey.o2 || "")}</textarea></div></div>`;
+    case "capability": {
+      const owners = ["COO", "Head of Operations", "Head of Technology", "CEO", "Head of Compliance & Risk", "Don't know"];
+      return `${head("For senior managers: how the firm is run", "Factual questions. Please answer for the firm as it is today.")}
+      <div class="stack"><span class="label">MC1 · Select the five areas you believe pose the greatest risk to the firm today (${survey.mc.mc1.length}/5)</span>${optButtons("mc1", U.areas.map((a) => a.name), survey.mc.mc1, true)}
+      ${U.mgmt_capability.filter((q) => q.options_list).map((q) => `<span class="label">${q.id} · ${esc(q.text)}</span>${optButtons(q.id, q.options_list, survey.mc[q.id])}`).join("")}
+      <span class="label">MC4 · For each material provider, who is the internal owner accountable for it?</span>
+      <div class="table-wrap"><table><tbody>${PROFILE.providers.map((p, i) => `<tr><td>${esc(p.name)}</td><td><select data-mc4="${i}" aria-label="Owner for ${esc(p.name)}"><option value="">Choose</option>${owners.map((o) => `<option ${survey.mc["mc4_" + i] === o ? "selected" : ""}>${esc(o)}</option>`).join("")}</select></td></tr>`).join("")}</tbody></table></div>
+      <span class="label">MC8 · In the first hour of a suspected cyber incident, who would you contact first?</span>${optButtons("MC8a", ["IT provider incident line", "Head of Technology", "Insurer's breach line", "Regulator", "Don't know"], survey.mc.MC8a)}
+      <span class="label">Is that contact stored somewhere you can reach without your work devices?</span>${optButtons("MC8b", ["Yes", "No"], survey.mc.MC8b)}</div>`;
+    }
+    case "alignment": return `${head("For senior managers: where you stand", "How strongly do you agree? Leadership alignment is measured by how much managers’ answers differ.")}
+      <div class="stack">${U.alignment.map((q) => `<div class="field"><label for="ma-${q.id}">${q.id} · ${esc(q.text)}</label><input type="range" id="ma-${q.id}" data-ma="${q.id}" min="0" max="100" step="5" value="${survey.ma[q.id] ?? 50}"><div class="row small faint" style="justify-content:space-between"><span>Disagree</span><span class="mono" id="mav-${q.id}">${survey.ma[q.id] ?? 50}</span><span>Agree</span></div></div>`).join("")}</div>`;
+    default: return doneHTML();
+  }
+}
+
+function personalAreaScores() {
+  return U.areas.map((a) => {
+    const vals = U.statements.filter((s) => s.area === a.code).map((s) => answerValue(s, survey.answers[s.id])).filter((v) => v != null);
+    return { ...a, n: vals.length, score: vals.length ? vals.reduce((x, y) => x + y, 0) / vals.length : null };
+  });
+}
+function capabilityScore() {
+  const ms = U.mgmt_capability, sc = [];
+  const pts = (id, ans) => { const t = D.mgmtScoring[id]; const r = t && t.find((x) => x.answer === ans); return r ? r.points : null; };
+  ["MC2", "MC3", "MC5", "MC6", "MC7"].forEach((id) => { const p = pts(id, survey.mc[id]); if (p != null) sc.push(p); });
+  const owned = PROFILE.providers.filter((p, i) => survey.mc["mc4_" + i]).length;
+  if (owned) sc.push((PROFILE.providers.filter((p, i) => survey.mc["mc4_" + i] === p.owner).length / PROFILE.providers.length) * 100);
+  if (survey.mc.MC8a) sc.push((survey.mc.MC8a === PROFILE.first_contact ? 50 : 0) + (survey.mc.MC8b === "Yes" ? 50 : 0));
+  return sc.length ? sc.reduce((a, b) => a + b, 0) / sc.length : null;
+}
+
+function doneHTML() {
+  const sc = personalAreaScores().filter((a) => a.score != null);
+  const answered = U.statements.filter((s) => survey.answers[s.id] != null).length;
+  const top = new Set(R.priorities.top.map((p) => areaMeta[p.code].name));
+  const overlap = survey.mc.mc1.filter((n) => top.has(n)).length;
+  const cap = capabilityScore();
+  return `<div class="stack-lg"><div class="stack" style="gap:10px"><span class="eyebrow">Thank you</span><h1 style="font-size:var(--step-3)">Your answers are in</h1>
+    <p class="muted">You answered ${answered} of 60 statements. In the live product your answers join your colleagues’ and appear only in group results.</p></div>
+    ${sc.length ? `<div class="panel stack"><div class="row" style="justify-content:space-between"><span class="eyebrow">Demo only: how your answers score</span><span class="small faint">respondents do not see this in the live product</span></div>
+      <div class="stack" style="gap:6px">${sc.map((a) => `<div class="stack" style="gap:3px"><div class="row small" style="justify-content:space-between"><span class="muted">${esc(a.name)}</span><span class="mono">${f0(a.score)}</span></div><div class="bar-track"><div class="bar-fill" style="width:${a.score}%;background:var(--band-${bandOf(a.score).idx})"></div></div></div>`).join("")}</div></div>` : ""}
+    ${survey.role === "mgmt" ? `<div class="panel stack"><span class="eyebrow">Demo only: your management answers</span><dl class="kv"><dt>Your top-5 risks matching the sample firm’s top 5 priorities</dt><dd>${overlap} / 5</dd><dt>Capability score from your factual answers</dt><dd>${cap == null ? "–" : f0(cap)}</dd></dl></div>` : ""}
+    <div class="row"><a class="btn primary" href="#report">See the sample report</a><button class="btn" type="button" id="restart">Start again</button></div></div>`;
+}
+
+function fillSample() {
+  // Plausible answers around the fictional firm's staff scores for each area.
+  let seed = 7;
+  const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+  U.statements.forEach((s) => {
+    const base = R.areas.find((a) => a.code === s.area).survey;
+    let v = clamp(base + (rnd() - 0.5) * 50, 0, 100);
+    if (s.reverse) v = 100 - v;
+    if (s.format === "Yes / No") survey.answers[s.id] = v >= 50 ? "Yes" : "No";
+    else if (s.format.startsWith("How")) survey.answers[s.id] = Math.round(v / 25) * 25;
+    else survey.answers[s.id] = [0, 25, 50, 100][Math.min(3, Math.floor(v / 26))];
+  });
+  survey.profile = { Z1: HIER[2].level_c, Z2: "Asset Management", Z3: "Individual contributor", Z4: "1–3 years" };
+  survey.activity = { a1: U.processes[5].name, A2: "10–20%", a3: [U.processes[6].name], a4: [U.processes[3].name] };
+  if (survey.role === "mgmt") {
+    survey.mc = { mc1: ["Cyber security & access", "External fraud", "Process execution", "Governance & oversight", "Culture & speak-up"], MC2: "Documented but rarely used", MC3: "1", MC5: "12-24 months", MC6: "3-12 months", MC7: "Quarterly", MC8a: "IT provider incident line", MC8b: "No" };
+    PROFILE.providers.forEach((p, i) => { survey.mc["mc4_" + i] = i % 2 ? "COO" : p.owner; });
+    U.alignment.forEach((q, i) => { survey.ma[q.id] = [70, 40, 60, 55, 35, 80, 30, 50][i] ?? 50; });
+  }
+}
+
+route("survey", () => `${appBar("survey")}
+  <section class="section" style="padding-top:28px"><div class="wrap"><div class="survey stack-lg" id="surveyBox"></div></div></section>`, {
+  after(main) {
+    const box = $("#surveyBox", main);
+    const paint = () => {
+      const pages = surveyPages();
+      survey.page = clamp(survey.page, 0, pages.length - 1);
+      const pg = pages[survey.page];
+      const answered = U.statements.filter((s) => survey.answers[s.id] != null).length;
+      const nav = pg.kind === "done" ? "" : `<div class="row" style="justify-content:space-between">
+        <button class="btn" type="button" data-pg="-1" ${survey.page === 0 ? "disabled" : ""}>Back</button>
+        <div class="row"><button class="btn small" type="button" id="fill">Fill with sample answers</button><button class="btn primary" type="button" data-pg="1">${survey.page === pages.length - 2 ? "Submit" : survey.page === 0 ? "Start" : "Next"}</button></div></div>`;
+      box.innerHTML = `<div class="stack" style="gap:8px"><div class="progress" aria-hidden="true"><div style="width:${(survey.page / (pages.length - 1)) * 100}%"></div></div><span class="small faint">${answered} of 60 statements answered</span></div>
+        ${pageHTML(pg, survey.page, pages.length)}${nav}`;
+    };
+    paint();
+    box.addEventListener("click", (e) => {
+      const t = e.target.closest("button");
+      if (!t) return;
+      if (t.dataset.role) { survey.role = t.dataset.role; paint(); return; }
+      if (t.dataset.pg) { survey.page += +t.dataset.pg; paint(); box.scrollIntoView({ block: "start" }); window.scrollTo(0, 0); return; }
+      if (t.id === "fill") { fillSample(); toast("Sample answers filled in"); survey.page = surveyPages().length - 2; paint(); return; }
+      if (t.id === "restart") { Object.assign(survey, { page: 0, answers: {}, profile: {}, activity: { a3: [], a4: [] }, mc: { mc1: [] }, ma: {} }); paint(); return; }
+      if (t.dataset.ans) {
+        const v = t.dataset.v === "dk" ? "dk" : isNaN(+t.dataset.v) ? t.dataset.v : +t.dataset.v;
+        survey.answers[t.dataset.ans] = v;
+        $$(`[data-ans="${t.dataset.ans}"]`, box).forEach((b) => b.setAttribute("aria-pressed", String(b === t)));
+        const ct = $(".small.faint", box); if (ct) ct.textContent = `${U.statements.filter((s) => survey.answers[s.id] != null).length} of 60 statements answered`;
+        return;
+      }
+      if (t.dataset.pick) {
+        const k = t.dataset.pick, v = t.dataset.v;
+        if (k.startsWith("Z")) survey.profile[k] = v; else if (k === "A2") survey.activity.A2 = v; else survey.mc[k] = v;
+        $$(`[data-pick="${k}"]`, box).forEach((b) => b.setAttribute("aria-pressed", String(b === t)));
+        return;
+      }
+      if (t.dataset.multi) {
+        const k = t.dataset.multi, v = t.dataset.v;
+        const arr = k === "mc1" ? survey.mc.mc1 : survey.activity[k];
+        const i = arr.indexOf(v);
+        if (i >= 0) arr.splice(i, 1); else if (k !== "mc1" || arr.length < 5) arr.push(v); else { toast("Pick five areas at most"); return; }
+        t.setAttribute("aria-pressed", String(arr.includes(v)));
+        if (k === "mc1") { const l = t.closest(".stack").querySelector(".label"); if (l) l.textContent = `MC1 · Select the five areas you believe pose the greatest risk to the firm today (${arr.length}/5)`; }
+      }
+    });
+    box.addEventListener("input", (e) => {
+      const t = e.target;
+      if (t.dataset.ma) { survey.ma[t.dataset.ma] = +t.value; $("#mav-" + t.dataset.ma).textContent = t.value; }
+      if (t.id === "o1") survey.o1 = t.value;
+      if (t.id === "o2") survey.o2 = t.value;
+    });
+    box.addEventListener("change", (e) => {
+      const t = e.target;
+      if (t.id === "a1") survey.activity.a1 = t.value;
+      if (t.dataset.mc4) survey.mc["mc4_" + t.dataset.mc4] = t.value;
+    });
+  },
+});
+
+/* ---------------- Boot ---------------- */
+renderShell();
+window.addEventListener("hashchange", () => { closeDrawer(); go(); });
+go();
+
+</script>

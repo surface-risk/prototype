@@ -1,0 +1,15 @@
+[project]
+name = "surface-risk-engine"
+version = "0.5.0"
+description = "Surface-Risk operational risk & performance scoring engine (methodology v0.5). Sample data is fictional."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "openpyxl>=3.1"]
+
+[tool.setuptools]
+packages = ["surface_risk_engine"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
